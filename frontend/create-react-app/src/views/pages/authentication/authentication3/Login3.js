@@ -37,6 +37,11 @@ const Login = () => {
                       <Grid item>
                         <Stack alignItems="center" justifyContent="center" spacing={1}>
                           <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
+                           로그인
+                          </Typography>
+                          <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
+                           만나서 반가워요<br/>
+                           로그인을 해주세요!
                             Hi, Welcome Back
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
@@ -55,7 +60,7 @@ const Login = () => {
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Don&apos;t have an account?
+                        계정이 없으신가요?
                       </Typography>
                     </Grid>
                   </Grid>
@@ -71,5 +76,4 @@ const Login = () => {
     </AuthWrapper1>
   );
 };
-
 export default Login;

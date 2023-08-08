@@ -1,4 +1,4 @@
-package com.teamhs.community.cotroller;
+package com.teamhs.community.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;

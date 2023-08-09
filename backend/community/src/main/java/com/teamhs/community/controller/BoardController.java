@@ -18,6 +18,11 @@ public class BoardController {
         return "boardlist";
     }
 
+    //게시판 상세조회
+    @GetMapping("/board/detail")
+    public String boardDetail() {
+        return "boardlist";
+    }
 
     //게시판 수정
     @GetMapping("/board/update")

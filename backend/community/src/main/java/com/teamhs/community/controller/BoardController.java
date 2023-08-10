@@ -1,7 +1,11 @@
 package com.teamhs.community.controller;
 
+import ch.qos.logback.core.model.Model;
+import com.teamhs.community.dto.Request.WriteBoardRequestDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /*
 게시판
@@ -10,22 +14,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 3. /board/detail/{c_id} : 게시글 상세 조회
 4. /board/delete/{c_id} : 게시글 삭제
 5. /board/update/{c_id} : 게시글 수정
-
  */
+
 
 
 @Controller
 public class BoardController {
 
-    @GetMapping("/board/write")
-    public String boardWrite(){
+    @PostMapping("/board/write")
+    public String boardWrite(@RequestBody WriteBoardRequestDTO requestDTO){
         return "boardwrite";
     }
 
     @GetMapping("/board/list")
-    public String boardList() {
+    public String boardList(Model model) {
+
         return "boardlist";
     }
+
+
 
     @GetMapping("/board/detail")
     public String boardDetail() {

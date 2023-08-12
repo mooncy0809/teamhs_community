@@ -28,5 +28,4 @@ const App = () => {
     </StyledEngineProvider>
   );
 };
-
 export default App;

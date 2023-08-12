@@ -11,8 +11,8 @@ const other = {
   type: 'group',
   children: [
     {
-      id: 'sample-page',
-      title: 'Sample Page',
+      id: 'Board',
+      title: '커뮤니티',
       type: 'item',
       url: '/sample-page',
       icon: icons.IconBrandChrome,

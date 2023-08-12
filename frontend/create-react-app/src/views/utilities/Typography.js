@@ -10,16 +10,41 @@ import { gridSpacing } from 'store/constant';
 // ==============================|| TYPOGRAPHY ||============================== //
 
 const Typography = () => (
-  <MainCard title="문제" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
+  <MainCard title="Basic Typography" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12} sm={6}>
-        <SubCard title="문제작성">
+        <SubCard title="Heading">
           <Grid container direction="column" spacing={1}>
-            <form action="/board/writedo" method="post">
-              <input type="text" name="title" style={{width:'50%'}}/><br/><br/>
-              <textarea name="text" className="textarea" style={{width:'100%',height:'150px'}}></textarea><br/>
-              <button>저장</button>
-            </form>
+            <Grid item>
+              <MuiTypography variant="h1" gutterBottom>
+                h1. Heading
+              </MuiTypography>
+            </Grid>
+            <Grid item>
+              <MuiTypography variant="h2" gutterBottom>
+                h2. Heading
+              </MuiTypography>
+            </Grid>
+            <Grid item>
+              <MuiTypography variant="h3" gutterBottom>
+                h3. Heading
+              </MuiTypography>
+            </Grid>
+            <Grid item>
+              <MuiTypography variant="h4" gutterBottom>
+                h4. Heading
+              </MuiTypography>
+            </Grid>
+            <Grid item>
+              <MuiTypography variant="h5" gutterBottom>
+                h5. Heading
+              </MuiTypography>
+            </Grid>
+            <Grid item>
+              <MuiTypography variant="h6" gutterBottom>
+                h6. Heading
+              </MuiTypography>
+            </Grid>
           </Grid>
         </SubCard>
       </Grid>

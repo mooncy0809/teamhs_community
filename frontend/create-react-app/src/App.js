@@ -12,6 +12,11 @@ import themes from 'themes';
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
 
+import {Route} from 'react-router-dom';
+
+import SamplePage from './views/sample-page/index'; // index.js 파일
+import BoardWrite from './views/sample-page/boardwrite'; // boardwrite.js 파일
+
 // ==============================|| APP ||============================== //
 
 const App = () => {
@@ -22,7 +27,10 @@ const App = () => {
       <ThemeProvider theme={themes(customization)}>
         <CssBaseline />
         <NavigationScroll>
-          <Routes />
+        <Routes>
+            <Route path="/sample-page" element={<SamplePage />} />
+            <Route path="/sample-page/boardwrite" element={<BoardWrite />} />
+        </Routes>
         </NavigationScroll>
       </ThemeProvider>
     </StyledEngineProvider>

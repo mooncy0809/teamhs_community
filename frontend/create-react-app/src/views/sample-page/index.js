@@ -8,6 +8,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
 
+import { useNavigate } from 'react-router-dom';
+
 const SamplePage = () => {
   const [boardlist , setBoardList] = useState([]); 
 
@@ -16,9 +18,17 @@ const SamplePage = () => {
       .then(response => setBoardList(response.data)) 
       .catch(error => console.log(error))
   }, []);
+
+  const navigate = useNavigate(); // useNavigate 함수 가져오기
+
+  // 버튼 클릭 시 페이지 이동 처리
+  const handleButtonClick = () => {
+  navigate('/sample-page/boardwrite'); // '/sample-page/boardwrite' 경로로 페이지 이동
+};
+
   
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="outlined" style={{ marginRight: '8px' }}>게시글 작성</Button>}>
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="outlined" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
           <SubCard  >

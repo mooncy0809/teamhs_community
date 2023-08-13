@@ -1,42 +1,70 @@
-//글 작성 페이지(수정 전)
-
-import { Grid, Button} from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Button, TextField } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
-/*
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-*/
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
 
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
 const BoardWrite = () => {
-
-  /*
-  const [write , setBoardWrite] = useState([]); 
-
-  useEffect(() => {
-    axios.get('http://localhost:8090/board/list')
-      .then(response => setBoardWrite(response.data)) 
-      .catch(error => console.log(error))
-  }, []);
-*/
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
 
+  const navigate = useNavigate(); // useNavigate 함수 가져오기
+
+  // 버튼 클릭 시 페이지 이동 처리
+  const handleCancleButtonClick = () => {
+    navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+  };
+
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
 
   return (
-    <MainCard >
-      <Grid container spacing={gridSpacing}>
-        <Grid item xs={12} sm={6}>
-          <SubCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>게시글 작성</span>} style={{ marginLeft: '8px' }}>
-            <Button variant="outlined" style={{ width: '100%', marginTop: '1rem' }}>
-              저장
-            </Button>
-          </SubCard>
-        </Grid>
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>게시글 작성</span>} style={{ marginLeft: '8px' }}>
+    <Grid container spacing={gridSpacing}>
+      <Grid item xs={12}>
+        <SubCard>
+        <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="제목"
+                  variant="outlined"
+                  fullWidth
+                  value={title}
+                  onChange={handleTitleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                  <ReactQuill
+                    value={content}
+                    onChange={handleContentChange}
+                    style={{ Height: '500px', border: '1px solid #ccc' }}
+                  />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Button variant="contained" style={{ marginRight: '0.5rem' }}>
+                  저장
+                </Button>
+                <Button variant="outlined" onClick={handleCancleButtonClick}>
+                  취소
+                </Button>
+              </Grid>
+            </Grid>
+        </SubCard>
       </Grid>
-    </MainCard>
+    </Grid>
+  </MainCard>
   );
 };
 

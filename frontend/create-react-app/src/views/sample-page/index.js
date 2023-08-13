@@ -28,7 +28,7 @@ const SamplePage = () => {
 
   
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="outlined" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
           <SubCard  >
@@ -36,11 +36,11 @@ const SamplePage = () => {
             <Table bordered hover size="sm">
               <thead>
                 <tr >
-                  <th style={{ width: '5%', textAlign: 'center' }}>번호</th>
-                  <th style={{ width: '30%', textAlign: 'center' }}>제목</th>
-                  <th style={{ width: '45%', textAlign: 'center' }}>내용</th>
-                  <th style={{ width: '10%', textAlign: 'center' }}>등록날짜</th>
-                  <th style={{ width: '10%', textAlign: 'center' }}>아이디</th>
+                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '30%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '45%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>내용</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                 </tr>
               </thead>
               <tbody>

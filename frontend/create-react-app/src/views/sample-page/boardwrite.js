@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
+import './customQuill.css'; // 새로운 CSS 파일 생성
 
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
@@ -46,11 +47,16 @@ const BoardWrite = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                  <ReactQuill
-                    value={content}
-                    onChange={handleContentChange}
-                    style={{ Height: '500px', border: '1px solid #ccc' }}
-                  />
+              <div className="quill-container">
+                    <ReactQuill
+                      value={content}
+                      onChange={handleContentChange}
+                      theme="snow"
+                      modules={{
+                        // 필요한 모듈들 설정
+                      }}
+                    />
+                  </div>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'right' }}>
               <Button variant="contained" style={{ marginRight: '0.5rem' }}>

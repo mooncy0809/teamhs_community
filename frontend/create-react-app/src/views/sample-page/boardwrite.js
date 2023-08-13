@@ -2,7 +2,6 @@
 
 import { Grid, Button} from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Editor from 'ui-component/teamhsComponents/EditorComponent';
 /*
 import axios from 'axios';
 import { useEffect, useState } from 'react';

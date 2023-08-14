@@ -15,7 +15,7 @@ import config from './config';
 
 // ==============================|| REACT DOM RENDER  ||============================== //
 
-const container = document.getElementById('root');
+const container = document.getElementById('root');  // id값이 root인 곳에 렌더링
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <Provider store={store}>

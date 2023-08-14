@@ -33,13 +33,10 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-
 
     @PostMapping("/write")
     public ResponseEntity<Board> createBoard(@RequestBody WriteBoardRequestDTO board) {
         Board createdBoard = boardService.postBoard(board);
-        logger.info(board.toString());
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 

@@ -8,19 +8,20 @@ const icons = { IconBrandChrome, IconHelp };
 
 const other = {
   id: 'sample-docs-roadmap',
+  title : '커뮤니티',
   type: 'group',
   children: [
     {
       id: 'Board',
-      title: '커뮤니티',
+      title: '자유게시판',
       type: 'item',
       url: '/sample-page',
       icon: icons.IconBrandChrome,
       breadcrumbs: false
     },
     {
-      id: 'documentation',
-      title: 'Documentation',
+      id: 'news',
+      title: '뉴스',
       type: 'item',
       url: 'https://codedthemes.gitbook.io/berry/',
       icon: icons.IconHelp,

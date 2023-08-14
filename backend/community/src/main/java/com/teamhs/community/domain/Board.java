@@ -14,12 +14,15 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Board {
+
     @Id
-    private String user_id;
-    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
     private int c_id;
-    @Column(nullable = false)
+
+    @Column(nullable = true)
+    private String user_id;
+
+    @Column(nullable = true)
     private int cate_id;
     @Column(nullable = true)
     private String c_title;
@@ -51,7 +54,6 @@ public class Board {
         this.c_cnt = c_cnt;
         this.cm_cnt = cm_cnt;
     }
-
 
 
     public void setUser_id(String user_id) {

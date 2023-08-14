@@ -24,7 +24,6 @@ const BoardWrite = () => {
   const handleSaveButtonClick = () => {
     const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
     const postData = {
-    userId: 'user123',
     title: title,
     content: cleanedContent,
     };
@@ -55,10 +54,6 @@ const BoardWrite = () => {
   const handleContentChange = (value) => {
     setContent(value);
   };
-
-
-
-
 
 
   return (

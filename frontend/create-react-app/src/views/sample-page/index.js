@@ -31,9 +31,9 @@ const SamplePage = () => {
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
-          <SubCard  >
+          <SubCard>
     
-            <Table bordered hover size="sm">
+            <Table bordered hover size="sm" style = {{minHeight : '500px'}}>
               <thead>
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>

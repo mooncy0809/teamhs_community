@@ -54,4 +54,42 @@ public class Board {
         this.cm_cnt = cm_cnt;
     }
 
+
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setC_id(int c_id) {
+        this.c_id = c_id;
+    }
+
+    public void setCate_id(int cate_id) {
+        this.cate_id = cate_id;
+    }
+
+    public void setC_title(String c_title) {
+        this.c_title = c_title;
+    }
+
+    public void setC_content(String c_content) {
+        this.c_content = c_content;
+    }
+
+    public void setC_date(LocalDate c_date) {
+        this.c_date = c_date;
+    }
+
+    public void setC_recom(int c_recom) {
+        this.c_recom = c_recom;
+    }
+
+    public void setC_cnt(int c_cnt) {
+        this.c_cnt = c_cnt;
+    }
+
+    public void setCm_cnt(int cm_cnt) {
+        this.cm_cnt = cm_cnt;
+    }
+
 }

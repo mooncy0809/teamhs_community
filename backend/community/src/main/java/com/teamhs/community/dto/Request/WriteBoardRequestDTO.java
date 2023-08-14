@@ -1,9 +1,5 @@
 package com.teamhs.community.dto.Request;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class WriteBoardRequestDTO {

@@ -39,8 +39,8 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public ResponseEntity<Board> createBoard(@RequestBody Board boardDTO) {
-        Board createdBoard = boardService.createBoard(boardDTO);
+    public ResponseEntity<Board> createBoard(@RequestBody WriteBoardRequestDTO board) {
+        Board createdBoard = boardService.postBoard(board);
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 

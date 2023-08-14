@@ -1,19 +1,16 @@
 package com.teamhs.community.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.teamhs.community.domain.Board;
-import com.teamhs.community.dto.Request.BoardListRequestDTO;
 import com.teamhs.community.dto.Request.WriteBoardRequestDTO;
-import com.teamhs.community.dto.Response.BoardListResponseDTO;
 import com.teamhs.community.service.BoardService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 /*
 게시판
 1. 글 쓰기 (/board/write)
@@ -23,8 +20,6 @@ import java.util.List;
 5. 글 삭제 (/board/delete/{c_id})
 6. 페이징 처리 (/board/paging)
  */
-
-
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -38,9 +33,13 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+
     @PostMapping("/write")
     public ResponseEntity<Board> createBoard(@RequestBody WriteBoardRequestDTO board) {
         Board createdBoard = boardService.postBoard(board);
+        logger.info(board.toString());
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 

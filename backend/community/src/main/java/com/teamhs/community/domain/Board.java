@@ -1,9 +1,6 @@
 package com.teamhs.community.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +17,7 @@ public class Board {
     @Id
     private String user_id;
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
     private int c_id;
     @Column(nullable = false)
     private int cate_id;
@@ -58,10 +56,6 @@ public class Board {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
-    }
-
-    public void setC_id(int c_id) {
-        this.c_id = c_id;
     }
 
     public void setCate_id(int cate_id) {

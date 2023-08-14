@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, Button, TextField } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import axios from 'axios'; // axios 모듈 추가
+
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -22,9 +22,11 @@ const BoardWrite = () => {
 
 
   const handleSaveButtonClick = () => {
+    const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
     const postData = {
-      title: title,
-      content: content
+    userId: 'user123',
+    title: title,
+    content: cleanedContent,
     };
   
     axios.post('http://localhost:8090/board/write', postData)

@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'store/constant';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -21,7 +20,7 @@ const Typography = () => {
   const [content, SetContent] = useState("");
  
   useEffect(() => {
-    axios.get('/api/problems')
+    axios.get('http://localhost:8090/api/problems')
         .then(response => SetList(response.data))
         .catch(error => console.log(error))
 }, []);
@@ -50,7 +49,7 @@ function insertProblem() {
 }
 
   return(
-  <MainCard title="문제" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
+  <MainCard title="문제" >
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12} sm={6}>
         <SubCard title="문제 작성">

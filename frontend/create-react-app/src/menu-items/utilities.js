@@ -12,21 +12,21 @@ const icons = {
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
-  id: 'utilities',
-  title: 'Utilities',
+  id: 'Problem',
+  title: '문제',
   type: 'group',
   children: [
     {
-      id: 'util-typography',
-      title: 'Typography',
+      id: 'problem-all',
+      title: '전체문제',
       type: 'item',
       url: '/utils/util-typography',
       icon: icons.IconTypography,
       breadcrumbs: false
     },
     {
-      id: 'util-color',
-      title: 'Color',
+      id: 'problem-step',
+      title: '단계별 문제',
       type: 'item',
       url: '/utils/util-color',
       icon: icons.IconPalette,

@@ -25,6 +25,7 @@ public class WriteBoardRequestDTO {
     public int getBoardId() {
         return c_id;
     }
+
     public void setBoardId(int c_id) {
         this.c_id = c_id;
     }

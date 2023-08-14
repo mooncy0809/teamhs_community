@@ -15,12 +15,16 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public Board postBoard(WriteBoardRequestDTO requestDTO) {
+    public Board postBoard(WriteBoardRequestDTO board) {
         Board newBoard = new Board();
 
         newBoard.setUser_id("임시 아이디");
-        newBoard.setC_title(requestDTO.getTitle());
-        newBoard.setC_content(requestDTO.getContent());
+
+
+        newBoard.setC_title(board.getTitle());
+        newBoard.setC_content(board.getContent());
+
+
         newBoard.setC_date(LocalDate.now());
         newBoard.setC_recom(0);
         newBoard.setC_cnt(0);

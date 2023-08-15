@@ -21,6 +21,7 @@ const BoardWrite = () => {
   const navigate = useNavigate(); // useNavigate 함수 가져오기
 
 
+  //저장버튼 클릭시 api 호출
   const handleSaveButtonClick = () => {
     const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
     const postData = {
@@ -41,7 +42,7 @@ const BoardWrite = () => {
   };
 
 
-  // 버튼 클릭 시 페이지 이동 처리
+  //취소 버튼 클릭 시 페이지 이동 처리
   const handleCancleButtonClick = () => {
     navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
   };

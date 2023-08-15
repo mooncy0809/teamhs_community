@@ -14,10 +14,10 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 import {Route} from 'react-router-dom';
 
-import SamplePage from './views/sample-page/index'; // index.js 파일
+import BoardList from './views/sample-page/index'; // index.js 파일
 import BoardWrite from './views/sample-page/boardwrite'; // boardwrite.js 파일
+import BoardWatch from 'views/sample-page/boardwatch'; //boardwatch.js 파일
 
-// ============================== APP ============================== //
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
@@ -28,8 +28,9 @@ const App = () => {
         <CssBaseline />
         <NavigationScroll>
         <Routes>
-            <Route path="/sample-page" element={<SamplePage />} />
+            <Route path="/sample-page" element={<BoardList />} />
             <Route path="/sample-page/boardwrite" element={<BoardWrite />} />
+            <Route path="/sample-page/boardwatch" element={<BoardWatch />} />
         </Routes>
         </NavigationScroll>
       </ThemeProvider>

@@ -8,9 +8,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
 
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
-const SamplePage = () => {
+const BoardList = () => {
   const [boardlist , setBoardList] = useState([]); 
 
   useEffect(() => {
@@ -24,7 +24,12 @@ const SamplePage = () => {
   // 버튼 클릭 시 페이지 이동 처리
   const handleButtonClick = () => {
   navigate('/sample-page/boardwrite'); // '/sample-page/boardwrite' 경로로 페이지 이동
-};
+  };
+
+  // 아이템 클릭 시 페이지 이동 처리
+  const handleWatchClick = (c_id) => {
+    navigate(`/sample-page/boardwatch/${c_id}`); // 해당 경로로 페이지 이동
+  };
 
   
   return (
@@ -32,8 +37,7 @@ const SamplePage = () => {
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
           <SubCard>
-    
-            <Table bordered hover size="sm" style = {{minHeight : '500px'}}>
+            <Table bordered hover size="sm" style = {{minHeight : '500px'}} >
               <thead>
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
@@ -44,11 +48,11 @@ const SamplePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {boardlist.map((item, index) => ( 
-                  <tr key={index}>
+                {boardlist.map((item) => (
+                  <tr key={item.c_id} onClick={() => handleWatchClick(item.c_id)}>
                     <td style={{ textAlign: 'center' }}>{item.c_id}</td>
-                    <td >{item.c_title}</td>
-                    <td >{item.c_content}</td>
+                    <td>{item.c_title}</td>
+                    <td>{item.c_content}</td>
                     <td style={{ textAlign: 'center' }}>{item.c_date}</td>
                     <td style={{ textAlign: 'center' }}>{item.user_id.slice(0, -2) + '**'}</td>
                   </tr>
@@ -62,4 +66,4 @@ const SamplePage = () => {
   );
 };
 
-export default SamplePage;
+export default BoardList;

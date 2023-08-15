@@ -23,7 +23,7 @@ const other = {
       id: 'news',
       title: '뉴스',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/berry/',
+      url: 'https://news.naver.com/',
       icon: icons.IconHelp,
       external: true,
       target: true

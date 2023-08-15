@@ -3,7 +3,10 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+
+//경로 설정
 import BoardWrite from 'views/sample-page/boardwrite';
+import BoardWatch from 'views/sample-page/boardwatch';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -16,7 +19,7 @@ const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialI
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 
 // sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const BoardList = Loadable(lazy(() => import('views/sample-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -84,11 +87,15 @@ const MainRoutes = {
     },
     {
       path: 'sample-page',
-      element: <SamplePage />
+      element: <BoardList />
     }, 
     {
       path: 'sample-page/boardwrite',
       element: <BoardWrite />
+    },
+    {
+      path: 'sample-page/boardwatch/:c_id', 
+      element: <BoardWatch />
     }
   ]
 };

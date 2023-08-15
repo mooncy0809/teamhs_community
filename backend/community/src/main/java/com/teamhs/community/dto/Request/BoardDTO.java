@@ -2,7 +2,7 @@ package com.teamhs.community.dto.Request;
 
 import java.time.LocalDate;
 
-public class WriteBoardRequestDTO {
+public class BoardDTO {
 
     private int c_id;
     private String user_id;
@@ -14,18 +14,18 @@ public class WriteBoardRequestDTO {
     private int c_cnt;
     private int cm_cnt;
 
-    public String getId() {
+    public String getUserId() {
         return user_id;
     }
 
-    public void setId(String user_id) {
+    public void setUserId(String user_id) {
         this.user_id = user_id;
     }
 
-    public int getBoardId() {
+    public int getCId() {
         return c_id;
     }
-    public void setBoardId(int c_id) {
+    public void setCId(int c_id) {
         this.c_id = c_id;
     }
 
@@ -85,6 +85,5 @@ public class WriteBoardRequestDTO {
     public void setCommentCount(int cm_cnt) {
         this.cm_cnt = cm_cnt;
     }
-
 
 }

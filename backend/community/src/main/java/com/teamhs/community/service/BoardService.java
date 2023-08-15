@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class BoardService {
@@ -46,9 +45,9 @@ public class BoardService {
     }
 
     //게시판 상세 조회
-    public Board getBoardById(Long c_id) {
-        return boardRepository.findById(c_id)
-                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + c_id));
+    public Board getBoardById(Long board_id) {
+        return boardRepository.findById(board_id)
+                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + board_id));
     }
 
 }

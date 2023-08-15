@@ -19,7 +19,6 @@ import java.util.List;
 6. 페이징 처리 (/board/paging)
  */
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/board")
 public class BoardController {

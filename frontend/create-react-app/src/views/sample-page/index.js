@@ -8,7 +8,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const BoardList = () => {
   const [boardlist , setBoardList] = useState([]); 
@@ -44,10 +44,12 @@ const BoardList = () => {
                 </tr>
               </thead>
               <tbody >
-                {boardlist.map((item, index) => ( 
-                  <tr key={index}>
-                    <td style={{ textAlign: 'center' }}>{item.c_id}</td>
-                    <td >{item.c_title}</td>
+                {boardlist.map((item) => ( 
+                  <tr key={item.c_id}>
+                  <td style={{ textAlign: 'center' }}>{item.c_id}</td>
+                  <td>
+                    <Link to={`/sample-page/boardwatch/${item.c_id}`}>{item.c_title}</Link>
+                  </td>
                     <td >{item.c_content}</td>
                     <td style={{ textAlign: 'center' }}>{item.c_date}</td>
                     <td style={{ textAlign: 'center' }}>{item.user_id.slice(0, -2) + '**'}</td>

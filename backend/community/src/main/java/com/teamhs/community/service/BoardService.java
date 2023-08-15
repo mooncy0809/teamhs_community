@@ -40,19 +40,10 @@ public class BoardService {
 
     //자유게시판 조회
 
+    // BoardService.java
     public Board getBoardById(Long c_id) {
-        Board board = boardRepository.findById(c_id)
+        return boardRepository.findById(c_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + c_id));
-
-        return convertToDTO(board);
-    }
-
-    private Board convertToDTO(Board board) {
-        Board dto = new Board();
-        dto.setC_id(board.getC_id());
-        dto.setC_title(board.getC_title());
-        dto.setC_content(board.getC_content());
-        return dto;
     }
 
 

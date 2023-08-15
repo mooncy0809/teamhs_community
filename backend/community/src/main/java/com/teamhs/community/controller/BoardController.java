@@ -1,7 +1,7 @@
 package com.teamhs.community.controller;
 
 import com.teamhs.community.domain.Board;
-import com.teamhs.community.dto.Request.WriteBoardRequestDTO;
+import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class BoardController {
 
 
     @PostMapping("/write")
-    public ResponseEntity<Board> createBoard(@RequestBody WriteBoardRequestDTO board) {
+    public ResponseEntity<Board> createBoard(@RequestBody BoardDTO board) {
         Board createdBoard = boardService.postBoard(board);
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
@@ -43,5 +43,13 @@ public class BoardController {
         List<Board> boards = boardService.listAllBoards();
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
+
+    @GetMapping("/{c_id}")
+    public ResponseEntity<Board> getBoardById(@PathVariable Long c_id) {
+        Board board = boardService.getBoardById(c_id);
+        return ResponseEntity.ok(board);
+    }
+
+
 
 }

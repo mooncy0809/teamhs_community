@@ -17,7 +17,7 @@ import {Route} from 'react-router-dom';
 import BoardList from './views/sample-page/index'; // index.js 파일
 import BoardWrite from './views/sample-page/boardwrite'; // boardwrite.js 파일
 import BoardWatch from 'views/sample-page/boardwatch'; //boardwatch.js 파일
-// ==============================|| APP ||============================== //
+
 
 const App = () => {
   const customization = useSelector((state) => state.customization);

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 6. 페이징 처리 (/board/paging)
  */
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/board")
 public class BoardController {

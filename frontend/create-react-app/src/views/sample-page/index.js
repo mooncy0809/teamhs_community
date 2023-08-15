@@ -40,8 +40,8 @@ const BoardList = () => {
   };
 
   // 아이템 클릭 시 페이지 이동 처리
-  const handleWatchClick = (c_id) => {
-    navigate(`/sample-page/boardwatch/${c_id}`); // 해당 경로로 페이지 이동
+  const handleWatchClick = (board_id) => {
+    navigate(`/sample-page/boardwatch/${board_id}`); // 해당 경로로 페이지 이동
   };
 
   //페이징 기능 구현
@@ -55,7 +55,6 @@ const BoardList = () => {
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
           <SubCard>
-            {boardlist.length > 0 ? (
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
@@ -68,25 +67,28 @@ const BoardList = () => {
               </thead>
               <tbody>
                 {boardlist.map((item) => (
-                  <tr key={item.c_id} onClick={() => handleWatchClick(item.c_id)}>
-                    <td style={{ textAlign: 'center' }}>{item.c_id}</td>
-                    <td>{item.c_title}</td>
-                    <td>{item.c_content}</td>
-                    <td style={{ textAlign: 'center' }}>{item.c_date}</td>
+                  <tr key={item.board_id} onClick={() => handleWatchClick(item.board_id)}>
+                    <td style={{ textAlign: 'center' }}>{item.board_id}</td>
+                    <td>{item.board_title}</td>
+                    <td>{item.board_content}</td>
+                    <td style={{ textAlign: 'center' }}>{item.board_date}</td>
                     <td style={{ textAlign: 'center' }}>{item.user_id.slice(0, -2) + '**'}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
-             ) : (
-              <p>Loading...</p>
-              )}
           </SubCard>
-          <Pagination
-          count={totalPages}
-          page={currentPage + 1} // Page numbers are 1-based
-          onChange={handlePageChange}
-        />
+          <Grid
+              container
+              justifyContent="center"
+              style={{ marginTop: '20px' }}
+              >
+              <Pagination
+                count={totalPages}
+                page={currentPage + 1}
+                onChange={handlePageChange}
+              />
+              </Grid>
         </Grid>
       </Grid>
     </MainCard>

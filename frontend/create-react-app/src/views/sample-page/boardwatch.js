@@ -14,14 +14,14 @@ import { gridSpacing } from 'store/constant';
 
 const BoardWatch = () => {
 
-  const { c_id } = useParams(); // URL에서 c_id 파라미터를 가져옴
+  const { board_id } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${c_id}`)
+    axios.get(`http://localhost:8090/board/${board_id}`)
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
-  }, [c_id]);
+  }, [board_id]);
 
   const navigate = useNavigate(); // useNavigate 함수 가져오기
 
@@ -45,7 +45,7 @@ const BoardWatch = () => {
                   label="제목"
                   variant="outlined"
                   fullWidth
-                  value={board.c_title} // 게시글 제목 사용
+                  value={board.board_title} // 게시글 제목 사용
                   disabled
                 />
               </Grid>
@@ -56,13 +56,19 @@ const BoardWatch = () => {
                   fullWidth
                   multiline
                   rows={10}
-                  value={board.c_content} // 게시글 내용 사용
+                  value={board.board_content} // 게시글 내용 사용
                   disabled
                 />
               </Grid>
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
-                  돌아가기
+                  뒤로가기
+                </Button>
+                <Button variant="outlined">
+                  수정
+                </Button>
+                <Button variant="outlined">
+                  삭제
                 </Button>
               </Grid>
             </Grid>

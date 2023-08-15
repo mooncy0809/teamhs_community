@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from "axios";
+import React from "react";
+
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -49,6 +52,8 @@ const FirebaseRegister = ({ ...others }) => {
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
 
+  const [requestResult, setRequestResult] = useState('');
+
   const googleHandler = async () => {
     console.error('Register');
   };
@@ -70,6 +75,24 @@ const FirebaseRegister = ({ ...others }) => {
   useEffect(() => {
     changePassword('123456');
   }, []);
+  
+  const signUpHandler = () => {
+    const data = {
+      userName: "조영호",
+      userId: "mmy4637@naver.com",
+      userPassword: "1234",
+    
+    }
+    axios.post('http://localhost:8090/api/auth/signUp', data)
+    .then(() => {
+      setRequestResult('Success!!');
+      console.log(requestResult);
+    })
+    .catch(() => {
+      setRequestResult('Failed!!');
+      console.log(requestResult);
+    })
+  }
 
   return (
     <>
@@ -128,20 +151,24 @@ const FirebaseRegister = ({ ...others }) => {
         initialValues={{
           email: '',
           password: '',
+          userid: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          userid: Yup.string().uuid('Must be a valid uuid').max(255).required('ID is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={async (_values, { setErrors, setStatus, setSubmitting }) => {
           try {
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
+              
             }
           } catch (err) {
             console.error(err);
+      
             if (scriptedRef.current) {
               setStatus({ success: false });
               setErrors({ submit: err.message });
@@ -152,11 +179,11 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <Grid container spacing={matchDownSM ? 0 : 2}>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={matchDownSM ? 0 : 1}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
-                  label="First Name"
+                  label="Name"
                   margin="normal"
                   name="fname"
                   type="text"
@@ -164,20 +191,28 @@ const FirebaseRegister = ({ ...others }) => {
                   sx={{ ...theme.typography.customInput }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Last Name"
-                  margin="normal"
-                  name="lname"
-                  type="text"
-                  defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
-                />
-              </Grid>
             </Grid>
+
+            <FormControl fullWidth error={Boolean(touched.userid && errors.userid)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-userid-register">ID</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-userid-register"
+                type="userid"
+                value={values.userid}
+                name="userid"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                inputProps={{}}
+              />
+              {touched.userid && errors.userid && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.userid}
+                </FormHelperText>
+              )}
+            </FormControl>
+
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-register">Email Address</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
                 type="email"
@@ -225,6 +260,7 @@ const FirebaseRegister = ({ ...others }) => {
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-register">
                   {errors.password}
+                  
                 </FormHelperText>
               )}
             </FormControl>
@@ -271,11 +307,12 @@ const FirebaseRegister = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign up
+                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary" onClick={signUpHandler}>
+                  Sign up 
                 </Button>
               </AnimateButton>
             </Box>
+            
           </form>
         )}
       </Formik>

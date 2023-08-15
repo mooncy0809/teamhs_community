@@ -9,7 +9,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "test_problem")
 @Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor //기본 생성자를 대신 생성
 public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

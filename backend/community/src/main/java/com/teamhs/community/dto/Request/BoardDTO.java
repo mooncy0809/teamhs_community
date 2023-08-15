@@ -61,7 +61,6 @@ public class BoardDTO {
         this.c_date = c_date;
     }
 
-
     public int getRecommend() {
         return c_recom;
     }

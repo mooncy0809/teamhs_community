@@ -8,7 +8,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
 
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 const BoardList = () => {
   const [boardlist , setBoardList] = useState([]); 
@@ -26,6 +26,10 @@ const BoardList = () => {
   navigate('/sample-page/boardwrite'); // '/sample-page/boardwrite' 경로로 페이지 이동
   };
 
+  // 아이템 클릭 시 페이지 이동 처리
+  const handleWatchClick = (c_id) => {
+    navigate(`/sample-page/boardwatch/${c_id}`); // 해당 경로로 페이지 이동
+  };
 
   
   return (
@@ -43,14 +47,12 @@ const BoardList = () => {
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                 </tr>
               </thead>
-              <tbody >
-                {boardlist.map((item) => ( 
-                  <tr key={item.c_id}>
-                  <td style={{ textAlign: 'center' }}>{item.c_id}</td>
-                  <td>
-                    <Link to={`/sample-page/boardwatch/${item.c_id}`}>{item.c_title}</Link>
-                  </td>
-                    <td >{item.c_content}</td>
+              <tbody>
+                {boardlist.map((item) => (
+                  <tr key={item.c_id} onClick={() => handleWatchClick(item.c_id)}>
+                    <td style={{ textAlign: 'center' }}>{item.c_id}</td>
+                    <td>{item.c_title}</td>
+                    <td>{item.c_content}</td>
                     <td style={{ textAlign: 'center' }}>{item.c_date}</td>
                     <td style={{ textAlign: 'center' }}>{item.user_id.slice(0, -2) + '**'}</td>
                   </tr>

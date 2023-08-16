@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -18,12 +19,6 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-
-    /*
-    //자유 게시판 리스트 조회
-    public List<Board> listAllBoards() {
-        return boardRepository.findAll();
-    }*/
 
     //자유 게시판 리스트 조회 페이징 작업 추가
     public Page<Board> listPaginatedBoards(Pageable pageable) {
@@ -48,6 +43,17 @@ public class BoardService {
     public Board getBoardById(Long board_id) {
         return boardRepository.findById(board_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + board_id));
+    }
+
+    //게시글 삭제
+    public boolean deleteBoard(Long board_id) {
+        Optional<Board> boardOptional = boardRepository.findById(board_id);
+        if (boardOptional.isPresent()) {
+            Board board = boardOptional.get();
+            boardRepository.delete(board);
+            return true;
+        }
+        return false;
     }
 
 }

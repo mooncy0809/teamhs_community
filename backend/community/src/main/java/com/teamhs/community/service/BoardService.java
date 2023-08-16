@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class BoardService {
@@ -35,20 +34,20 @@ public class BoardService {
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();
         newBoard.setUser_id("임시 아이디");
-        newBoard.setC_title(board.getTitle());
-        newBoard.setC_content(board.getContent());
-        newBoard.setC_date(LocalDate.now());
-        newBoard.setC_recom(0);
-        newBoard.setC_cnt(0);
-        newBoard.setCm_cnt(0);
+        newBoard.setBoard_title(board.getTitle());
+        newBoard.setBoard_content(board.getContent());
+        newBoard.setBoard_date(LocalDate.now());
+        newBoard.setBoard_recom(0);
+        newBoard.setBoard_cnt(0);
+        newBoard.setComment_cnt(0);
 
         return boardRepository.save(newBoard);
     }
 
     //게시판 상세 조회
-    public Board getBoardById(Long c_id) {
-        return boardRepository.findById(c_id)
-                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + c_id));
+    public Board getBoardById(Long board_id) {
+        return boardRepository.findById(board_id)
+                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + board_id));
     }
 
 }

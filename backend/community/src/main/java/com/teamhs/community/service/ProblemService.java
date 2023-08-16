@@ -1,6 +1,7 @@
 package com.teamhs.community.service;
 
 import com.teamhs.community.domain.Problem;
+import com.teamhs.community.dto.Request.ProblemDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProblemService {
@@ -24,8 +26,11 @@ public class ProblemService {
     }
 
     //list all boards
-    public List<Problem> listAllProblems(){
-        return problemRepository.findAll();
+    public List<ProblemDTO> getAllBoards() {
+        List<Problem> problem = problemRepository.findAll();
+        return problem.stream()
+                .map(this::convertoDTO)
+                .collect(Collectors.toList());
     }
 
     //get problem board by id

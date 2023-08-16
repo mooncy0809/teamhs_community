@@ -16,7 +16,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
-    private int c_id;
+    private int board_id;
 
     @Column(nullable = true)
     private String user_id;
@@ -25,21 +25,21 @@ public class Board {
     private int cate_id;
 
     @Column(nullable = true)
-    private String c_title;
+    private String board_title;
 
     @Column(nullable = true)
-    private String c_content;
+    private String board_content;
 
     @Column(nullable = true)
-    private LocalDate c_date;
+    private LocalDate board_date;
 
     @Column(nullable = true)
-    private int c_recom;
+    private int board_recom;
 
     @Column(nullable = true)
-    private int c_cnt;
+    private int board_cnt;
 
     @Column(nullable = true)
-    private int cm_cnt;
+    private int comment_cnt;
 
 }

@@ -94,7 +94,7 @@ const MainRoutes = {
       element: <BoardWrite />
     },
     {
-      path: 'sample-page/boardwatch/:c_id', 
+      path: 'sample-page/boardwatch/:board_id', 
       element: <BoardWatch />
     }
   ]

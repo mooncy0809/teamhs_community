@@ -31,13 +31,6 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    /*
-    @GetMapping("/list")
-    public ResponseEntity<List<Board>> getAllBoards() {
-        List<Board> boards = boardService.listAllBoards();
-        return new ResponseEntity<>(boards, HttpStatus.OK);
-    }*/
-
     //글 목록 + 페이징 처리 추가(글 갯수 더 조회하고 싶으면 defaultValue 수정)
     @GetMapping("/list")
     public ResponseEntity<Page<Board>> getPaginatedBoards(@RequestParam(defaultValue = "0") int page,
@@ -53,9 +46,19 @@ public class BoardController {
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{c_id}")
-    public ResponseEntity<Board> getBoardById(@PathVariable Long c_id) {
-        Board board = boardService.getBoardById(c_id);
+    @GetMapping("/{board_id}")
+    public ResponseEntity<Board> getBoardById(@PathVariable Long board_id) {
+        Board board = boardService.getBoardById(board_id);
         return ResponseEntity.ok(board);
+    }
+
+    @DeleteMapping("/delete/{board_id}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id) {
+        boolean success = boardService.deleteBoard(board_id);
+        if (success) {
+            return ResponseEntity.ok("게시글이 삭제되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("게시글 삭제에 실패하였습니다.");
+        }
     }
 }

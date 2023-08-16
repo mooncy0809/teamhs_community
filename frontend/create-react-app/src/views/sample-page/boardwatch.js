@@ -12,10 +12,17 @@ import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 const BoardWatch = () => {
 
   const { board_id } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${board_id}`)
@@ -24,6 +31,30 @@ const BoardWatch = () => {
   }, [board_id]);
 
   const navigate = useNavigate(); // useNavigate 함수 가져오기
+
+
+  const handleDeleteButtonClick = () => {
+    setOpenDialog(true);
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    axios.delete(`http://localhost:8090/board/delete/${board_id}`)
+    .then(response => {
+      console.log('Delete saved:', response.data);
+      navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+      // 저장이 성공한 경우 처리
+    })
+    .catch(error => {
+      console.error('Error delete:', error);
+      // 에러 처리
+    });
+    handleCloseDialog();
+  };
+  
 
   //취소 버튼 클릭 시 페이지 이동 처리
   const handleCancleButtonClick = () => {
@@ -74,9 +105,19 @@ const BoardWatch = () => {
                 <Button variant="contained" color="primary" style={{ marginRight: '0.5rem' }}>
                   수정
                 </Button>
-                <Button variant="text"  style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
+                <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
                   삭제
                 </Button>
+                <Dialog open={openDialog} onClose={handleCloseDialog}>
+                  <DialogTitle>게시글 삭제</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleConfirmDelete} color="primary">네</Button>
+                    <Button onClick={handleCloseDialog} color="primary">취소</Button>
+                  </DialogActions>
+                </Dialog>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
                   뒤로가기
 

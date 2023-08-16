@@ -81,7 +81,7 @@ const BoardWrite = () => {
                     />
                   </div>
               </Grid>
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
               <Button variant="contained" style={{ marginRight: '0.5rem' }} onClick={handleSaveButtonClick}>
                   저장
                 </Button>

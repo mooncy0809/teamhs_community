@@ -55,7 +55,6 @@ const BoardList = () => {
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
           <SubCard>
-            {boardlist.length > 0 ? (
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
@@ -78,15 +77,18 @@ const BoardList = () => {
                 ))}
               </tbody>
             </Table>
-             ) : (
-              <p>Loading...</p>
-              )}
           </SubCard>
-          <Pagination
-          count={totalPages}
-          page={currentPage + 1} // Page numbers are 1-based
-          onChange={handlePageChange}
-        />
+          <Grid
+              container
+              justifyContent="center"
+              style={{ marginTop: '20px' }}
+              >
+              <Pagination
+                count={totalPages}
+                page={currentPage + 1}
+                onChange={handlePageChange}
+              />
+              </Grid>
         </Grid>
       </Grid>
     </MainCard>

@@ -60,9 +60,15 @@ const BoardWatch = () => {
                   disabled
                 />
               </Grid>
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
-                  돌아가기
+                  뒤로가기
+                </Button>
+                <Button variant="outlined">
+                  수정
+                </Button>
+                <Button variant="outlined">
+                  삭제
                 </Button>
               </Grid>
             </Grid>

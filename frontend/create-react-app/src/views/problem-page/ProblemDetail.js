@@ -47,6 +47,10 @@ const handleCloseDialog = () => {
   setOpenDialog(false);
 };
 
+const handleCancleButtonClick = () => {
+  navigate('/problem/list'); 
+};
+
 if (!problem) {
   return <div><BeatLoader color="#0048ff" /></div>;
 }
@@ -82,7 +86,8 @@ if (!problem) {
                 <Link to={`/problem/edit/${problemId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary" style={{ marginRight: '0.5rem' }}>수정</Button>
                 </Link>
-                <Button variant="contained" color="secondary" onClick={handleDelete}>삭제</Button>
+                <Button variant="contained" color="error" onClick={handleDelete} style={{ marginRight: '0.5rem'}}>삭제</Button>
+                <Button variant="outlined" onClick={handleCancleButtonClick}>뒤로가기</Button>
               </Grid>
             </Grid>
         </SubCard>

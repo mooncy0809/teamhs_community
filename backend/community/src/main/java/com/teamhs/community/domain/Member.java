@@ -1,6 +1,6 @@
 package com.teamhs.community.domain;
 
-import com.teamhs.community.dto.SignUpDto;
+import com.teamhs.community.dto.Request.SignUpDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +24,7 @@ public class Member {
     private String userName;
     private String userEmail;
     private String Rating;
-    private Date joinDate;
+    private LocalDate joinDate;
     private Character status;
 
     public Member(SignUpDto dto){
@@ -34,7 +33,7 @@ public class Member {
         this.userName = dto.getUserName();
         this.userEmail = dto.getUserEmail();
         Rating = "Bronze";
-        joinDate = new Date();
+        joinDate = LocalDate.now();
         status = 'n';
     }
 }

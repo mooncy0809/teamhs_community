@@ -1,4 +1,4 @@
-package com.teamhs.community.dto;
+package com.teamhs.community.dto.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

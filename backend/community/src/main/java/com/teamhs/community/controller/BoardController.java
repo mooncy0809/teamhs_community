@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 2. 글 목록 (/board/list) ㅇ
 3. 글 조회 (/board/{c_id}) ㅇ
 4. 글 수정 (/board/update/{c_id})
-5. 글 삭제 (/board/delete/{c_id})
-6. 페이징 처리 (/board/paging)
+5. 글 삭제 (/board/delete/{c_id}) ㅇ
+6. 페이징 처리 ㅇ
  */
 
 @RestController
@@ -61,4 +61,15 @@ public class BoardController {
             return ResponseEntity.badRequest().body("게시글 삭제에 실패하였습니다.");
         }
     }
+
+    @PutMapping("/update/{board_id}")
+    public ResponseEntity<String> updateBoard(@PathVariable Long board_id, @RequestBody BoardDTO updatedBoardDTO) {
+        boolean success = boardService.updateBoard(board_id, updatedBoardDTO);
+        if (success) {
+            return ResponseEntity.ok("게시글이 수정되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("게시글 수정에 실패하였습니다.");
+        }
+    }
+
 }

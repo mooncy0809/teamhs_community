@@ -5,8 +5,9 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 //경로 설정
-import BoardWrite from 'views/sample-page/boardwrite';
-import BoardWatch from 'views/sample-page/boardwatch';
+import BoardWrite from 'views/Community/boardwrite';
+import BoardWatch from 'views/Community/boardwatch';
+import BoardEdit from 'views/Community/boardEdit';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -20,7 +21,7 @@ const UtilsMaterialIcons = Loadable(lazy(() => import('views/problem-page/Materi
 const UtilsTablerIcons = Loadable(lazy(() => import('views/problem-page/TablerIcons')));
 
 // sample page routing
-const BoardList = Loadable(lazy(() => import('views/sample-page')));
+const BoardList = Loadable(lazy(() => import('views/Community')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -106,6 +107,10 @@ const MainRoutes = {
     {
       path: 'sample-page/boardwatch/:board_id', 
       element: <BoardWatch />
+    },
+    {
+      path: 'sample-page/boardEdit/:board_id', 
+      element: <BoardEdit />
     }
   ]
 };

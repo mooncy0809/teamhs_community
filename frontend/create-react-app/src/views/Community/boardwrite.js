@@ -1,53 +1,24 @@
 import React, { useState } from 'react';
-import { Grid, Button, TextField } from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios'; // axios 모듈 추가
-
-
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './customQuill.css'; // 새로운 CSS 파일 생성
 
+import { Grid, Button, TextField } from '@mui/material';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
+import ReactQuill from 'react-quill';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-quill/dist/quill.snow.css';
+import './customQuill.css'; //Quill Custom 파일
 
 const BoardWrite = () => {
+
+  //게시글 작성
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-
-  const navigate = useNavigate(); // useNavigate 함수 가져오기
-
-
-  //저장버튼 클릭시 api 호출
-  const handleSaveButtonClick = () => {
-    const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
-    const postData = {
-    title: title,
-    content: cleanedContent,
-    };
-  
-    axios.post('http://localhost:8090/board/write', postData)
-      .then(response => {
-        console.log('Post saved:', response.data);
-        navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
-        // 저장이 성공한 경우 처리
-      })
-      .catch(error => {
-        console.error('Error saving post:', error);
-        // 에러 처리
-      });
-  };
-
-
-  //취소 버튼 클릭 시 페이지 이동 처리
-  const handleCancleButtonClick = () => {
-    navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
-  };
-
-
+  //내용 변경 시 setTitle 값 변경
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -55,6 +26,34 @@ const BoardWrite = () => {
   const handleContentChange = (value) => {
     setContent(value);
   };
+
+  //페이지 이동 파트
+  const navigate = useNavigate();
+  
+  const handleCancleButtonClick = () => {
+    navigate('/sample-page'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
+  };
+
+
+    //저장 버튼 클릭 시
+    const handleSaveButtonClick = () => {
+      const cleanedContent = content.replace(/<\/?p>/g, ''); //Tag 없애기(나중에 수정)
+      const postData = {
+      title: title,
+      content: cleanedContent,
+      };
+    
+      axios.post('http://localhost:8090/board/write', postData)
+        .then(response => {
+          console.log('Post saved:', response.data);
+          navigate('/sample-page'); // API 호출 후 게시글 리스트(list) 페이지 이동
+          // 저장이 성공한 경우 처리
+        })
+        .catch(error => {
+          console.error('Error saving post:', error);
+          // 에러 처리
+        });
+    };
 
 
   return (

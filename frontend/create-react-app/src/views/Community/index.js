@@ -11,11 +11,11 @@ import Table from 'react-bootstrap/Table';
 import {useNavigate } from 'react-router-dom';
 
 const BoardList = () => {
-  const [boardlist, setBoardList] = useState([]);
 
-  //페이징 기능 구현
-  const [currentPage, setCurrentPage] = useState(0); // Current page state
-  const [totalPages, setTotalPages] = useState(0); // Total pages state
+  //리스트 조회 + 페이징 API 호출
+  const [boardlist, setBoardList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Current page
+  const [totalPages, setTotalPages] = useState(0); // Total pages
 
   useEffect(() => {
     const fetchBoardData = async () => {
@@ -27,29 +27,27 @@ const BoardList = () => {
         console.log(error);
       }
     };
-  
+
     fetchBoardData();
   }, [currentPage]);
 
-
-  const navigate = useNavigate(); // useNavigate 함수 가져오기
-
-  // 버튼 클릭 시 페이지 이동 처리
-  const handleButtonClick = () => {
-  navigate('/sample-page/boardwrite'); // '/sample-page/boardwrite' 경로로 페이지 이동
-  };
-
-  // 아이템 클릭 시 페이지 이동 처리
-  const handleWatchClick = (board_id) => {
-    navigate(`/sample-page/boardwatch/${board_id}`); // 해당 경로로 페이지 이동
-  };
-
-  //페이징 기능 구현
   const handlePageChange = (event, page) => {
     setCurrentPage(page - 1);
   };
 
-  
+
+  //페이지 이동 파트
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+  navigate('/sample-page/boardwrite'); // 게시글 작성(boardwrite) 페이지 이동
+  };
+
+  const handleWatchClick = (board_id) => {
+    navigate(`/sample-page/boardwatch/${board_id}`); // 게시글 상세 조회(boardwatch) 페이지 이동
+  };
+
+ 
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>

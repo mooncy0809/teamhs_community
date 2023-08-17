@@ -1,17 +1,17 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons';
+import { IconNotes, IconStairs, IconShadow, IconWindmill } from '@tabler/icons';
 
 // constant
 const icons = {
-  IconTypography,
-  IconPalette,
+  IconNotes,
+  IconStairs,
   IconShadow,
   IconWindmill
 };
 
-// ==============================|| UTILITIES MENU ITEMS ||============================== //
+// ==============================|| PROBLEM MENU ITEMS ||============================== //
 
-const utilities = {
+const problems = {
   id: 'Problem',
   title: '문제',
   type: 'group',
@@ -20,8 +20,8 @@ const utilities = {
       id: 'problem-all',
       title: '전체문제',
       type: 'item',
-      url: '/utils/util-typography',
-      icon: icons.IconTypography,
+      url: '/problem/list',
+      icon: icons.IconNotes,
       breadcrumbs: false
     },
     {
@@ -29,9 +29,10 @@ const utilities = {
       title: '단계별 문제',
       type: 'item',
       url: '/utils/util-color',
-      icon: icons.IconPalette,
+      icon: icons.IconStairs,
       breadcrumbs: false
-    },
+    }
+    ,
     {
       id: 'util-shadow',
       title: 'Shadow',
@@ -67,4 +68,4 @@ const utilities = {
   ]
 };
 
-export default utilities;
+export default problems;

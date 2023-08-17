@@ -11,12 +11,13 @@ import BoardWatch from 'views/sample-page/boardwatch';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
-// utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/ProblemWrite')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+// problem page routing
+const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')));
+const ProblemWrite = Loadable(lazy(() => import('views/problem-page/ProblemWrite')));
+const UtilsColor = Loadable(lazy(() => import('views/problem-page/Color')));
+const UtilsShadow = Loadable(lazy(() => import('views/problem-page/Shadow')));
+const UtilsMaterialIcons = Loadable(lazy(() => import('views/problem-page/MaterialIcons')));
+const UtilsTablerIcons = Loadable(lazy(() => import('views/problem-page/TablerIcons')));
 
 // sample page routing
 const BoardList = Loadable(lazy(() => import('views/sample-page')));
@@ -41,16 +42,25 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'utils',
+      path: 'problem',
       children: [
         {
-          path: 'util-typography',
-          element: <UtilsTypography />
+          path: 'list',
+          element: <ProblemList />
         }
       ]
     },
     {
-      path: 'utils',
+      path: 'problem',
+      children: [
+        {
+          path: 'write',
+          element: <ProblemWrite />
+        }
+      ]
+    },
+    {
+      path: 'problem',
       children: [
         {
           path: 'util-color',
@@ -59,7 +69,7 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'utils',
+      path: 'problem',
       children: [
         {
           path: 'util-shadow',

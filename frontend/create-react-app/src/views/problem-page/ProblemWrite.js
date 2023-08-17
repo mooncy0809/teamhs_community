@@ -9,30 +9,28 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import Table from 'react-bootstrap/Table';
 
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
-const Typography = () => {
-  const [list , SetList] = useState([]);
-  const [title, SetTitle] = useState("");
-  const [content, SetContent] = useState("");
+const ProblemWrite = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
  
   useEffect(() => {
     axios.get('http://localhost:8090/api/problems')
-        .then(response => SetList(response.data))
+        .then(response => setList(response.data))
         .catch(error => console.log(error))
 }, []);
 
 const handleChange_title = (e)=>{
   e.preventDefault();
-  SetTitle(e.target.value);
+  setTitle(e.target.value);
 }
 
 const handleChange_content = (e)=>{
   e.preventDefault();
-  SetContent(e.target.value);
+  setContent(e.target.value);
 }
 
 function insertProblem() {
@@ -62,38 +60,9 @@ function insertProblem() {
           </Grid>
         </SubCard>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <SubCard title="문제 목록">
-          <Table bordered hover size="sm">
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>제목 </th>
-                                <th>내용 </th>
-                                <th>작성자 </th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {list.map((item,index) => {
-                          return (
-                            // eslint-disable-next-line react/jsx-key
-                            <tr key={index}>
-                                    <td>{item.id}</td>
-                                    <td>{item.title} </td>
-                                    <td>{item.content} </td>
-                                    <td>{item.writer} </td>
-                                    <td>{item.viewCnt}</td>
-                                </tr>
-                                );
-                              })}
-                        </tbody>
-            </Table>
-        </SubCard>
-      </Grid>
     </Grid>
   </MainCard>
   );
 };
 
-export default Typography;
+export default ProblemWrite;

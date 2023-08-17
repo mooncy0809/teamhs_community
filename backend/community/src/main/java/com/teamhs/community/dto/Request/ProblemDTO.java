@@ -1,7 +1,10 @@
 package com.teamhs.community.dto.Request;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class ProblemDTO {
     private Integer problemId;
     private String userId;

@@ -19,7 +19,6 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-
     //자유 게시판 리스트 조회 페이징 작업 추가
     public Page<Board> listPaginatedBoards(Pageable pageable) {
         return boardRepository.findAll(pageable);
@@ -51,6 +50,22 @@ public class BoardService {
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
             boardRepository.delete(board);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean updateBoard(Long board_id, BoardDTO updatedBoardDTO) {
+        Optional<Board> boardOptional = boardRepository.findById(board_id);
+        if (boardOptional.isPresent()) {
+            Board existingBoard = boardOptional.get();
+            existingBoard.setBoard_title(updatedBoardDTO.getTitle());
+            existingBoard.setBoard_content(updatedBoardDTO.getContent());
+            existingBoard.setBoard_recom(updatedBoardDTO.getRecommend());
+            existingBoard.setBoard_cnt(updatedBoardDTO.getCount());
+            existingBoard.setComment_cnt(updatedBoardDTO.getCommentCount());
+            boardRepository.save(existingBoard);
             return true;
         }
         return false;

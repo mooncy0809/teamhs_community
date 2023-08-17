@@ -2,7 +2,7 @@ package com.teamhs.community.dto.Request;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class ProblemDTO {
@@ -10,10 +10,10 @@ public class ProblemDTO {
     private String userId;
     private Integer cateId;
     private Integer problemPoint;
-    private LocalDateTime problemDate;
+    private LocalDate problemDate;
     private Integer problemType;
     private String problemTitle;
-    private String probelmContent;
+    private String problemContent;
     private Integer problemRecom;
     private Integer problemCnt;
     private Integer answerCnt;

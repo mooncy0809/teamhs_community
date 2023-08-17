@@ -1,16 +1,13 @@
 package com.teamhs.community.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor //기본 생성자를 대신 생성
-@Getter
+@Data
 @Entity
 @Table(name = "problem") //DB 테이블과 매핑한다. 기본적으로 @Entity로 선언된 클래스의 이름과  DB테이블 명과 일치하는 것을 매핑한다.
 
@@ -33,7 +30,7 @@ public class Problem {
     private Integer problemPoint;
 
     @Column(name = "problem_date")
-    private LocalDateTime problemDate;
+    private LocalDate problemDate;
 
     @Column(name = "problem_type")
     private Integer problemType;
@@ -42,7 +39,7 @@ public class Problem {
     private String problemTitle;
 
     @Column(name = "problem_content",nullable = false)
-    private String probelmContent;
+    private String problemContent;
 
     @Column(name = "problem_recom")
     private Integer problemRecom;

@@ -1,6 +1,5 @@
 package com.teamhs.community.controller;
 
-import com.teamhs.community.domain.Problem;
 import com.teamhs.community.dto.Request.ProblemDTO;
 import com.teamhs.community.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/problems")
@@ -33,7 +32,7 @@ public class ProblemController {
         return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
-    //get id
+    //detail
     @GetMapping("/{id}")
     public ResponseEntity<ProblemDTO> getProblemById(@PathVariable Integer id) {
         ProblemDTO problem = problemService.getProblemById(id);

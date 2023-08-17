@@ -1,21 +1,15 @@
 package com.teamhs.community.service;
 
-import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Problem;
 import com.teamhs.community.dto.Request.ProblemDTO;
-import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.ProblemRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -39,7 +33,7 @@ public class ProblemService {
                 .collect(Collectors.toList());
     }
 
-    //get problem board by id
+    //detail
     public ProblemDTO getProblemById(@PathVariable Integer problemId) {
         Optional<Problem> optionalProblem = problemRepository.findById(problemId);
         if (optionalProblem.isPresent()) {
@@ -76,6 +70,9 @@ public class ProblemService {
     private Problem convertToEntity(ProblemDTO problemDTO) {
         Problem problem = new Problem();
         BeanUtils.copyProperties(problemDTO, problem);
+        problem.setUserId("admin1"); // userId 임시 지정
+        problem.setProblemDate(LocalDate.now());
+        problem.setCateId(1);
 //        problem.setUser(userService.getUserById(problemDTO.getUserId()));
         return problem;
     }

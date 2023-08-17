@@ -14,11 +14,14 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')))
 
 // problem page routing
 const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')));
-const ProblemWrite = Loadable(lazy(() => import('views/problem-page/ProblemWrite')));
-const UtilsColor = Loadable(lazy(() => import('views/problem-page/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/problem-page/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/problem-page/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/problem-page/TablerIcons')));
+const ProblemDetail = Loadable(lazy(() => import('views/problem-page/ProblemDetail')));
+const ProblemEdit = Loadable(lazy(() => import('views/problem-page/ProblemEdit')));
+
+
+// master page routing
+const ProblemWrite = Loadable(lazy(() => import('views/master-page/ProblemWrite')));
+const MasterProblemList = Loadable(lazy(() => import('views/master-page/MasterProblemList')));
+
 
 // sample page routing
 const BoardList = Loadable(lazy(() => import('views/Community')));
@@ -48,51 +51,22 @@ const MainRoutes = {
         {
           path: 'list',
           element: <ProblemList />
-        }
-      ]
-    },
-    {
-      path: 'problem',
-      children: [
+        },
+        {
+          path: 'masterlist',
+          element: <MasterProblemList />
+        },
         {
           path: 'write',
           element: <ProblemWrite />
-        }
-      ]
-    },
-    {
-      path: 'problem',
-      children: [
+        },
         {
-          path: 'util-color',
-          element: <UtilsColor />
-        }
-      ]
-    },
-    {
-      path: 'problem',
-      children: [
+          path: 'detail/:problemId',
+          element: <ProblemDetail />
+        },
         {
-          path: 'util-shadow',
-          element: <UtilsShadow />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'tabler-icons',
-          element: <UtilsTablerIcons />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'material-icons',
-          element: <UtilsMaterialIcons />
+          path: 'edit/:problemId',
+          element: <ProblemEdit />
         }
       ]
     },

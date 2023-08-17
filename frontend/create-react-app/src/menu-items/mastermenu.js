@@ -16,7 +16,23 @@ const matermenu = {
       title: '문제관리',
       type: 'collapse',
       icon: icons.IconBrandChrome,
-      breadcrumbs: false
+      children: [
+        {
+          id: 'ProblemList',
+          title: '문제목록',
+          type: 'item',
+          url: '/problem/masterlist',
+          breadcrumbs: false
+        },
+        {
+          id: 'ProblemWrite',
+          title: '문제작성',
+          type: 'item',
+          url: '/problem/write',
+          breadcrumbs: false
+        }
+        
+      ]
     },
 
     {

@@ -37,6 +37,7 @@ const BoardWatch = () => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
 
+  //게시글 삭제 : Dialog 예/아니오
   const handleDeleteButtonClick = () => {
     setOpenDialog(true);
   }
@@ -45,6 +46,7 @@ const BoardWatch = () => {
     setOpenDialog(false);
   };
 
+  //Dialog 예 클릭 시 삭제 API 호출
   const handleConfirmDelete = () => {
     axios.delete(`http://localhost:8090/board/delete/${board_id}`)
     .then(response => {
@@ -59,20 +61,19 @@ const BoardWatch = () => {
     handleCloseDialog();
   };
 
-
   const handleEditMoveClick = () => {
-    navigate(`/sample-page/boardEdit/${board_id}`); // 해당 경로로 페이지 이동
+    navigate(`/sample-page/boardEdit/${board_id}`); // 게시글 수정(boardEdit) 페이지 이동
   };
   
-
-  //취소 버튼 클릭 시 페이지 이동 처리
   const handleCancleButtonClick = () => {
-    navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+    navigate('/sample-page'); // 취소 버튼 : 게시글 리스트(list) 페이지 이동
   };
 
+  //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
+
 
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>

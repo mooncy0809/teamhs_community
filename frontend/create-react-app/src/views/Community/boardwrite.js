@@ -27,9 +27,6 @@ const BoardWrite = () => {
     setContent(value);
   };
 
-
-
-
   //페이지 이동 파트
   const navigate = useNavigate();
   

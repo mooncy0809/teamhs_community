@@ -1,26 +1,27 @@
 import React, {useEffect, useState } from 'react';
-import { Grid, Button, TextField} from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useParams,  useNavigate } from 'react-router-dom';
 
-import ReactQuill from 'react-quill';
-
-import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
-import './customQuill.css'; // 새로운 CSS 파일 생성
-
+import { Grid, Button, TextField} from '@mui/material';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
+import ReactQuill from 'react-quill';
+
+import 'react-quill/dist/quill.snow.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './customQuill.css'; // 새로운 CSS 파일 생성
 
 const BoardEdit = () => {
 
-  const { board_id } = useParams(); // URL에서 board_id 파라미터를 가져옴
-  const [board, setBoard] = useState(null);
+  // URL에서 board_id 파라미터를 가져옴
+  const { board_id } = useParams();
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+
+  //게시글 수정
+  const [board, setBoard] = useState(null);
+  const [title, setTitle] = useState(''); //기존 제목
+  const [content, setContent] = useState(''); //기존 내용
 
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${board_id}`)
@@ -32,8 +33,7 @@ const BoardEdit = () => {
       .catch(error => console.log(error))
   }, [board_id]);
 
-
-
+  //내용 변경 시 이벤트
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -42,20 +42,19 @@ const BoardEdit = () => {
     setContent(value);
   };
 
-
-  const navigate = useNavigate(); // useNavigate 함수 가져오기
+  //페이지 이동 로직
+  const navigate = useNavigate();
 
   const handleEditClick = () => {
-    const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
+    const cleanedContent = content.replace(/<\/?p>/g, ''); 
     const putData = {
       title: title,
       content: cleanedContent,
     };
-  
-    axios.put(`http://localhost:8090/board/update/${board_id}`, putData)
+    axios.put(`http://localhost:8090/board/update/${board_id}`, putData) 
       .then(response => {
         console.log('Edit saved:', response.data);
-        navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+        navigate('/sample-page'); // 수정 저장 버튼 클릭 시 게시글 리스트(index.js)로 이동
         // 저장이 성공한 경우 처리
       })
       .catch(error => {
@@ -64,17 +63,14 @@ const BoardEdit = () => {
       });
   };
   
-  
-
-  //취소 버튼 클릭 시 페이지 이동 처리
+  //취소 버튼
   const handleCancleButtonClick = () => {
-    navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+    navigate('/sample-page'); //취소 버튼 : 게시글 리스트(index.js)로 이동
   };
 
   if (!board) {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
-
 
 
   return (

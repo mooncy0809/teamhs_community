@@ -1,17 +1,17 @@
 import React, {useEffect, useState } from 'react';
-import { Grid, Button, Typography } from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
-import './customQuill.css'; // 새로운 CSS 파일 생성
-
+import { Grid, Button, Typography } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-quill/dist/quill.snow.css';
+import './customQuill.css';
+
+//Dialog
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,18 +20,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const BoardWatch = () => {
 
-  const { board_id } = useParams(); // URL에서 board_id 파라미터를 가져옴
-  const [board, setBoard] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
+  // URL에서 board_id 파라미터를 가져옴
+  const { board_id } = useParams(); 
 
+  //게시글 상세 조회
+  const [board, setBoard] = useState(null);
+  
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${board_id}`)
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [board_id]);
 
-  const navigate = useNavigate(); // useNavigate 함수 가져오기
 
+  //페이지 이동 로직
+  const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleDeleteButtonClick = () => {
     setOpenDialog(true);
@@ -46,7 +50,7 @@ const BoardWatch = () => {
     .then(response => {
       console.log('Delete saved:', response.data);
       navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
-      // 저장이 성공한 경우 처리
+      // 삭제 성공한 경우 처리
     })
     .catch(error => {
       console.error('Error delete:', error);
@@ -56,13 +60,10 @@ const BoardWatch = () => {
   };
 
 
-  // 아이템 클릭 시 페이지 이동 처리
-  const handleEditClick = (board_id) => {
+  const handleEditMoveClick = () => {
     navigate(`/sample-page/boardEdit/${board_id}`); // 해당 경로로 페이지 이동
   };
-
-
-
+  
 
   //취소 버튼 클릭 시 페이지 이동 처리
   const handleCancleButtonClick = () => {
@@ -100,7 +101,7 @@ const BoardWatch = () => {
                 >{board.board_content}</div>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <Button variant="contained" onClick={handleEditClick} color="primary" style={{ marginRight: '0.5rem' }}>
+                <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>
                   수정
                 </Button>
                 <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>

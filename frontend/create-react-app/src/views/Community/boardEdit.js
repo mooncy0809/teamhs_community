@@ -19,29 +19,51 @@ const BoardEdit = () => {
   const { board_id } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
 
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${board_id}`)
-      .then(response => setBoard(response.data))
+      .then(response => {
+        setBoard(response.data);
+        setTitle(response.data.board_title); // 기존 제목으로 초기화
+        setContent(response.data.board_content); // 기존 내용으로 초기화
+      })
       .catch(error => console.log(error))
   }, [board_id]);
 
 
 
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
+
+
   const navigate = useNavigate(); // useNavigate 함수 가져오기
 
-  
   const handleEditClick = () => {
-    axios.put(`http://localhost:8090/board/update/${board_id}`)
-    .then(response => {
-      console.log('Edit saved:', response.data);
-      navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
-      // 저장이 성공한 경우 처리
-    })
-    .catch(error => {
-      console.error('Error edit:', error);
-      // 에러 처리
-    });
+    const cleanedContent = content.replace(/<\/?p>/g, ''); // Remove <p> tags
+    const putData = {
+      title: title,
+      content: cleanedContent,
+    };
+  
+    axios.put(`http://localhost:8090/board/update/${board_id}`, putData)
+      .then(response => {
+        console.log('Edit saved:', response.data);
+        navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+        // 저장이 성공한 경우 처리
+      })
+      .catch(error => {
+        console.error('Error edit:', error);
+        // 에러 처리
+      });
   };
+  
   
 
   //취소 버튼 클릭 시 페이지 이동 처리
@@ -53,25 +75,27 @@ const BoardEdit = () => {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
 
+
+
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>게시글 수정</span>} style={{ marginLeft: '8px' }}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12}>
           <SubCard>
           <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  label="제목"
-                  variant="outlined"
-                  fullWidth
-                  value={title}
-                  onChange={handleTitleChange}
-                />
+                  <TextField
+                    label="제목"
+                    variant="outlined"
+                    fullWidth
+                    value={title} // 변경
+                    onChange={handleTitleChange}
+                  />
               </Grid>
               <Grid item xs={12}>
               <div className="quill-container">
-                    <ReactQuill
-                      value={content}
+              <ReactQuill
+                      value={content} // 변경
                       onChange={handleContentChange}
                       theme="snow"
                     />
@@ -81,7 +105,7 @@ const BoardEdit = () => {
                 <Button variant="contained" onClick = {handleEditClick} color="primary" style={{ marginRight: '0.5rem' }}>
                   저장
                 </Button>
-                <Button variant="text" onClick = {handleCancleButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
+                <Button variant="outlined" onClick = {handleCancleButtonClick} style={{ marginRight: '0.5rem' }}>
                   취소
                 </Button>
               </Grid>

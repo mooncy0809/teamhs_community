@@ -20,7 +20,6 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
   Typography,
   useMediaQuery
 } from '@mui/material';
@@ -52,7 +51,12 @@ const FirebaseRegister = ({ ...others }) => {
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
 
-  const [requestResult, setRequestResult] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+
 
   const googleHandler = async () => {
     console.error('Register');
@@ -78,19 +82,16 @@ const FirebaseRegister = ({ ...others }) => {
   
   const signUpHandler = () => {
     const data = {
-      userName: "조영호",
-      userId: "mmy4637@naver.com",
-      userPassword: "1234",
+      userName,
+      userId,
+      userEmail,
+      userPassword,
     
-    }
+    };
     axios.post('http://localhost:8090/api/auth/signUp', data)
     .then(() => {
-      setRequestResult('Success!!');
-      console.log(requestResult);
     })
     .catch(() => {
-      setRequestResult('Failed!!');
-      console.log(requestResult);
     })
   }
 
@@ -155,9 +156,17 @@ const FirebaseRegister = ({ ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          userid: Yup.string().uuid('Must be a valid uuid').max(255).required('ID is required'),
-          password: Yup.string().max(255).required('Password is required')
+          name: Yup.string()
+          .required('Name은 필수 항목입니다')
+          .min(2, 'Name은 2글자 이상이어야 합니다')
+          .max(50, 'Name은 50글자를 초과할 수 없습니다'),
+          email: Yup.string().email('Must be a valid email').max(255).required('Email은 필수 항목입니다'),
+          userid: Yup.string()
+          .matches(/^[a-zA-Z0-9_-]+$/, '영문, 숫자, 하이픈, 언더스코어만 입력 가능합니다')
+          .min(5, '5자 이상 입력해주세요')
+          .max(20, '20자 이하로 입력해주세요')
+          .required('ID는 필수 항목입니다'),
+          password: Yup.string().max(255).required('Password는 필수 항목입니다')
         })}
         onSubmit={async (_values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -179,19 +188,26 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <Grid container spacing={matchDownSM ? 0 : 1}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label="Name"
-                  margin="normal"
-                  name="fname"
-                  type="text"
-                  defaultValue=""
-                  sx={{ ...theme.typography.customInput }}
-                />
-              </Grid>
-            </Grid>
+              <FormControl fullWidth error={Boolean(touched.name && errors.name)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-name-register">Name</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-name-register"
+                type="name"
+                value={values.name}
+                name="name"
+                onBlur={handleBlur}
+                onChange={(e) => {
+                  handleChange(e);
+                  setUserName(e.target.value)
+                }}
+                inputProps={{}}
+              />
+              {touched.name && errors.name && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.name}
+                </FormHelperText>
+              )}
+            </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.userid && errors.userid)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-userid-register">ID</InputLabel>
@@ -201,7 +217,10 @@ const FirebaseRegister = ({ ...others }) => {
                 value={values.userid}
                 name="userid"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setUserId(e.target.value)
+                }}
                 inputProps={{}}
               />
               {touched.userid && errors.userid && (
@@ -219,8 +238,12 @@ const FirebaseRegister = ({ ...others }) => {
                 value={values.email}
                 name="email"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setUserEmail(e.target.value)
+                }}
                 inputProps={{}}
+               
               />
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text--register">
@@ -240,7 +263,7 @@ const FirebaseRegister = ({ ...others }) => {
                 onBlur={handleBlur}
                 onChange={(e) => {
                   handleChange(e);
-                  changePassword(e.target.value);
+                  setUserPassword(e.target.value)
                 }}
                 endAdornment={
                   <InputAdornment position="end">

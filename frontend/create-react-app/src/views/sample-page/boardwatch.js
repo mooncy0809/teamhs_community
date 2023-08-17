@@ -92,6 +92,16 @@ const BoardWatch = () => {
                 >{board.board_content}</div>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'center' }}>
+
+                <Button variant="outlined" onClick={handleCancleButtonClick}>
+                  뒤로가기
+                </Button>
+                <Button variant="outlined">
+                  수정
+                </Button>
+                <Button variant="outlined">
+                  삭제
+                </Button>
                 <Button variant="contained" color="primary" style={{ marginRight: '0.5rem' }}>
                   수정
                 </Button>
@@ -110,6 +120,7 @@ const BoardWatch = () => {
                 </Dialog>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
                   뒤로가기
+
                 </Button>
               </Grid>
             </Grid>

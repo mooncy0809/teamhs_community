@@ -14,9 +14,10 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 import {Route} from 'react-router-dom';
 
-import BoardList from './views/sample-page/index'; // index.js 파일
-import BoardWrite from './views/sample-page/boardwrite'; // boardwrite.js 파일
-import BoardWatch from 'views/sample-page/boardwatch'; //boardwatch.js 파일
+import BoardList from './views/Community/index'; // index.js 파일
+import BoardWrite from './views/Community/boardwrite'; // boardwrite.js 파일
+import BoardWatch from 'views/Community/boardwatch'; //boardwatch.js 파일
+import BoardEdit from 'views/Community/boardEdit';//boardEdit.js 파일
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/sample-page" element={<BoardList />} />
             <Route path="/sample-page/boardwrite" element={<BoardWrite />} />
             <Route path="/sample-page/boardwatch" element={<BoardWatch />} />
+            <Route path="/sample-page/boardEdit" element={<BoardEdit />} />
         </Routes>
         </NavigationScroll>
       </ThemeProvider>

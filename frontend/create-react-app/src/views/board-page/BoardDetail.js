@@ -18,7 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const BoardWatch = () => {
+const BoardDetail = () => {
 
   // URL에서 board_id 파라미터를 가져옴
   const { board_id } = useParams(); 
@@ -130,4 +130,4 @@ const BoardWatch = () => {
   );
 };
 
-export default BoardWatch;
+export default BoardDetail;

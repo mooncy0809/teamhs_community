@@ -7,12 +7,12 @@ const icons = { IconBrandChrome, IconHelp };
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
-  id: 'sample-docs-roadmap',
+  id: 'community-group',
   title : '커뮤니티',
   type: 'group',
   children: [
     {
-      id: 'Board',
+      id: 'board',
       title: '자유게시판',
       type: 'item',
       url: '/sample-page',

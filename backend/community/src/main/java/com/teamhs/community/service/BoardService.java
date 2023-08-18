@@ -19,21 +19,21 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    //자유 게시판 리스트 조회 페이징 작업 추가
+    //자유 게시판 리스트 조회 : 페이징 작업 추가
     public Page<Board> listPaginatedBoards(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
-    //자유게시판 작성
+    //게시판 작성
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();
-        newBoard.setUser_id("임시 아이디");
-        newBoard.setBoard_title(board.getTitle());
-        newBoard.setBoard_content(board.getContent());
-        newBoard.setBoard_date(LocalDate.now());
-        newBoard.setBoard_recom(0);
-        newBoard.setBoard_cnt(0);
-        newBoard.setComment_cnt(0);
+        newBoard.setUserId("임시 아이디");
+        newBoard.setBoardTitle(board.getTitle());
+        newBoard.setBoardContent(board.getContent());
+        newBoard.setBoardDate(LocalDate.now());
+        newBoard.setBoardRecom(0);
+        newBoard.setBoardCnt(0);
+        newBoard.setCommentCnt(0);
 
         return boardRepository.save(newBoard);
     }
@@ -55,16 +55,16 @@ public class BoardService {
         return false;
     }
 
-
+    //게시글 수정
     public boolean updateBoard(Long board_id, BoardDTO updatedBoardDTO) {
         Optional<Board> boardOptional = boardRepository.findById(board_id);
         if (boardOptional.isPresent()) {
             Board existingBoard = boardOptional.get();
-            existingBoard.setBoard_title(updatedBoardDTO.getTitle());
-            existingBoard.setBoard_content(updatedBoardDTO.getContent());
-            existingBoard.setBoard_recom(updatedBoardDTO.getRecommend());
-            existingBoard.setBoard_cnt(updatedBoardDTO.getCount());
-            existingBoard.setComment_cnt(updatedBoardDTO.getCommentCount());
+            existingBoard.setBoardTitle(updatedBoardDTO.getTitle());
+            existingBoard.setBoardContent(updatedBoardDTO.getContent());
+            existingBoard.setBoardRecom(updatedBoardDTO.getRecommend());
+            existingBoard.setBoardCnt(updatedBoardDTO.getCount());
+            existingBoard.setCommentCnt(updatedBoardDTO.getCommentCount());
             boardRepository.save(existingBoard);
             return true;
         }

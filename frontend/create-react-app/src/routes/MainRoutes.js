@@ -84,11 +84,11 @@ const MainRoutes = {
           element: <BoardWrite />
         },
         {
-          path: 'detail/:board_id', 
+          path: 'detail/:boardId', 
           element: <BoardDetail />
         },
         {
-          path: 'edit/:board_id', 
+          path: 'edit/:boardId', 
           element: <BoardEdit />
         }
       ]

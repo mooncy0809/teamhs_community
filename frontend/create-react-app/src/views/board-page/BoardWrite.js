@@ -37,10 +37,9 @@ const BoardWrite = () => {
 
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
-      const cleanedContent = content.replace(/<\/?p>/g, ''); //Tag 없애기(나중에 수정)
       const postData = {
       title: title,
-      content: cleanedContent,
+      content: content,
       };
     
       axios.post('http://localhost:8090/board/write', postData)

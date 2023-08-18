@@ -21,16 +21,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 const BoardDetail = () => {
 
   // URL에서 board_id 파라미터를 가져옴
-  const { board_id } = useParams(); 
+  const { boardId } = useParams(); 
 
   //게시글 상세 조회
   const [board, setBoard] = useState(null);
   
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${board_id}`)
+    axios.get(`http://localhost:8090/board/${boardId}`)
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
-  }, [board_id]);
+  }, [boardId]);
 
 
   //페이지 이동 로직
@@ -48,7 +48,7 @@ const BoardDetail = () => {
 
   //Dialog 예 클릭 시 삭제 API 호출
   const handleConfirmDelete = () => {
-    axios.delete(`http://localhost:8090/board/delete/${board_id}`)
+    axios.delete(`http://localhost:8090/board/delete/${boardId}`)
     .then(response => {
       console.log('Delete saved:', response.data);
       navigate('/board/list'); // '/sample-page list' 경로로 페이지 이동
@@ -62,7 +62,7 @@ const BoardDetail = () => {
   };
 
   const handleEditMoveClick = () => {
-    navigate(`/board/edit/${board_id}`); // 게시글 수정(boardEdit) 페이지 이동
+    navigate(`/board/edit/${boardId}`); // 게시글 수정(boardEdit) 페이지 이동
   };
   
   const handleCancleButtonClick = () => {
@@ -83,23 +83,24 @@ const BoardDetail = () => {
           <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here' }}>
-                  {board.board_title}
+                  {board.boardTitle}
                 </Typography>
                 <hr style={{border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
                 <Typography variant="body1" style={{  color: '#333333', marginBottom:"10px" }}>
-                 {board.user_id.slice(0, -2) + '**' + " | " + board.board_date}
+                 {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
                 </Typography>
               </Grid>
                 
               <Grid item xs={12}>
-              <div
+                  <div
+                  dangerouslySetInnerHTML={{__html: board.boardContent}}
                   style={{
                     fontSize: '16px',
                     color: '',
                     minHeight : "400px",
                     height: "100%",
                     width: "100%"}}
-                >{board.board_content}</div>
+                ></div>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'center' }}>
                 <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>

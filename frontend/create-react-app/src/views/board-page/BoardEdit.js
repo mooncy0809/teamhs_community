@@ -15,7 +15,7 @@ import './customQuill.css'; // 새로운 CSS 파일 생성
 const BoardEdit = () => {
 
   // URL에서 board_id 파라미터를 가져옴
-  const { board_id } = useParams();
+  const { boardId } = useParams();
 
 
   //게시글 수정
@@ -24,14 +24,14 @@ const BoardEdit = () => {
   const [content, setContent] = useState(''); //기존 내용
 
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${board_id}`)
+    axios.get(`http://localhost:8090/board/${boardId}`)
       .then(response => {
         setBoard(response.data);
-        setTitle(response.data.board_title); // 기존 제목으로 초기화
-        setContent(response.data.board_content); // 기존 내용으로 초기화
+        setTitle(response.data.boardTitle); // 기존 제목으로 초기화
+        setContent(response.data.boardContent); // 기존 내용으로 초기화
       })
       .catch(error => console.log(error))
-  }, [board_id]);
+  }, [boardId]);
 
   //내용 변경 시 이벤트
   const handleTitleChange = (event) => {
@@ -46,12 +46,11 @@ const BoardEdit = () => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
-    const cleanedContent = content.replace(/<\/?p>/g, ''); 
     const putData = {
       title: title,
-      content: cleanedContent,
+      content: content,
     };
-    axios.put(`http://localhost:8090/board/update/${board_id}`, putData) 
+    axios.put(`http://localhost:8090/board/update/${boardId}`, putData) 
       .then(response => {
         console.log('Edit saved:', response.data);
         navigate('/board/list'); // 수정 저장 버튼 클릭 시 게시글 리스트(index.js)로 이동

@@ -16,30 +16,30 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
-    private int board_id;
+    private int boardId;
 
     @Column(nullable = true)
-    private String user_id;
+    private String userId;
 
     @Column(nullable = true)
-    private int cate_id;
+    private int cateId;
 
     @Column(nullable = true)
-    private String board_title;
+    private String boardTitle;
 
     @Column(nullable = true)
-    private String board_content;
+    private String boardContent;
 
     @Column(nullable = true)
-    private LocalDate board_date;
+    private LocalDate boardDate;
 
     @Column(nullable = true)
-    private int board_recom;
+    private int boardRecom;
 
     @Column(nullable = true)
-    private int board_cnt;
+    private int boardCnt;
 
     @Column(nullable = true)
-    private int comment_cnt;
+    private int commentCnt;
 
 }

@@ -3,7 +3,6 @@ package com.teamhs.community.dto.Request;
 import java.time.LocalDate;
 
 public class BoardDTO {
-
     private int boardId;
     private String userId;
     private int cateId;

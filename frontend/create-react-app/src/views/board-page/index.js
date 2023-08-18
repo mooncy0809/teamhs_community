@@ -47,6 +47,12 @@ const BoardList = () => {
     navigate(`/board/detail/${boardId}`); // 게시글 상세 조회(boardwatch) 페이지 이동
   };
 
+  //태그 제거
+  function removeTags(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.body.textContent || '';
+  }
+
  
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
@@ -66,9 +72,9 @@ const BoardList = () => {
               <tbody>
                 {boardlist.map((item) => (
                   <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
-                    <td style={{ textAlign: 'center' }}>{item.boardId}</td>
+                    <td style={{ textAlign: 'center' }} >{item.boardId}</td>
                     <td>{item.boardTitle}</td>
-                    <td>{item.boardContent}</td>
+                    <td>{removeTags(item.boardContent)}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                   </tr>

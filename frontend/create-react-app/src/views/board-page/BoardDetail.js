@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { Grid, Button, Typography } from '@mui/material';
+import { Grid, Button, Typography, TextField } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
@@ -78,6 +78,25 @@ const BoardDetail = () => {
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>
       <Grid container spacing={gridSpacing}>
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+                
+                  <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>
+                    수정
+                  </Button>
+                  <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
+                    삭제
+                  </Button>
+                  <Dialog open={openDialog} onClose={handleCloseDialog}>
+                    <DialogTitle>게시글 삭제</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleConfirmDelete} color="primary">네</Button>
+                      <Button onClick={handleCloseDialog} color="primary">취소</Button>
+                    </DialogActions>
+                  </Dialog>
+                </Grid>
         <Grid item xs={12}>
           <SubCard>
           <Grid container spacing={2}>
@@ -90,7 +109,6 @@ const BoardDetail = () => {
                  {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
                 </Typography>
               </Grid>
-                
               <Grid item xs={12}>
                   <div
                   dangerouslySetInnerHTML={{__html: board.boardContent}}
@@ -102,27 +120,26 @@ const BoardDetail = () => {
                     width: "100%"}}
                 ></div>
               </Grid>
-              <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>
-                  수정
-                </Button>
-                <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
-                  삭제
-                </Button>
-                <Dialog open={openDialog} onClose={handleCloseDialog}>
-                  <DialogTitle>게시글 삭제</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleConfirmDelete} color="primary">네</Button>
-                    <Button onClick={handleCloseDialog} color="primary">취소</Button>
-                  </DialogActions>
-                </Dialog>
-                <Button variant="outlined" onClick={handleCancleButtonClick}>
-                  뒤로가기
-                </Button>
-              </Grid>
+              <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  {/* 목록으로 버튼 */}
+                  <Button variant="outlined" onClick={handleCancleButtonClick}>
+                    목록으로
+                  </Button>
+                </Grid>      
+              <Grid item xs={12} style={{textAlign : "right"}}>
+                  {/* 댓글 작성 폼 */}
+                  <TextField
+                    label="댓글 작성"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    fullWidth
+                    style={{ marginBottom: "1rem" }}
+                  />
+                  <Button variant="contained" color="primary">
+                    댓글 작성
+                  </Button>
+                </Grid>
             </Grid>
           </SubCard>
         </Grid>

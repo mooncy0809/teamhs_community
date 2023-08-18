@@ -40,11 +40,11 @@ const BoardList = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-  navigate('/sample-page/boardwrite'); // 게시글 작성(boardwrite) 페이지 이동
+  navigate('/board/write'); // 게시글 작성(boardwrite) 페이지 이동
   };
 
   const handleWatchClick = (board_id) => {
-    navigate(`/sample-page/boardwatch/${board_id}`); // 게시글 상세 조회(boardwatch) 페이지 이동
+    navigate(`/board/detail/${board_id}`); // 게시글 상세 조회(boardwatch) 페이지 이동
   };
 
  

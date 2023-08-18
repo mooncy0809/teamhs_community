@@ -51,7 +51,7 @@ const BoardDetail = () => {
     axios.delete(`http://localhost:8090/board/delete/${board_id}`)
     .then(response => {
       console.log('Delete saved:', response.data);
-      navigate('/sample-page'); // '/sample-page list' 경로로 페이지 이동
+      navigate('/board/list'); // '/sample-page list' 경로로 페이지 이동
       // 삭제 성공한 경우 처리
     })
     .catch(error => {
@@ -62,11 +62,11 @@ const BoardDetail = () => {
   };
 
   const handleEditMoveClick = () => {
-    navigate(`/sample-page/boardEdit/${board_id}`); // 게시글 수정(boardEdit) 페이지 이동
+    navigate(`/board/edit/${board_id}`); // 게시글 수정(boardEdit) 페이지 이동
   };
   
   const handleCancleButtonClick = () => {
-    navigate('/sample-page'); // 취소 버튼 : 게시글 리스트(list) 페이지 이동
+    navigate('/board/list'); // 취소 버튼 : 게시글 리스트(list) 페이지 이동
   };
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우

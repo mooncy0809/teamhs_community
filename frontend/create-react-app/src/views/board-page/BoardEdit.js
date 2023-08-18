@@ -54,7 +54,7 @@ const BoardEdit = () => {
     axios.put(`http://localhost:8090/board/update/${board_id}`, putData) 
       .then(response => {
         console.log('Edit saved:', response.data);
-        navigate('/sample-page'); // 수정 저장 버튼 클릭 시 게시글 리스트(index.js)로 이동
+        navigate('/board/list'); // 수정 저장 버튼 클릭 시 게시글 리스트(index.js)로 이동
         // 저장이 성공한 경우 처리
       })
       .catch(error => {
@@ -65,7 +65,7 @@ const BoardEdit = () => {
   
   //취소 버튼
   const handleCancleButtonClick = () => {
-    navigate('/sample-page'); //취소 버튼 : 게시글 리스트(index.js)로 이동
+    navigate('/board/list'); //취소 버튼 : 게시글 리스트(index.js)로 이동
   };
 
   if (!board) {

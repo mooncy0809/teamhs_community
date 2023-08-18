@@ -4,13 +4,14 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-//경로 설정
-import BoardWrite from 'views/board-page/BoardWrite';
-import BoardEdit from 'views/board-page/BoardEdit';
-import BoardDetail from 'views/board-page/BoardDetail';
-
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+
+//board page routing
+const BoardWrite = Loadable(lazy(() => import('views/board-page/BoardWrite')));
+const BoardDetail = Loadable(lazy(() => import('views/board-page/BoardDetail')));
+const BoardEdit = Loadable(lazy(() => import('views/board-page/BoardEdit')));
+
 
 // problem page routing
 const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')));
@@ -71,21 +72,27 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'sample-page',
-      element: <BoardList />
-    }, 
-    {
-      path: 'sample-page/boardwrite',
-      element: <BoardWrite />
+      path: 'board',
+      children: [
+
+        {
+          path: 'list',
+          element: <BoardList />
+        }, 
+        {
+          path: 'write',
+          element: <BoardWrite />
+        },
+        {
+          path: 'detail/:board_id', 
+          element: <BoardDetail />
+        },
+        {
+          path: 'edit/:board_id', 
+          element: <BoardEdit />
+        }
+      ]
     },
-    {
-      path: 'sample-page/boardwatch/:board_id', 
-      element: <BoardDetail />
-    },
-    {
-      path: 'sample-page/boardEdit/:board_id', 
-      element: <BoardEdit />
-    }
   ]
 };
 

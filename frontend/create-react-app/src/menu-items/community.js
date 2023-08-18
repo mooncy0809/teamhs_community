@@ -15,7 +15,7 @@ const other = {
       id: 'board',
       title: '자유게시판',
       type: 'item',
-      url: '/sample-page',
+      url: '/board/list',
       icon: icons.IconBrandChrome,
       breadcrumbs: false
     },

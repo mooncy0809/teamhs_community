@@ -1,0 +1,13 @@
+/* custom-quill-styles.css */
+
+/* Quill 에디터 컨테이너 스타일 */
+.quill-container {
+    height: 500px; /* 전체 높이를 500px로 고정 */
+  }
+  
+  /* Quill 에디터 내의 편집 영역 스타일 */
+  .ql-editor {
+    min-height: 450px; /* 편집 영역의 최소 높이를 500px로 고정 */
+    max-height: 450px; /* 편집 영역의 최대 높이도 500px로 고정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+  }

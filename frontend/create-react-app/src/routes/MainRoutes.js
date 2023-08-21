@@ -4,23 +4,28 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-//경로 설정
-import BoardWrite from 'views/Community/boardwrite';
-import BoardWatch from 'views/Community/boardwatch';
-import BoardEdit from 'views/Community/boardEdit';
-
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
-// utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+//board page routing
+const BoardWrite = Loadable(lazy(() => import('views/board-page/BoardWrite')));
+const BoardDetail = Loadable(lazy(() => import('views/board-page/BoardDetail')));
+const BoardEdit = Loadable(lazy(() => import('views/board-page/BoardEdit')));
+
+
+// problem page routing
+const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')));
+const ProblemDetail = Loadable(lazy(() => import('views/problem-page/ProblemDetail')));
+const ProblemEdit = Loadable(lazy(() => import('views/problem-page/ProblemEdit')));
+
+
+// master page routing
+const ProblemWrite = Loadable(lazy(() => import('views/master-page/ProblemWrite')));
+const MasterProblemList = Loadable(lazy(() => import('views/master-page/MasterProblemList')));
+
 
 // sample page routing
-const BoardList = Loadable(lazy(() => import('views/Community')));
+const BoardList = Loadable(lazy(() => import('views/board-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -42,66 +47,52 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'utils',
+      path: 'problem',
       children: [
         {
-          path: 'util-typography',
-          element: <UtilsTypography />
+          path: 'list',
+          element: <ProblemList />
+        },
+        {
+          path: 'masterlist',
+          element: <MasterProblemList />
+        },
+        {
+          path: 'write',
+          element: <ProblemWrite />
+        },
+        {
+          path: 'detail/:problemId',
+          element: <ProblemDetail />
+        },
+        {
+          path: 'edit/:problemId',
+          element: <ProblemEdit />
         }
       ]
     },
     {
-      path: 'utils',
+      path: 'board',
       children: [
+
         {
-          path: 'util-color',
-          element: <UtilsColor />
+          path: 'list',
+          element: <BoardList />
+        }, 
+        {
+          path: 'write',
+          element: <BoardWrite />
+        },
+        {
+          path: 'detail/:boardId', 
+          element: <BoardDetail />
+        },
+        {
+          path: 'edit/:boardId', 
+          element: <BoardEdit />
         }
       ]
     },
-    {
-      path: 'utils',
-      children: [
-        {
-          path: 'util-shadow',
-          element: <UtilsShadow />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'tabler-icons',
-          element: <UtilsTablerIcons />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'material-icons',
-          element: <UtilsMaterialIcons />
-        }
-      ]
-    },
-    {
-      path: 'sample-page',
-      element: <BoardList />
-    }, 
-    {
-      path: 'sample-page/boardwrite',
-      element: <BoardWrite />
-    },
-    {
-      path: 'sample-page/boardwatch/:board_id', 
-      element: <BoardWatch />
-    },
-    {
-      path: 'sample-page/boardEdit/:board_id', 
-      element: <BoardEdit />
-    }
   ]
 };
 

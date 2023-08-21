@@ -31,22 +31,21 @@ const BoardWrite = () => {
   const navigate = useNavigate();
   
   const handleCancleButtonClick = () => {
-    navigate('/sample-page'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
+    navigate('/board/list'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
   };
 
 
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
-      const cleanedContent = content.replace(/<\/?p>/g, ''); //Tag 없애기(나중에 수정)
       const postData = {
       title: title,
-      content: cleanedContent,
+      content: content,
       };
     
       axios.post('http://localhost:8090/board/write', postData)
         .then(response => {
           console.log('Post saved:', response.data);
-          navigate('/sample-page'); // API 호출 후 게시글 리스트(list) 페이지 이동
+          navigate('/board/list'); // API 호출 후 게시글 리스트(list) 페이지 이동
           // 저장이 성공한 경우 처리
         })
         .catch(error => {

@@ -1,11 +1,11 @@
 import mastermenu from './mastermenu';
-import utilities from './utilities';
-import other from './other';
+import problems from './problems';
+import community from './community';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [mastermenu, other, utilities]
+  items: [mastermenu, community, problems]
 };
 
 export default menuItems;

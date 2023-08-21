@@ -1,45 +1,36 @@
 package com.teamhs.community.domain;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "board")
+@Table(name = "comment")
 @Getter
 @Setter
-@AllArgsConstructor @NoArgsConstructor
-public class Board {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
-    private int boardId;
+    private int commentId;
 
     @Column(nullable = true)
     private String userId;
 
     @Column(nullable = true)
-    private int cateId;
+    private int boardId;
 
     @Column(nullable = true)
-    private String boardTitle;
+    private String commentContent;
 
     @Column(nullable = true)
-    private String boardContent;
-
-    @Column(nullable = true)
-    private LocalDate boardDate;
-
-    @Column(nullable = true)
-    private int boardRecom;
-
-    @Column(nullable = true)
-    private int boardCnt;
-
-    @Column(nullable = true)
-    private int commentCnt;
+    private LocalDate commentDate;
 
 }

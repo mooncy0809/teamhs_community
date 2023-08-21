@@ -40,12 +40,18 @@ const BoardList = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-  navigate('/sample-page/boardwrite'); // 게시글 작성(boardwrite) 페이지 이동
+  navigate('/board/write'); // 게시글 작성(boardwrite) 페이지 이동
   };
 
-  const handleWatchClick = (board_id) => {
-    navigate(`/sample-page/boardwatch/${board_id}`); // 게시글 상세 조회(boardwatch) 페이지 이동
+  const handleWatchClick = (boardId) => {
+    navigate(`/board/detail/${boardId}`); // 게시글 상세 조회(boardwatch) 페이지 이동
   };
+
+  //태그 제거
+  function removeTags(input) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.body.textContent || '';
+  }
 
  
   return (
@@ -65,12 +71,12 @@ const BoardList = () => {
               </thead>
               <tbody>
                 {boardlist.map((item) => (
-                  <tr key={item.board_id} onClick={() => handleWatchClick(item.board_id)}>
-                    <td style={{ textAlign: 'center' }}>{item.board_id}</td>
-                    <td>{item.board_title}</td>
-                    <td>{item.board_content}</td>
-                    <td style={{ textAlign: 'center' }}>{item.board_date}</td>
-                    <td style={{ textAlign: 'center' }}>{item.user_id.slice(0, -2) + '**'}</td>
+                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
+                    <td style={{ textAlign: 'center' }} >{item.boardId}</td>
+                    <td>{item.boardTitle}</td>
+                    <td>{removeTags(item.boardContent)}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
+                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                   </tr>
                 ))}
               </tbody>

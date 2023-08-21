@@ -27,7 +27,7 @@ public class AuthService {
             if(memberRepository.existsById(userId))
                 return ResponseDto.setFailed("Exist ID!");
             else memberRepository.save(member);
-        }catch(Exception e){
+        }catch(Exception error){
             return ResponseDto.setFailed("DB Error!");
         }
 
@@ -38,16 +38,20 @@ public class AuthService {
         String userId = dto.getUserId();
         String userPassword = dto.getUserPassword();
 
-        Member member = null;
-
         try{
             boolean existed = memberRepository.existsByUserIdAndUserPassword(userId, userPassword);
             if(!existed) return ResponseDto.setFailed("Sign In Information Does Not Match");
-            member = memberRepository.findById(userId).get();
-        }catch (Exception e){
+        }catch (Exception error){
             return ResponseDto.setFailed("DB Error!");
         }
 
+        Member member = null;
+
+        try{
+            member = memberRepository.findById(userId).get();
+        }catch (Exception error){
+            return ResponseDto.setFailed("DB Error!");
+        }
         member.setUserPassword("");
 
         String token = tokenProvider.create(userId);

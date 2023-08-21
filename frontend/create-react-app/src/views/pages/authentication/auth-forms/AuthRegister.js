@@ -57,7 +57,6 @@ const FirebaseRegister = ({ ...others }) => {
   const [userPassword, setUserPassword] = useState('');
 
 
-
   const googleHandler = async () => {
     console.error('Register');
   };
@@ -81,6 +80,10 @@ const FirebaseRegister = ({ ...others }) => {
   }, []);
   
   const signUpHandler = () => {
+    if(userName.length === 0 || userId.length === 0 || userEmail.length === 0 || userPassword.length === 0 ){
+      alert('회원정보를 모두 입력해주세요.');
+      return;
+    }
     const data = {
       userName,
       userId,

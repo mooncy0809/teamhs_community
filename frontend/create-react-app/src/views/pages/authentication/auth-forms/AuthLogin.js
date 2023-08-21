@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -34,6 +35,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { useCookies } from 'react-cookie';
+import { useUserStore } from 'store';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -43,6 +46,42 @@ const FirebaseLogin = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
+  const [userId, setUserId] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [cookie, setCookies] = useCookies();        // eslint-disable-line no-unused-vars
+
+  const {setUser} = useUserStore();
+  
+  const signInHandler = () => {
+      if(userId.length === 0 || userPassword.length === 0){
+        alert('ID와 Password를 입력하세요.');
+        return;
+      }
+    const data = {
+      userId,
+      userPassword,
+    };
+    axios.post('http://localhost:8090/api/auth/signIn', data)
+    .then((response) => {
+      const responseData = response.data;
+      if(!responseData.result){
+        alert("로그인에 실패했습니다.");
+        return;
+      }
+
+      const {token, exprTime, user} = responseData.data;  // eslint-disable-line no-unused-vars
+      const expires = new Date();
+      expires.setTime(expires.getTime() + exprTime);
+
+      setCookies('token', token, {expires});
+      setUser(user);
+      
+    })
+    .catch((error) => {  // eslint-disable-line no-unused-vars
+      alert("로그인에 실패했습니다.");
+    })
+  }
+ 
 
   const googleHandler = async () => {
     console.error('Login');
@@ -120,13 +159,17 @@ const FirebaseLogin = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          userid: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          userid: Yup.string()
+          .matches(/^[a-zA-Z0-9_-]+$/, '영문, 숫자, 하이픈, 언더스코어만 입력 가능합니다')
+          .min(5, '5자 이상 입력해주세요')
+          .max(20, '20자 이하로 입력해주세요')
+          .required('ID는 필수 항목입니다'),
+          password: Yup.string().max(255).required('Password는 필수 항목입니다')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -146,21 +189,24 @@ const FirebaseLogin = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">ID</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.userid && errors.userid)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-userid-login">ID</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
+                id="outlined-adornment-userid-login"
+                type="userid"
+                value={values.userid}
+                name="userid"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                label="Email Address / Username"
+                onChange={(e) => {
+                  handleChange(e);
+                  setUserId(e.target.value);
+                }}
+                label="userid Address / Username"
                 inputProps={{}}
               />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
+              {touched.userid && errors.userid && (
+                <FormHelperText error id="standard-weight-helper-text-userid-login">
+                  {errors.userid}
                 </FormHelperText>
               )}
             </FormControl>
@@ -173,7 +219,10 @@ const FirebaseLogin = ({ ...others }) => {
                 value={values.password}
                 name="password"
                 onBlur={handleBlur}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setUserPassword(e.target.value);
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -215,7 +264,7 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary" onClick={signInHandler}>
                   Sign in
                 </Button>
               </AnimateButton>

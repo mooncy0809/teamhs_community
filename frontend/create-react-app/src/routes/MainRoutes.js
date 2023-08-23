@@ -11,6 +11,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')))
 const BoardWrite = Loadable(lazy(() => import('views/board-page/BoardWrite')));
 const BoardDetail = Loadable(lazy(() => import('views/board-page/BoardDetail')));
 const BoardEdit = Loadable(lazy(() => import('views/board-page/BoardEdit')));
+const BoardList = Loadable(lazy(() => import('views/board-page')));
 
 
 // problem page routing
@@ -18,14 +19,9 @@ const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')
 const ProblemDetail = Loadable(lazy(() => import('views/problem-page/ProblemDetail')));
 const ProblemEdit = Loadable(lazy(() => import('views/problem-page/ProblemEdit')));
 
-
 // master page routing
 const ProblemWrite = Loadable(lazy(() => import('views/master-page/ProblemWrite')));
 const MasterProblemList = Loadable(lazy(() => import('views/master-page/MasterProblemList')));
-
-
-// sample page routing
-const BoardList = Loadable(lazy(() => import('views/board-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 

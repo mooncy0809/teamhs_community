@@ -25,6 +25,9 @@ const BoardDetail = () => {
 
   //게시글 상세 조회
   const [board, setBoard] = useState(null);
+
+  //댓글
+  const [commentContent, setCommentContent] = useState(""); 
   
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${boardId}`)
@@ -60,6 +63,29 @@ const BoardDetail = () => {
     });
     handleCloseDialog();
   };
+
+
+   //댓글 작성 클릭
+   const handleCommentWrite = () => {
+    const newComment = {
+      userId: "임시 아이디",
+      boardId: boardId,
+      commentContent: commentContent,
+    };
+
+    axios
+    .post("http://localhost:8090/comment/write", newComment)
+    .then((response) => {
+      console.log("Comment posted:", response.data);
+      // 댓글 작성 성공 후 처리 (e.g., 댓글 목록 다시 불러오기 등)
+      setCommentContent(""); // 댓글 내용 초기화
+    })
+    .catch((error) => {
+      console.error("Error posting comment:", error);
+      // 에러 처리
+    });
+  };
+
 
   const handleEditMoveClick = () => {
     navigate(`/board/edit/${boardId}`); // 게시글 수정(boardEdit) 페이지 이동
@@ -135,11 +161,15 @@ const BoardDetail = () => {
                     variant="outlined"
                     fullWidth
                     style={{ marginBottom: "1rem" }}
+                    value={commentContent} // 상태 연결
+                    onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
                   />
-                  <Button variant="contained" color="primary">
+                  <Button onClick = {handleCommentWrite} variant="contained" color="primary">
                     댓글 작성
                   </Button>
                 </Grid>
+
+                
             </Grid>
           </SubCard>
         </Grid>

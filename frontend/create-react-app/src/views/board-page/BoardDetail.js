@@ -88,6 +88,11 @@ const BoardDetail = () => {
     .then((response) => {
       console.log("Comment posted:", response.data);
       // 댓글 작성 성공 후 처리 (e.g., 댓글 목록 다시 불러오기 등)
+      
+      axios.get(`http://localhost:8090/comment/list/${boardId}`)
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+     
       setCommentContent(""); // 댓글 내용 초기화
     })
     .catch((error) => {

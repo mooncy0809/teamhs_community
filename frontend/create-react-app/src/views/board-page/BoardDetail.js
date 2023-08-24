@@ -117,84 +117,89 @@ const BoardDetail = () => {
 
 
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>자유게시판</span>} style={{ marginLeft: '8px' }}>
       <Grid container spacing={gridSpacing}>
-        {/* 게시글 수정/삭제 버튼 */}
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-              <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>수정</Button>
-              <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>삭제</Button>
-              <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>게시글 삭제</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleConfirmDelete} color="primary">네</Button>
-                  <Button onClick={handleCloseDialog} color="primary">취소</Button>
-                </DialogActions>
-              </Dialog>
-            </Grid>
         <Grid item xs={12}>
           <SubCard>
-          <Grid container spacing={2}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here' }}>
+                <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px', color: 'your_desired_color_here' }}>
                   {board.boardTitle}
                 </Typography>
-                <hr style={{border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-                <Typography variant="body1" style={{  color: '#333333', marginBottom:"10px" }}>
-                 {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
-                </Typography>
+                <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
+                  <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333' }}>
+                    {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
+                  </Typography>
+                  <Grid item>
+                    {/* 게시글 수정/삭제 */}
+                    <Typography variant="contained" onClick={handleEditMoveClick} style={{ marginRight: '0.5rem' }}>수정</Typography>
+                    <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                    <Dialog open={openDialog} onClose={handleCloseDialog}>
+                      <DialogTitle>게시글 삭제</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleConfirmDelete} color="primary">네</Button>
+                        <Button onClick={handleCloseDialog} color="primary">취소</Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Grid>
+                </Grid>
+                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
               </Grid>
               <Grid item xs={12}>
-                  <div
-                  dangerouslySetInnerHTML={{__html: board.boardContent}}
+                <div
+                  dangerouslySetInnerHTML={{ __html: board.boardContent }}
                   style={{
                     fontSize: '16px',
                     color: '',
-                    minHeight : "400px",
+                    minHeight: "400px",
                     height: "100%",
-                    width: "100%"}}
+                    width: "100%"
+                  }}
                 ></div>
               </Grid>
               {/* 목록으로 버튼 */}
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-                   <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
-              </Grid>      
+                <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
+              </Grid>
               {/* 댓글 작성 폼 */}
-              <Grid item xs={12} style={{textAlign : "right"}}>
-                  <TextField
-                    label="댓글 작성"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    fullWidth
-                    style={{ marginBottom: "1rem" }}
-                    value={commentContent} // 상태 연결
-                    onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
-                    />
-                  <Button onClick = {handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
-                </Grid>
-                {/* 댓글 리스트 폼*/}      
-                <Grid item xs={12}>
+              <Grid item xs={12} style={{ textAlign: 'right' }}>
+                <TextField
+                  label="댓글 작성"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "1rem" }}
+                  value={commentContent} // 상태 연결
+                  onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
+                />
+                <Button onClick={handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
+              </Grid>
+              {/* 댓글 리스트 폼 */}
+              <Grid item xs={12}>
                 <SubCard>
                   <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here', marginBottom: '1rem' }}>
                     댓글
                   </Typography>
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
-                      <Typography variant="body1" style={{ color: '#333333', marginBottom: '10px' }}>
-                        {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
-                      </Typography>
-                      <Typography variant="body2" style={{ color: '#333333' }}>
+                      <Typography variant="body2" style={{ color: '#333333', marginBottom: '10px' }}>
                         {comment.commentContent}
                       </Typography>
+                      <Typography variant="body1" style={{ color: '#333333' }}>
+                        {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
+                        <a href="#" style={{marginLeft:'10px'}}>수정</a> | <a href="#">삭제</a>
+                        <Typography style={{textAlign:'right'}}>답글 달기</Typography>
+                      </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
+
                     </div>
                   ))}
                 </SubCard>
               </Grid>
-
             </Grid>
           </SubCard>
         </Grid>

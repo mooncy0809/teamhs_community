@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -41,6 +42,17 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+
+    //댓글 삭제
+    public boolean deleteComment(Long comment_id) {
+        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+        if (commentOptional.isPresent()) {
+            Comment comment = commentOptional.get();
+            commentRepository.delete(comment);
+            return true;
+        }
+        return false;
+    }
 
 
 

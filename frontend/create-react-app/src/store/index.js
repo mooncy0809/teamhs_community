@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import useUserStore from './user.store';
+import useUserStore from './userstore';
 import reducer from './reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //

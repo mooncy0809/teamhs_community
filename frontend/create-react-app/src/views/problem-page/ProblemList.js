@@ -42,7 +42,7 @@ const ProblemList = () => {
                         {list.map((item) => {
                           return (
                             // eslint-disable-next-line react/jsx-key
-                            <tr key={item.problemId} onClick={() => handleWatchClick(item.problemId)}>
+                            <tr key={item.problemId}>
                                     <td style={{ textAlign: 'center' }}>{item.problemId}</td>
                                     <td>
                                     <Link

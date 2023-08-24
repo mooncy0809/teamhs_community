@@ -123,6 +123,7 @@ const BoardDetail = () => {
           <SubCard>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                {/* 게시글 제목 */}
                 <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px', color: 'your_desired_color_here' }}>
                   {board.boardTitle}
                 </Typography>
@@ -148,6 +149,7 @@ const BoardDetail = () => {
                 </Grid>
                 <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
               </Grid>
+              {/* 게시글 내용 */}
               <Grid item xs={12}>
                 <div
                   dangerouslySetInnerHTML={{ __html: board.boardContent }}

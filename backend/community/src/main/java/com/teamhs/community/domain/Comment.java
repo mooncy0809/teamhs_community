@@ -25,7 +25,7 @@ public class Comment {
     @Column(nullable = true)
     private String userId;
 
-    @ManyToOne
+    @ManyToOne //Board 엔티티와 다대일 매핑
     @JoinColumn(name = "boardId")
     @JsonIgnore //Board - Comment 직렬화(무한 순환 문제 해결)
     private Board board;

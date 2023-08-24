@@ -19,11 +19,13 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
 
+
+    //댓글 리스트 조회
     public List<Comment> getCommentsByBoardId(Long boardId) {
         return commentRepository.findAllByBoard_boardId(boardId);
     }
 
-
+    //댓글 작성
     public Comment postComment(CommentDTO commentDTO) {
         Comment comment = new Comment();
 

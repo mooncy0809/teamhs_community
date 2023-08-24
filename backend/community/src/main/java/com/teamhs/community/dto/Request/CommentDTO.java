@@ -1,21 +1,21 @@
 package com.teamhs.community.dto.Request;
 
-import jakarta.persistence.Column;
-
 import java.time.LocalDate;
+
 
 public class CommentDTO {
 
     private int commentId;
     private String userId;
-    private int boardId;
+    private Long boardId;
+
     private String commentContent;
     private LocalDate commentDate;
 
     public int getCommentId() {
         return commentId;
     }
-    public void setUserId(int commentId) {
+    public void setCommentId(int commentId) {
         this.commentId = commentId;
     }
     public String getUserId() {return userId;}
@@ -23,10 +23,10 @@ public class CommentDTO {
         this.userId = userId;
     }
 
-    public int getBoardId() {
+    public Long getBoardId() {
         return boardId;
     }
-    public void setBoardId(int boardId) {
+    public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
 
@@ -44,7 +44,6 @@ public class CommentDTO {
     public void setCommentDate(LocalDate commentDate) {
         this.commentDate = commentDate;
     }
-
-
-
 }
+
+

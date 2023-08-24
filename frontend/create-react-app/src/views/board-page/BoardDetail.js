@@ -25,10 +25,23 @@ const BoardDetail = () => {
 
   //게시글 상세 조회
   const [board, setBoard] = useState(null);
-  
+
+  //댓글 작성
+  const [commentContent, setCommentContent] = useState(""); 
+  //댓글 리스트 조회
+  const [commentList, setCommentList] = useState([]);
+
+
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${boardId}`)
       .then(response => setBoard(response.data))
+      .catch(error => console.log(error))
+  }, [boardId]);
+
+
+  useEffect(() => {
+    axios.get(`http://localhost:8090/comment/list/${boardId}`)
+      .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
@@ -61,6 +74,34 @@ const BoardDetail = () => {
     handleCloseDialog();
   };
 
+
+   //댓글 작성 클릭
+   const handleCommentWrite = () => {
+    const newComment = {
+      userId: "임시 아이디",
+      boardId: boardId,
+      commentContent: commentContent,
+    };
+
+    axios
+    .post("http://localhost:8090/comment/write", newComment)
+    .then((response) => {
+      console.log("Comment posted:", response.data);
+      // 댓글 작성 성공 후 처리 (e.g., 댓글 목록 다시 불러오기 등)
+      
+      axios.get(`http://localhost:8090/comment/list/${boardId}`)
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+     
+      setCommentContent(""); // 댓글 내용 초기화
+    })
+    .catch((error) => {
+      console.error("Error posting comment:", error);
+      // 에러 처리
+    });
+  };
+
+
   const handleEditMoveClick = () => {
     navigate(`/board/edit/${boardId}`); // 게시글 수정(boardEdit) 페이지 이동
   };
@@ -78,25 +119,21 @@ const BoardDetail = () => {
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>
       <Grid container spacing={gridSpacing}>
+        {/* 게시글 수정/삭제 버튼 */}
         <Grid item xs={12} style={{ textAlign: 'right' }}>
-                
-                  <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>
-                    수정
-                  </Button>
-                  <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>
-                    삭제
-                  </Button>
-                  <Dialog open={openDialog} onClose={handleCloseDialog}>
-                    <DialogTitle>게시글 삭제</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleConfirmDelete} color="primary">네</Button>
-                      <Button onClick={handleCloseDialog} color="primary">취소</Button>
-                    </DialogActions>
-                  </Dialog>
-                </Grid>
+              <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>수정</Button>
+              <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>삭제</Button>
+              <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>게시글 삭제</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleConfirmDelete} color="primary">네</Button>
+                  <Button onClick={handleCloseDialog} color="primary">취소</Button>
+                </DialogActions>
+              </Dialog>
+            </Grid>
         <Grid item xs={12}>
           <SubCard>
           <Grid container spacing={2}>
@@ -120,14 +157,12 @@ const BoardDetail = () => {
                     width: "100%"}}
                 ></div>
               </Grid>
+              {/* 목록으로 버튼 */}
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-                  {/* 목록으로 버튼 */}
-                  <Button variant="outlined" onClick={handleCancleButtonClick}>
-                    목록으로
-                  </Button>
-                </Grid>      
+                   <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
+              </Grid>      
+              {/* 댓글 작성 폼 */}
               <Grid item xs={12} style={{textAlign : "right"}}>
-                  {/* 댓글 작성 폼 */}
                   <TextField
                     label="댓글 작성"
                     multiline
@@ -135,11 +170,31 @@ const BoardDetail = () => {
                     variant="outlined"
                     fullWidth
                     style={{ marginBottom: "1rem" }}
-                  />
-                  <Button variant="contained" color="primary">
-                    댓글 작성
-                  </Button>
+                    value={commentContent} // 상태 연결
+                    onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
+                    />
+                  <Button onClick = {handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
                 </Grid>
+                {/* 댓글 리스트 폼*/}      
+                <Grid item xs={12}>
+                <SubCard>
+                  <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here', marginBottom: '1rem' }}>
+                    댓글
+                  </Typography>
+                  {commentList.map(comment => (
+                    <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
+                      <Typography variant="body1" style={{ color: '#333333', marginBottom: '10px' }}>
+                        {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
+                      </Typography>
+                      <Typography variant="body2" style={{ color: '#333333' }}>
+                        {comment.commentContent}
+                      </Typography>
+                      <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
+                    </div>
+                  ))}
+                </SubCard>
+              </Grid>
+
             </Grid>
           </SubCard>
         </Grid>

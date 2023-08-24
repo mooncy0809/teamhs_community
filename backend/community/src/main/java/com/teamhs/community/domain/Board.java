@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "board")
@@ -41,5 +43,8 @@ public class Board {
 
     @Column(nullable = true)
     private int commentCnt;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL) //Comment와 일대다 매핑
+    private List<Comment> comments = new ArrayList<>();
 
 }

@@ -26,7 +26,7 @@ public class Comment {
     private String userId;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "boardId")
     @JsonIgnore //Board - Comment 직렬화(무한 순환 문제 해결)
     private Board board;
 

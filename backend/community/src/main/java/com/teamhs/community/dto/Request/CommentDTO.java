@@ -23,14 +23,12 @@ public class CommentDTO {
         this.userId = userId;
     }
 
-
     public Long getBoardId() {
         return boardId;
     }
     public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
-
 
     public String getCommentContent() {
         return commentContent;

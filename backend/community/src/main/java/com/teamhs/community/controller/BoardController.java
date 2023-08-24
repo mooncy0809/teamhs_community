@@ -11,21 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/*
-게시판
-1. 글 쓰기 (/board/write) ㅇ
-2. 글 목록 (/board/list) ㅇ
-3. 글 조회 (/board/{c_id}) ㅇ
-4. 글 수정 (/board/update/{c_id})
-5. 글 삭제 (/board/delete/{c_id}) ㅇ
-6. 페이징 처리 ㅇ
- */
 
 @RestController
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
-
     @Autowired
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
@@ -73,3 +63,14 @@ public class BoardController {
     }
 
 }
+
+
+/*
+게시판
+1. 글 쓰기 (/board/write) ㅇ
+2. 글 목록 (/board/list) ㅇ
+3. 글 조회 (/board/{c_id}) ㅇ
+4. 글 수정 (/board/update/{c_id})
+5. 글 삭제 (/board/delete/{c_id}) ㅇ
+6. 페이징 처리 ㅇ
+ */

@@ -140,8 +140,7 @@ const BoardDetail = () => {
                   </Typography>
                   <Grid item>
                     {/* 게시글 수정/삭제 */}
-                    <Typography variant="contained" onClick={handleEditMoveClick} style={{ marginRight: '0.5rem' }}>수정</Typography>
-                    <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                    <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography> | <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
                     <Dialog open={openDialog} onClose={handleCloseDialog}>
                       <DialogTitle>게시글 삭제</DialogTitle>
                       <DialogContent>
@@ -195,10 +194,10 @@ const BoardDetail = () => {
                   </Typography>
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
-                      <Typography variant="body2" style={{ color: '#333333', marginBottom: '10px' }}>
+                      <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                         {comment.commentContent}
                       </Typography>
-                      <Typography variant="body1" style={{ color: '#333333' }}>
+                      <Typography variant="body2" style={{ color: 'grey' }}>
                         {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
                         <a href="#" style={{marginLeft:'10px'}}>수정</a> | <a href="#" onClick={() => handleCommentDelete(comment.commentId)}>삭제</a>
                         <Typography style={{textAlign:'right'}}>답글 달기</Typography>

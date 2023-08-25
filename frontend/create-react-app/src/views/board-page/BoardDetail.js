@@ -19,38 +19,30 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const BoardDetail = () => {
-
-  // URL에서 board_id 파라미터를 가져옴
-  const { boardId } = useParams(); 
-
-  //게시글 상세 조회
+  const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
+  
   const [board, setBoard] = useState(null);
-
-  //댓글 작성
   const [commentContent, setCommentContent] = useState(""); 
-  //댓글 리스트 조회
   const [commentList, setCommentList] = useState([]);
 
-
+  //게시글 조회 기능 구현
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${boardId}`)
+    axios.get(`http://localhost:8090/board/${boardId}`) //게시글 목록 조회
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
-
   useEffect(() => {
-    axios.get(`http://localhost:8090/comment/list/${boardId}`)
+    axios.get(`http://localhost:8090/comment/list/${boardId}`) //댓글 목록 조회
       .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
 
-  //페이지 이동 로직
+  //수정, 삭제, 목록으로 : Dialog 예/아니오
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
 
-  //게시글 삭제 : Dialog 예/아니오
   const handleDeleteButtonClick = () => {
     setOpenDialog(true);
   }
@@ -59,12 +51,11 @@ const BoardDetail = () => {
     setOpenDialog(false);
   };
 
-  //Dialog 예 클릭 시 삭제 API 호출
   const handleConfirmDelete = () => {
-    axios.delete(`http://localhost:8090/board/delete/${boardId}`)
+    axios.delete(`http://localhost:8090/board/delete/${boardId}`) //Dialog 예 클릭 시 삭제 API 호출
     .then(response => {
       console.log('Delete saved:', response.data);
-      navigate('/board/list'); // '/sample-page list' 경로로 페이지 이동
+      navigate('/board/list'); // '/board list' 경로로 페이지 이동
       // 삭제 성공한 경우 처리
     })
     .catch(error => {
@@ -74,25 +65,32 @@ const BoardDetail = () => {
     handleCloseDialog();
   };
 
+  const handleEditMoveClick = () => {
+    navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
+  };
+  
+  const handleCancleButtonClick = () => {
+    navigate('/board/list'); // 목록으로 버튼 : 게시글 리스트(list) 페이지 이동
+  };
 
-   //댓글 작성 클릭
-   const handleCommentWrite = () => {
-    const newComment = {
-      userId: "임시 아이디",
-      boardId: boardId,
-      commentContent: commentContent,
-    };
 
+
+  //댓글 기능 구현
+  const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
+  const newComment = {
+    userId: "임시 아이디",
+    boardId: boardId,
+    commentContent: commentContent,
+  };
     axios
     .post("http://localhost:8090/comment/write", newComment)
     .then((response) => {
       console.log("Comment posted:", response.data);
-      // 댓글 작성 성공 후 처리 (e.g., 댓글 목록 다시 불러오기 등)
-      
-      axios.get(`http://localhost:8090/comment/list/${boardId}`)
+    
+      axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
         .then(response => setCommentList(response.data))
         .catch(error => console.log(error))
-     
+    
       setCommentContent(""); // 댓글 내용 초기화
     })
     .catch((error) => {
@@ -102,17 +100,26 @@ const BoardDetail = () => {
   };
 
 
-  const handleEditMoveClick = () => {
-    navigate(`/board/edit/${boardId}`); // 게시글 수정(boardEdit) 페이지 이동
+  const handleCommentDelete = (commentId) => {
+    axios.delete(`http://localhost:8090/comment/delete/${commentId}`) //댓글 삭제 버튼 클릭
+    .then(response => {
+      console.log('Delete saved:', response.data);
+
+      axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+      // 삭제 성공한 경우 처리
+    })
+    .catch(error => {
+      console.error('Error delete:', error);
+      // 에러 처리
+    });
   };
-  
-  const handleCancleButtonClick = () => {
-    navigate('/board/list'); // 취소 버튼 : 게시글 리스트(list) 페이지 이동
-  };
+
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
-    return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
+    return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
 
 
@@ -193,7 +200,7 @@ const BoardDetail = () => {
                       </Typography>
                       <Typography variant="body1" style={{ color: '#333333' }}>
                         {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
-                        <a href="#" style={{marginLeft:'10px'}}>수정</a> | <a href="#">삭제</a>
+                        <a href="#" style={{marginLeft:'10px'}}>수정</a> | <a href="#" onClick={() => handleCommentDelete(comment.commentId)}>삭제</a>
                         <Typography style={{textAlign:'right'}}>답글 달기</Typography>
                       </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />

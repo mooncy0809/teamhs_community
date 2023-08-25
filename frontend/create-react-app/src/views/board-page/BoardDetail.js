@@ -124,7 +124,7 @@ const BoardDetail = () => {
 
 
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>자유게시판</span>} style={{ marginLeft: '8px' }}>
+    <MainCard title={<div onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' }}>자유게시판</div>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12}>
           <SubCard>

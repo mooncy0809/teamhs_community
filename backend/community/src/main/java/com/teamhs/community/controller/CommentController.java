@@ -1,6 +1,7 @@
 package com.teamhs.community.controller;
 
 import com.teamhs.community.domain.Comment;
+import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.dto.Request.CommentDTO;
 import com.teamhs.community.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,15 @@ public class CommentController {
         }
     }
 
-
+    @PutMapping("/update/{comment_id}")
+    public ResponseEntity<String> updateComment(@PathVariable Long comment_id, @RequestBody CommentDTO updatedCommentDTO) {
+        boolean success = commentService.updateComment(comment_id, updatedCommentDTO);
+        if (success) {
+            return ResponseEntity.ok("게시글이 수정되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("게시글 수정에 실패하였습니다.");
+        }
+    }
 
 
 

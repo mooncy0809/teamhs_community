@@ -2,6 +2,7 @@ package com.teamhs.community.service;
 
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Comment;
+import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.dto.Request.CommentDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardRepository;
@@ -54,7 +55,18 @@ public class CommentService {
         return false;
     }
 
+    //댓글 수정
+    public boolean updateComment(Long comment_id, CommentDTO updateCommentDTO) {
+        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+        if (commentOptional.isPresent()) {
+            Comment existingBoard = commentOptional.get();
 
-
+            existingBoard.setCommentContent(updateCommentDTO.getCommentContent());
+            existingBoard.setCommentDate(LocalDate.now());
+            commentRepository.save(existingBoard);
+            return true;
+        }
+        return false;
+    }
 
 }

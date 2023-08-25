@@ -8,7 +8,7 @@ const icons = {  IconBrandChrome, IconHelp  };
 
 const matermenu = {
   id: 'master',
-  title: '관리자',
+  title: <strong style={{ fontSize: '16px', color :"#673ab7" }}>관리자</strong>,
   type: 'group',
   children: [
     {

@@ -13,7 +13,7 @@ const icons = {
 
 const problems = {
   id: 'Problem',
-  title: '문제',
+  title: <strong style={{ fontSize: '16px', color :"#673ab7" }}>문제</strong>,
   type: 'group',
   children: [
     {

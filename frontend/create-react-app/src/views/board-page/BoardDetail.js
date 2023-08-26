@@ -246,11 +246,12 @@ const BoardDetail = () => {
                                   style={{marginTop : '10px', marginBottom : '10px'}}
                                 />
                                 <div style={{textAlign:'right'}}>
-                                <Button variant="contained"  color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
-                                <Button variant="contained"  color="secondary" onClick={handleCancelEdit}>취소</Button>
+                                  <Button variant="contained"  color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
+                                  <Button variant="outlined"   onClick={handleCancelEdit}>취소</Button>
                                 </div>
                               </div>
-                            ) : (<a href='#' style={{ marginLeft: '10px', textDecoration: 'none', color:'#333333'}} onClick={() => handleEditCommentClick(comment)}>수정</a>)} | <a href='#' style={{textDecoration: 'none', color:'#333333'}} onClick={() => handleCommentDelete(comment.commentId)}>삭제</a>
+                            ) : (<a href='#' style={{ marginLeft: '10px', textDecoration: 'none', color:'#333333'}} onClick={(e) => {e.preventDefault(); // 기본 동작 차단
+                            handleEditCommentClick(comment);}}>수정</a>)} | <a href='#' style={{textDecoration: 'none', color:'#333333'}} onClick={(e) => {e.preventDefault();  handleCommentDelete(comment.commentId)}}>삭제</a>
                         <Typography style={{textAlign:'right'}}>답글 달기</Typography>
                       </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />

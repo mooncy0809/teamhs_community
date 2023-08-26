@@ -231,29 +231,36 @@ const BoardDetail = () => {
                         {comment.commentContent}
                       </Typography>
                       <Typography variant="body2" style={{ color: 'grey' }}>
-                        {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
-                        {/*댓글 수정 폼 */}
-                        {editingCommentId === comment.commentId ? (
-                              <div>
-                                <TextField
-                                  label="댓글 수정"
-                                  multiline
-                                  rows={4}
-                                  variant="outlined"
-                                  fullWidth
-                                  value={editedCommentContent}
-                                  onChange={(e) => setEditedCommentContent(e.target.value)}
-                                  style={{marginTop : '10px', marginBottom : '10px'}}
-                                />
-                                <div style={{textAlign:'right'}}>
-                                  <Button variant="contained"  color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
-                                  <Button variant="outlined"   onClick={handleCancelEdit}>취소</Button>
-                                </div>
+                          {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
+                          {/* 댓글 수정 폼 */}
+                          {editingCommentId === comment.commentId ? (
+                            <div>
+                              <TextField
+                                label="댓글 수정"
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                fullWidth
+                                value={editedCommentContent}
+                                onChange={(e) => setEditedCommentContent(e.target.value)}
+                                style={{ marginTop: '10px', marginBottom: '10px' }}
+                              />
+                              <div style={{ textAlign: 'right' }}>
+                                <Button variant="contained" color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
+                                <Button variant="outlined" onClick={handleCancelEdit}>취소</Button>
                               </div>
-                            ) : (<a href='#' style={{ marginLeft: '10px', textDecoration: 'none', color:'#333333'}} onClick={(e) => {e.preventDefault(); // 기본 동작 차단
-                            handleEditCommentClick(comment);}}>수정</a>)} | <a href='#' style={{textDecoration: 'none', color:'#333333'}} onClick={(e) => {e.preventDefault();  handleCommentDelete(comment.commentId)}}>삭제</a>
-                        <Typography style={{textAlign:'right'}}>답글 달기</Typography>
-                      </Typography>
+                            </div>
+                          ) : (
+                            <>
+                              <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
+                              {' | '}
+                              <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
+                            </>
+                          )}
+                          {editingCommentId !== comment.commentId && (
+                            <a href="#" style={{ float: 'right', color: 'grey', textDecoration: 'none' }} onClick={(e) => {e.preventDefault();}}>답글 달기</a>
+                          )}
+                        </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
                     
                     </div>

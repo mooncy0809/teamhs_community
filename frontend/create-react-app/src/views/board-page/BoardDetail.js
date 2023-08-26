@@ -131,6 +131,8 @@ const BoardDetail = () => {
     setEditedCommentContent('');
   };
 
+
+
   const handleSaveEdit = (commentId, editedContent) => {
     axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
       .then(response => {
@@ -241,11 +243,14 @@ const BoardDetail = () => {
                                   fullWidth
                                   value={editedCommentContent}
                                   onChange={(e) => setEditedCommentContent(e.target.value)}
+                                  style={{marginTop : '10px', marginBottom : '10px'}}
                                 />
-                                <Button variant="contained" color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>저장</Button>
-                                <Button variant="outlined" color="secondary" onClick={handleCancelEdit}>취소</Button>
+                                <div style={{textAlign:'right'}}>
+                                <Button variant="contained"  color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
+                                <Button variant="contained"  color="secondary" onClick={handleCancelEdit}>취소</Button>
+                                </div>
                               </div>
-                            ) : (<button style={{ marginLeft: '10px' }} onClick={() => handleEditCommentClick(comment)}>수정</button>)} | <button onClick={() => handleCommentDelete(comment.commentId)}>삭제</button>
+                            ) : (<a href='#' style={{ marginLeft: '10px', textDecoration: 'none', color:'#333333'}} onClick={() => handleEditCommentClick(comment)}>수정</a>)} | <a href='#' style={{textDecoration: 'none', color:'#333333'}} onClick={() => handleCommentDelete(comment.commentId)}>삭제</a>
                         <Typography style={{textAlign:'right'}}>답글 달기</Typography>
                       </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />

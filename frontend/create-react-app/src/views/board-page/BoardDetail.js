@@ -22,7 +22,6 @@ const BoardDetail = () => {
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
   const [board, setBoard] = useState(null);
-  const [commentContent, setCommentContent] = useState(""); 
   const [commentList, setCommentList] = useState([]);
 
   //게시글 조회 기능 구현
@@ -76,6 +75,9 @@ const BoardDetail = () => {
 
 
   //댓글 기능 구현
+  const [commentContent, setCommentContent] = useState(""); 
+
+
   const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
   const newComment = {
     userId: "임시 아이디",
@@ -116,15 +118,44 @@ const BoardDetail = () => {
     });
   };
 
+  //댓글 수정
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentContent, setEditedCommentContent] = useState("");
+  
+  const handleEditCommentClick = (comment) => {
+    setEditingCommentId(comment.commentId);
+  };
+  
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditedCommentContent('');
+  };
+
+  const handleSaveEdit = (commentId, editedContent) => {
+    axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
+      .then(response => {
+        console.log('Edit saved:', response.data);
+
+        axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+        // 저장이 성공한 경우 처리
+        setEditedCommentContent('');
+      })
+      .catch(error => {
+        console.error('Error edit:', error);
+        // 에러 처리
+      });
+    setEditingCommentId(null); // 수정 완료 후 폼 닫기
+  };
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
     return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
 
-
   return (
-    <MainCard title={<div onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' }}>자유게시판</div>}>
+    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>자유게시판</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12}>
           <SubCard>
@@ -199,11 +230,26 @@ const BoardDetail = () => {
                       </Typography>
                       <Typography variant="body2" style={{ color: 'grey' }}>
                         {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
-                        <a href="#" style={{marginLeft:'10px'}}>수정</a> | <a href="#" onClick={() => handleCommentDelete(comment.commentId)}>삭제</a>
+                        {/*댓글 수정 폼 */}
+                        {editingCommentId === comment.commentId ? (
+                              <div>
+                                <TextField
+                                  label="댓글 수정"
+                                  multiline
+                                  rows={4}
+                                  variant="outlined"
+                                  fullWidth
+                                  value={editedCommentContent}
+                                  onChange={(e) => setEditedCommentContent(e.target.value)}
+                                />
+                                <Button variant="contained" color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>저장</Button>
+                                <Button variant="outlined" color="secondary" onClick={handleCancelEdit}>취소</Button>
+                              </div>
+                            ) : (<button style={{ marginLeft: '10px' }} onClick={() => handleEditCommentClick(comment)}>수정</button>)} | <button onClick={() => handleCommentDelete(comment.commentId)}>삭제</button>
                         <Typography style={{textAlign:'right'}}>답글 달기</Typography>
                       </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
-
+                    
                     </div>
                   ))}
                 </SubCard>

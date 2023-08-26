@@ -59,11 +59,10 @@ public class CommentService {
     public boolean updateComment(Long comment_id, CommentDTO updateCommentDTO) {
         Optional<Comment> commentOptional = commentRepository.findById(comment_id);
         if (commentOptional.isPresent()) {
-            Comment existingBoard = commentOptional.get();
+            Comment existingComment = commentOptional.get();
 
-            existingBoard.setCommentContent(updateCommentDTO.getCommentContent());
-            existingBoard.setCommentDate(LocalDate.now());
-            commentRepository.save(existingBoard);
+            existingComment.setCommentContent(updateCommentDTO.getCommentContent());
+            commentRepository.save(existingComment);
             return true;
         }
         return false;

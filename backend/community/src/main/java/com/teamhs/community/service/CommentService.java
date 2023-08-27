@@ -2,7 +2,6 @@ package com.teamhs.community.service;
 
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Comment;
-import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.dto.Request.CommentDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardRepository;

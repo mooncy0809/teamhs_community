@@ -175,13 +175,13 @@ const BoardDetail = () => {
                     {/* 게시글 수정/삭제 */}
                     <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography> | <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
                     <Dialog open={openDialog} onClose={handleCloseDialog}>
-                      <DialogTitle>게시글 삭제</DialogTitle>
+                      <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>게시글 삭제</DialogTitle>
                       <DialogContent>
-                        <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                        <DialogContentText style={{fontSize:'16px'}}>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={handleConfirmDelete} color="primary">네</Button>
-                        <Button onClick={handleCloseDialog} color="primary">취소</Button>
+                        <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
+                        <Button style={{fontSize:'16px'}} onClick={handleCloseDialog} >취소</Button>
                       </DialogActions>
                     </Dialog>
                   </Grid>
@@ -257,6 +257,7 @@ const BoardDetail = () => {
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
                             </>
                           )}
+                          {/* 댓글 삭제 폼 */}
                           {editingCommentId !== comment.commentId && (
                             <a href="#" style={{ float: 'right', color: 'grey', textDecoration: 'none' }} onClick={(e) => {e.preventDefault();}}>답글 달기</a>
                           )}

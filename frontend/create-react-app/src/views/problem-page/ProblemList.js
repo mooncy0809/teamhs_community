@@ -15,12 +15,18 @@ import Table from 'react-bootstrap/Table';
 
 const ProblemList = () => {
   const [list , setList] = useState([]);
+  const [page, setPage] = useState(0); // 현재 페이지 번호
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
  
   useEffect(() => {
-    axios.get('http://localhost:8090/api/problems')
-        .then(response => setList(response.data))
+    axios.get(`http://localhost:8090/api/problems?page=${page}&size=10`)
+        .then(response => {
+          setList(response.data.content);
+          setTotalPages(response.data.totalPages);
+          console.log(response.data);
+        })
         .catch(error => console.log(error))
-}, []);
+}, [page]);
 
 
   return(
@@ -75,6 +81,9 @@ const ProblemList = () => {
             style={{ marginTop: '20px' }}
             >
             <Pagination
+              count = {totalPages}
+              page = {page + 1}
+              onChange = {(event, value) => setPage(value - 1)}
             />
             </Grid>
       </Grid>

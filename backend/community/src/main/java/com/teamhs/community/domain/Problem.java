@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Problem {
     @Id //Primary Key를 가지는 변수를 선언 @GeneratedValue을 사용하여 어떻게 id값을 자동으로 생성할지 설정할 수 있다.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer problemId;
+    private Long problemId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")

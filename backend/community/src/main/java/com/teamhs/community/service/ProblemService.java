@@ -5,6 +5,8 @@ import com.teamhs.community.dto.Request.ProblemDTO;
 import com.teamhs.community.repository.ProblemRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -34,7 +36,7 @@ public class ProblemService {
     }
 
     //detail
-    public ProblemDTO getProblemById(@PathVariable Integer problemId) {
+    public ProblemDTO getProblemById(@PathVariable Long problemId) {
         Optional<Problem> optionalProblem = problemRepository.findById(problemId);
         if (optionalProblem.isPresent()) {
             return convertToDTO(optionalProblem.get());
@@ -43,7 +45,7 @@ public class ProblemService {
     }
 
     //update problem board
-    public ProblemDTO updateProblem(@PathVariable Integer problemId, ProblemDTO problemDTO) {
+    public ProblemDTO updateProblem(@PathVariable Long problemId, ProblemDTO problemDTO) {
         Optional<Problem> optionalProblem = problemRepository.findById(problemId); //결과를 Optional로 감싸는 이유는, 찾는 게시물이 없을 수 있기 때문
         if (optionalProblem.isPresent()) { //optionalProblem 값이 존재하는 경우에 실행
             Problem problem = optionalProblem.get(); // 실제 엔티티 객체인 Problem을 가져와서 problem에 저장
@@ -55,8 +57,14 @@ public class ProblemService {
     }
 
     //delete problem board
-    public void deleteProblem(Integer problemId) {
+    public void deleteProblem(Long problemId) {
         problemRepository.deleteById(problemId);
+    }
+
+    //list paging
+    public Page<ProblemDTO> getProblemsPage(Pageable pageable) {
+        Page<Problem> page = problemRepository.findAll(pageable);
+        return page.map(this::convertToDTO);
     }
 
     //엔티티 객체와 DTO 객체 간의 변환을 수행하는 역할

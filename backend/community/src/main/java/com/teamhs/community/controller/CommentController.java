@@ -28,4 +28,24 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{comment_id}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long comment_id) {
+        boolean success = commentService.deleteComment(comment_id);
+        if (success) {
+            return ResponseEntity.ok("댓글이 삭제되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("댓글 삭제에 실패하였습니다.");
+        }
+    }
+
+    @PutMapping("/update/{comment_id}")
+    public ResponseEntity<String> updateComment(@PathVariable Long comment_id, @RequestBody CommentDTO updatedCommentDTO) {
+        boolean success = commentService.updateComment(comment_id, updatedCommentDTO);
+        if (success) {
+            return ResponseEntity.ok("댓글이 수정되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("댓글 수정에 실패하였습니다.");
+        }
+    }
+
 }

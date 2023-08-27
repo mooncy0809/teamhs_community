@@ -1,14 +1,14 @@
 // assets
-import { IconBrandChrome, IconHelp } from '@tabler/icons';
+import { IconUsers, IconNews, IconAccessPoint } from '@tabler/icons';
 
 // constant
-const icons = { IconBrandChrome, IconHelp };
+const icons = { IconUsers, IconNews, IconAccessPoint};
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
   id: 'community-group',
-  title : '커뮤니티',
+  title: <strong style={{ fontSize: '16px', color :"#673ab7" }}>커뮤니티</strong>, 
   type: 'group',
   children: [
     {
@@ -16,7 +16,7 @@ const other = {
       title: '자유게시판',
       type: 'item',
       url: '/board/list',
-      icon: icons.IconBrandChrome,
+      icon: icons.IconUsers,
       breadcrumbs: false
     },
     {
@@ -24,7 +24,7 @@ const other = {
       title: '뉴스',
       type: 'item',
       url: 'https://news.naver.com/',
-      icon: icons.IconHelp,
+      icon: icons.IconAccessPoint,
       external: true,
       target: true
     }

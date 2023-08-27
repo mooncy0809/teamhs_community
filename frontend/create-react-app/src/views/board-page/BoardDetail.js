@@ -19,38 +19,29 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const BoardDetail = () => {
-
-  // URL에서 board_id 파라미터를 가져옴
-  const { boardId } = useParams(); 
-
-  //게시글 상세 조회
+  const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
+  
   const [board, setBoard] = useState(null);
-
-  //댓글 작성
-  const [commentContent, setCommentContent] = useState(""); 
-  //댓글 리스트 조회
   const [commentList, setCommentList] = useState([]);
 
-
+  //게시글 조회 기능 구현
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${boardId}`)
+    axios.get(`http://localhost:8090/board/${boardId}`) //게시글 목록 조회
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
-
   useEffect(() => {
-    axios.get(`http://localhost:8090/comment/list/${boardId}`)
+    axios.get(`http://localhost:8090/comment/list/${boardId}`) //댓글 목록 조회
       .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
 
-  //페이지 이동 로직
+  //수정, 삭제, 목록으로 : Dialog 예/아니오
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
 
-  //게시글 삭제 : Dialog 예/아니오
   const handleDeleteButtonClick = () => {
     setOpenDialog(true);
   }
@@ -59,12 +50,11 @@ const BoardDetail = () => {
     setOpenDialog(false);
   };
 
-  //Dialog 예 클릭 시 삭제 API 호출
   const handleConfirmDelete = () => {
-    axios.delete(`http://localhost:8090/board/delete/${boardId}`)
+    axios.delete(`http://localhost:8090/board/delete/${boardId}`) //Dialog 예 클릭 시 삭제 API 호출
     .then(response => {
       console.log('Delete saved:', response.data);
-      navigate('/board/list'); // '/sample-page list' 경로로 페이지 이동
+      navigate('/board/list'); // '/board list' 경로로 페이지 이동
       // 삭제 성공한 경우 처리
     })
     .catch(error => {
@@ -74,25 +64,35 @@ const BoardDetail = () => {
     handleCloseDialog();
   };
 
+  const handleEditMoveClick = () => {
+    navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
+  };
+  
+  const handleCancleButtonClick = () => {
+    navigate('/board/list'); // 목록으로 버튼 : 게시글 리스트(list) 페이지 이동
+  };
 
-   //댓글 작성 클릭
-   const handleCommentWrite = () => {
-    const newComment = {
-      userId: "임시 아이디",
-      boardId: boardId,
-      commentContent: commentContent,
-    };
 
+
+  //댓글 기능 구현
+  const [commentContent, setCommentContent] = useState(""); 
+
+
+  const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
+  const newComment = {
+    userId: "임시 아이디",
+    boardId: boardId,
+    commentContent: commentContent,
+  };
     axios
     .post("http://localhost:8090/comment/write", newComment)
     .then((response) => {
       console.log("Comment posted:", response.data);
-      // 댓글 작성 성공 후 처리 (e.g., 댓글 목록 다시 불러오기 등)
-      
-      axios.get(`http://localhost:8090/comment/list/${boardId}`)
+    
+      axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
         .then(response => setCommentList(response.data))
         .catch(error => console.log(error))
-     
+    
       setCommentContent(""); // 댓글 내용 초기화
     })
     .catch((error) => {
@@ -102,99 +102,172 @@ const BoardDetail = () => {
   };
 
 
-  const handleEditMoveClick = () => {
-    navigate(`/board/edit/${boardId}`); // 게시글 수정(boardEdit) 페이지 이동
+  const handleCommentDelete = (commentId) => {
+    axios.delete(`http://localhost:8090/comment/delete/${commentId}`) //댓글 삭제 버튼 클릭
+    .then(response => {
+      console.log('Delete saved:', response.data);
+
+      axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+      // 삭제 성공한 경우 처리
+    })
+    .catch(error => {
+      console.error('Error delete:', error);
+      // 에러 처리
+    });
+  };
+
+  //댓글 수정
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentContent, setEditedCommentContent] = useState("");
+  
+  const handleEditCommentClick = (comment) => {
+    setEditingCommentId(comment.commentId);
   };
   
-  const handleCancleButtonClick = () => {
-    navigate('/board/list'); // 취소 버튼 : 게시글 리스트(list) 페이지 이동
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditedCommentContent('');
+  };
+
+
+
+  const handleSaveEdit = (commentId, editedContent) => {
+    axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
+      .then(response => {
+        console.log('Edit saved:', response.data);
+
+        axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+        .then(response => setCommentList(response.data))
+        .catch(error => console.log(error))
+        // 저장이 성공한 경우 처리
+        setEditedCommentContent('');
+      })
+      .catch(error => {
+        console.error('Error edit:', error);
+        // 에러 처리
+      });
+    setEditingCommentId(null); // 수정 완료 후 폼 닫기
   };
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
-    return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
+    return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
 
-
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold'}}>자유게시판</span>} style={{ marginLeft: '8px' }}>
+    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>자유게시판</Button>}>
       <Grid container spacing={gridSpacing}>
-        {/* 게시글 수정/삭제 버튼 */}
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-              <Button variant="contained" onClick={handleEditMoveClick} color="primary" style={{ marginRight: '0.5rem' }}>수정</Button>
-              <Button variant="text" onClick = {handleDeleteButtonClick} style={{ marginRight: '0.5rem', backgroundColor: '#f05650' , color: 'white'}}>삭제</Button>
-              <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>게시글 삭제</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleConfirmDelete} color="primary">네</Button>
-                  <Button onClick={handleCloseDialog} color="primary">취소</Button>
-                </DialogActions>
-              </Dialog>
-            </Grid>
         <Grid item xs={12}>
           <SubCard>
-          <Grid container spacing={2}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here' }}>
+                {/* 게시글 제목 */}
+                <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px', color: 'your_desired_color_here' }}>
                   {board.boardTitle}
                 </Typography>
-                <hr style={{border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-                <Typography variant="body1" style={{  color: '#333333', marginBottom:"10px" }}>
-                 {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
-                </Typography>
+                <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
+                  <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333' }}>
+                    {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
+                  </Typography>
+                  <Grid item>
+                    {/* 게시글 수정/삭제 */}
+                    <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography> | <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                    <Dialog open={openDialog} onClose={handleCloseDialog}>
+                      <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>게시글 삭제</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText style={{fontSize:'16px'}}>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
+                        <Button style={{fontSize:'16px'}} onClick={handleCloseDialog} >취소</Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Grid>
+                </Grid>
+                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
               </Grid>
+              {/* 게시글 내용 */}
               <Grid item xs={12}>
-                  <div
-                  dangerouslySetInnerHTML={{__html: board.boardContent}}
+                <div
+                  dangerouslySetInnerHTML={{ __html: board.boardContent }}
                   style={{
                     fontSize: '16px',
                     color: '',
-                    minHeight : "400px",
+                    minHeight: "400px",
                     height: "100%",
-                    width: "100%"}}
+                    width: "100%"
+                  }}
                 ></div>
               </Grid>
               {/* 목록으로 버튼 */}
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-                   <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
-              </Grid>      
+                <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
+              </Grid>
               {/* 댓글 작성 폼 */}
-              <Grid item xs={12} style={{textAlign : "right"}}>
-                  <TextField
-                    label="댓글 작성"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    fullWidth
-                    style={{ marginBottom: "1rem" }}
-                    value={commentContent} // 상태 연결
-                    onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
-                    />
-                  <Button onClick = {handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
-                </Grid>
-                {/* 댓글 리스트 폼*/}      
-                <Grid item xs={12}>
+              <Grid item xs={12} style={{ textAlign: 'right' }}>
+                <TextField
+                  label="댓글 작성"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "1rem" }}
+                  value={commentContent} // 상태 연결
+                  onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
+                />
+                <Button onClick={handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
+              </Grid>
+              {/* 댓글 리스트 폼 */}
+              <Grid item xs={12}>
                 <SubCard>
                   <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here', marginBottom: '1rem' }}>
                     댓글
                   </Typography>
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
-                      <Typography variant="body1" style={{ color: '#333333', marginBottom: '10px' }}>
-                        {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
-                      </Typography>
-                      <Typography variant="body2" style={{ color: '#333333' }}>
+                      <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                         {comment.commentContent}
                       </Typography>
+                      <Typography variant="body2" style={{ color: 'grey' }}>
+                          {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
+                          {/* 댓글 수정 폼 */}
+                          {editingCommentId === comment.commentId ? (
+                            <div>
+                              <TextField
+                                label="댓글 수정"
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                fullWidth
+                                value={editedCommentContent}
+                                onChange={(e) => setEditedCommentContent(e.target.value)}
+                                style={{ marginTop: '10px', marginBottom: '10px' }}
+                              />
+                              <div style={{ textAlign: 'right' }}>
+                                <Button variant="contained" color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
+                                <Button variant="outlined" onClick={handleCancelEdit}>취소</Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
+                              {' | '}
+                              <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
+                            </>
+                          )}
+                          {/* 댓글 삭제 폼 */}
+                          {editingCommentId !== comment.commentId && (
+                            <a href="#" style={{ float: 'right', color: 'grey', textDecoration: 'none' }} onClick={(e) => {e.preventDefault();}}>답글 달기</a>
+                          )}
+                        </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
+                    
                     </div>
                   ))}
                 </SubCard>
               </Grid>
-
             </Grid>
           </SubCard>
         </Grid>

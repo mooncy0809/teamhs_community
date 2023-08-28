@@ -17,10 +17,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useUserStore } from 'store';
 
 const BoardDetail = () => {
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
+  const{user, setUser} = useUserStore();// eslint-disable-line no-unused-vars
+
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]);
 
@@ -152,15 +155,20 @@ const BoardDetail = () => {
 
 
     //답글 로직 구현 ###########
-    const [editingReCommentId, setEditingReCommentId] = useState(null); // 답글 작성 상태 관리
+    const [ReCommentId, setReCommentId] = useState(null); // 답글 작성 상태 관리
     const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
-
+    
     const handleReCommentWrite = (commentId) => {  // 답글 작성 버튼 클릭
       const newReComment = {
+       
         userId: "임시 아이디",
+        boardId : boardId,
         commentId: commentId,
-        commentContent: reCommentContent,
+        recommentContent: reCommentContent,
       };
+
+      console.log("콘텐츠 값", reCommentContent);
+      console.log("전체 값", newReComment);
       axios
         .post("http://localhost:8090/recomment/write", newReComment) // 답글 작성 API 호출
         .then((response) => {
@@ -171,7 +179,7 @@ const BoardDetail = () => {
             .catch(error => console.log(error))
         
           setReCommentContent(""); // 답글 내용 초기화
-          setEditingReCommentId(null); // 답글 작성 완료 후 상태 초기화
+          setReCommentId(null); // 답글 작성 완료 후 상태 초기화
         })
         .catch((error) => {
           console.error("Error posting recomment:", error);
@@ -180,7 +188,7 @@ const BoardDetail = () => {
     };
 
     const handleReCommentCancel = () => {
-      setEditingReCommentId(null); // 답글 작성 취소 시 상태 초기화
+      setReCommentId(null); // 답글 작성 취소 시 상태 초기화
       setReCommentContent('');
     };
 
@@ -246,7 +254,6 @@ const BoardDetail = () => {
                   <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px',  color: 'your_desired_color_here', marginBottom: '30px' }}>
                     댓글
                   </Typography>
-
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem', marginLeft:"10px"}}>
                       <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
@@ -280,8 +287,8 @@ const BoardDetail = () => {
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
                               
                               {/* 답글 작성 폼 */}
-                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); setEditingReCommentId(comment.commentId); }}>답글 달기</a></div>
-                                    {editingReCommentId === comment.commentId && (
+                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); setReCommentId(comment.commentId); }}>답글 달기</a></div>
+                                    {ReCommentId === comment.commentId && (
                                       <div>
                                         <TextField
                                           label="답글 작성"
@@ -306,10 +313,17 @@ const BoardDetail = () => {
                     </div>
                   ))}
               </Grid>
-
-              
               {/* 댓글 작성 폼 */}
               <Grid item xs={12} style={{ textAlign: 'right' }}>
+                  <div style={{ marginBottom: '1rem' }}>
+                      {/* 사용자 정보 표시 */}
+                      {user!= null &&(<>
+                      <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333', marginBottom: '10px' }}>
+                        작성자: {user.userName} ({user.userId})
+                      </Typography>
+                      </>
+                       )}
+                    </div>
                 <TextField
                   label="댓글 작성"
                   multiline

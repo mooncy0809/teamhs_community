@@ -1,9 +1,11 @@
 package com.teamhs.community.service;
 
+import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Comment;
 import com.teamhs.community.domain.Recomment;
 import com.teamhs.community.dto.Request.RecommentDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
+import com.teamhs.community.repository.BoardRepository;
 import com.teamhs.community.repository.CommentRepository;
 import com.teamhs.community.repository.RecommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +32,14 @@ public class RecommentService {
     public Recomment postReComment(RecommentDTO recommentDTO) {
         Recomment recomment = new Recomment();
 
-        recomment.setUserId(recommentDTO.getUserId());
-
         Comment comment = commentRepository.findById(recommentDTO.getCommentId())
                 .orElseThrow(() -> new ResourceNotFoundException("CommentId not found"));
 
         recomment.setComment(comment);
-        recomment.setRecommentContent(recommentDTO.getReCommentContent());
+
+
+        recomment.setUserId(recommentDTO.getUserId());
+        recomment.setReCommentContent(recommentDTO.getReCommentContent());
         recomment.setRecommentDate(LocalDate.now());
 
         return recommentRepository.save(recomment);
@@ -60,7 +63,7 @@ public class RecommentService {
         if (recommentOptional.isPresent()) {
             Recomment existingreComment = recommentOptional.get();
 
-            existingreComment.setRecommentContent(updateReCommentDTO.getReCommentContent());
+            existingreComment.setReCommentContent(updateReCommentDTO.getReCommentContent());
             recommentRepository.save(existingreComment);
             return true;
         }

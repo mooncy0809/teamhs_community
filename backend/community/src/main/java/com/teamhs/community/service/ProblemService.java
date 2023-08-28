@@ -70,7 +70,7 @@ public class ProblemService {
     private Problem convertToEntity(ProblemDTO problemDTO) {
         Problem problem = new Problem();
         BeanUtils.copyProperties(problemDTO, problem);
-        problem.setUserId("admin1"); // userId 임시 지정
+        problem.setUserId("임시 아이디"); // userId 임시 지정
         problem.setProblemDate(LocalDate.now());
         problem.setCateId(1);
 //        problem.setUser(userService.getUserById(problemDTO.getUserId()));

@@ -74,7 +74,7 @@ const BoardDetail = () => {
 
 
 
-  //댓글 기능 구현
+  //댓글 로직######
   const [commentContent, setCommentContent] = useState(""); 
 
 
@@ -131,8 +131,7 @@ const BoardDetail = () => {
     setEditedCommentContent('');
   };
 
-
-
+  //댓글 수정 저장 로직
   const handleSaveEdit = (commentId, editedContent) => {
     axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
       .then(response => {
@@ -151,10 +150,46 @@ const BoardDetail = () => {
     setEditingCommentId(null); // 수정 완료 후 폼 닫기
   };
 
+
+    //답글 로직 구현 ###########
+    const [editingReCommentId, setEditingReCommentId] = useState(null); // 답글 작성 상태 관리
+    const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
+
+    const handleReCommentWrite = (commentId) => {  // 답글 작성 버튼 클릭
+      const newReComment = {
+        userId: "임시 아이디",
+        commentId: commentId,
+        commentContent: reCommentContent,
+      };
+      axios
+        .post("http://localhost:8090/recomment/write", newReComment) // 답글 작성 API 호출
+        .then((response) => {
+          console.log("Recomment posted:", response.data);
+        
+          axios.get(`http://localhost:8090/comment/list/${boardId}`) // 답글 작성 후 댓글 리스트 업데이트
+            .then(response => setCommentList(response.data))
+            .catch(error => console.log(error))
+        
+          setReCommentContent(""); // 답글 내용 초기화
+          setEditingReCommentId(null); // 답글 작성 완료 후 상태 초기화
+        })
+        .catch((error) => {
+          console.error("Error posting recomment:", error);
+          // 에러 처리
+        });
+    };
+
+    const handleReCommentCancel = () => {
+      setEditingReCommentId(null); // 답글 작성 취소 시 상태 초기화
+      setReCommentContent('');
+    };
+
+
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
     return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
+
 
   return (
     <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>자유게시판</Button>}>
@@ -225,6 +260,8 @@ const BoardDetail = () => {
                   <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here', marginBottom: '1rem' }}>
                     댓글
                   </Typography>
+                  <hr style={{ border: 'none', borderBottom: '2px solid #333', borderBottomColor: '#333333', maxWidth:'500px' }} />
+
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
                       <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
@@ -233,6 +270,7 @@ const BoardDetail = () => {
                       <Typography variant="body2" style={{ color: 'grey' }}>
                           {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
                           {/* 댓글 수정 폼 */}
+                          {/* 댓글이 수정 중 일 경우*/}
                           {editingCommentId === comment.commentId ? (
                             <div>
                               <TextField
@@ -255,15 +293,31 @@ const BoardDetail = () => {
                               <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
                               {' | '}
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
-                            </>
-                          )}
-                          {/* 댓글 삭제 폼 */}
-                          {editingCommentId !== comment.commentId && (
-                            <a href="#" style={{ float: 'right', color: 'grey', textDecoration: 'none' }} onClick={(e) => {e.preventDefault();}}>답글 달기</a>
-                          )}
+                              
+                              {/* 답글 작성 폼 */}
+                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); setEditingReCommentId(comment.commentId); }}>답글 달기</a></div>
+                                    {editingReCommentId === comment.commentId && (
+                                      <div>
+                                        <TextField
+                                          label="답글 작성"
+                                          multiline
+                                          rows={3}
+                                          variant="outlined"
+                                          fullWidth
+                                          value={reCommentContent}
+                                          onChange={(e) => setReCommentContent(e.target.value)}
+                                          style={{ marginTop: '10px', marginBottom: '10px' }}
+                                        />
+                                        <div style={{ textAlign: 'right' }}>
+                                          <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)}>작성</Button>
+                                          <Button variant="outlined" onClick={handleReCommentCancel}>취소</Button>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </>
+                                )}
                         </Typography>
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
-                    
                     </div>
                   ))}
                 </SubCard>

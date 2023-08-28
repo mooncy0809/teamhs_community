@@ -238,32 +238,17 @@ const BoardDetail = () => {
               </Grid>
               {/* 목록으로 버튼 */}
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-                <Button variant="outlined" onClick={handleCancleButtonClick}>목록으로</Button>
-              </Grid>
-              {/* 댓글 작성 폼 */}
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
-                <TextField
-                  label="댓글 작성"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                  style={{ marginBottom: "1rem" }}
-                  value={commentContent} // 상태 연결
-                  onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
-                />
-                <Button onClick={handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
+                <Button variant="outlined" onClick={handleCancleButtonClick} style={{textAlign:'center'}}>목록으로</Button>
+                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
               </Grid>
               {/* 댓글 리스트 폼 */}
               <Grid item xs={12}>
-                <SubCard>
-                  <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '18px', color: 'your_desired_color_here', marginBottom: '1rem' }}>
+                  <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px',  color: 'your_desired_color_here', marginBottom: '30px' }}>
                     댓글
                   </Typography>
-                  <hr style={{ border: 'none', borderBottom: '2px solid #333', borderBottomColor: '#333333', maxWidth:'500px' }} />
 
                   {commentList.map(comment => (
-                    <div key={comment.commentId} style={{ marginBottom: '1rem' }}>
+                    <div key={comment.commentId} style={{ marginBottom: '1rem', marginLeft:"10px"}}>
                       <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                         {comment.commentContent}
                       </Typography>
@@ -320,7 +305,22 @@ const BoardDetail = () => {
                       <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
                     </div>
                   ))}
-                </SubCard>
+              </Grid>
+
+              
+              {/* 댓글 작성 폼 */}
+              <Grid item xs={12} style={{ textAlign: 'right' }}>
+                <TextField
+                  label="댓글 작성"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: "1rem" }}
+                  value={commentContent} // 상태 연결
+                  onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
+                />
+                <Button onClick={handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
               </Grid>
             </Grid>
           </SubCard>

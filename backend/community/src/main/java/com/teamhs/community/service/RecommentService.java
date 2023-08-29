@@ -22,6 +22,9 @@ public class RecommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
 
     //대댓글 리스트 조회
     public List<Recomment> getReCommentsByCommentId(Long commentId) {
@@ -35,8 +38,12 @@ public class RecommentService {
         Comment comment = commentRepository.findById(recommentDTO.getCommentId())
                 .orElseThrow(() -> new ResourceNotFoundException("CommentId not found"));
 
-        recomment.setComment(comment);
+        Board board = boardRepository.findById(recommentDTO.getBoardId())
+                .orElseThrow(() -> new ResourceNotFoundException("Board not found"));
 
+
+        recomment.setComment(comment);
+        recomment.setBoard(board);
 
         recomment.setUserId(recommentDTO.getUserId());
         recomment.setReCommentContent(recommentDTO.getReCommentContent());

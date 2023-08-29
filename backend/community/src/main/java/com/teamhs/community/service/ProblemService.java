@@ -27,14 +27,6 @@ public class ProblemService {
         return convertToDTO(savedProblem);
     }
 
-    //list all boards
-    public List<ProblemDTO> getAllProblems() {
-        List<Problem> problem = problemRepository.findAll();
-        return problem.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
     //detail
     public ProblemDTO getProblemById(@PathVariable Long problemId) {
         Optional<Problem> optionalProblem = problemRepository.findById(problemId);

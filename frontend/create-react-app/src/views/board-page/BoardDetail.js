@@ -160,24 +160,21 @@ const BoardDetail = () => {
     
     const handleReCommentWrite = (commentId) => {  // 답글 작성 버튼 클릭
       const newReComment = {
-       
         userId: "임시 아이디",
-        boardId : boardId,
+        boardId: parseInt(boardId), // boardId를 숫자로 변환하여 넣어줌
         commentId: commentId,
-        recommentContent: reCommentContent,
+        reCommentContent: reCommentContent,
       };
-
-      console.log("콘텐츠 값", reCommentContent);
-      console.log("전체 값", newReComment);
+    
       axios
         .post("http://localhost:8090/recomment/write", newReComment) // 답글 작성 API 호출
         .then((response) => {
           console.log("Recomment posted:", response.data);
-        
+    
           axios.get(`http://localhost:8090/comment/list/${boardId}`) // 답글 작성 후 댓글 리스트 업데이트
             .then(response => setCommentList(response.data))
-            .catch(error => console.log(error))
-        
+            .catch(error => console.log(error));
+    
           setReCommentContent(""); // 답글 내용 초기화
           setReCommentId(null); // 답글 작성 완료 후 상태 초기화
         })

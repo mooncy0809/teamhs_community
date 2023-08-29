@@ -1,5 +1,7 @@
 package com.teamhs.community.dto.Request;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
 
@@ -8,7 +10,8 @@ public class RecommentDTO {
     private Long commentId;
     private String userId;
     private Long boardId;
-    private String recommentContent;
+    @Getter
+    private String reCommentContent;
     private LocalDate recommentDate;
 
 
@@ -37,11 +40,8 @@ public class RecommentDTO {
         this.boardId = boardId;
     }
 
-    public String getReCommentContent() {
-        return recommentContent;
-    }
-    public void setReCommentContent(String commentContent) {
-        this.recommentContent = commentContent;
+    public void setReCommentContent(String reCommentContent) {
+        this.reCommentContent = reCommentContent;
     }
 
     public LocalDate getReCommentDate() {

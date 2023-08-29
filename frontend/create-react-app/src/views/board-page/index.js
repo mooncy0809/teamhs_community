@@ -47,11 +47,13 @@ const BoardList = () => {
     navigate(`/board/detail/${boardId}`); // 게시글 상세 조회(boardwatch) 페이지 이동
   };
 
-  //태그 제거
+
+
+  /*태그 제거
   function removeTags(input) {
     const doc = new DOMParser().parseFromString(input, 'text/html');
     return doc.body.textContent || '';
-  }
+  }*/
 
  
   return (
@@ -64,7 +66,6 @@ const BoardList = () => {
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '30%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '45%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>내용</th>
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                 </tr>
@@ -74,7 +75,6 @@ const BoardList = () => {
                   <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
                     <td style={{ textAlign: 'center' }} >{item.boardId}</td>
                     <td>{item.boardTitle}</td>
-                    <td>{removeTags(item.boardContent)}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                   </tr>

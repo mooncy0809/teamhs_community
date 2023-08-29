@@ -37,7 +37,7 @@ public class Recomment {
     private Board board;
 
     @Column(nullable = true)
-    private String recommentContent;
+    private String reCommentContent;
 
     @Column(nullable = true)
     private LocalDate recommentDate;

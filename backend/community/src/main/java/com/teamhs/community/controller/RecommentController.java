@@ -17,7 +17,7 @@ public class RecommentController {
     private RecommentService recommentService;
 
     @PostMapping("/write")
-    public ResponseEntity<Recomment> createComment(@RequestBody RecommentDTO recommentDTO) {
+    public ResponseEntity<Recomment> createReComment(@RequestBody RecommentDTO recommentDTO) {
         Recomment createdComment = recommentService.postReComment(recommentDTO);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }

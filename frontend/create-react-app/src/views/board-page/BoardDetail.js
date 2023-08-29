@@ -39,7 +39,7 @@ const BoardDetail = () => {
       .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
-
+  
 
   //수정, 삭제, 목록으로 : Dialog 예/아니오
   const navigate = useNavigate();
@@ -167,7 +167,7 @@ const BoardDetail = () => {
       };
     
       axios
-        .post("http://localhost:8090/recomment/write", newReComment) // 답글 작성 API 호출
+        .post("http://localhost:8090/recomment/write", newReComment)
         .then((response) => {
           console.log("Recomment posted:", response.data);
     
@@ -175,8 +175,8 @@ const BoardDetail = () => {
             .then(response => setCommentList(response.data))
             .catch(error => console.log(error));
     
-          setReCommentContent(""); // 답글 내용 초기화
-          setReCommentId(null); // 답글 작성 완료 후 상태 초기화
+          setReCommentContent("");
+          setReCommentId(null);
         })
         .catch((error) => {
           console.error("Error posting recomment:", error);
@@ -256,6 +256,7 @@ const BoardDetail = () => {
                       <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                         {comment.commentContent}
                       </Typography>
+
                       <Typography variant="body2" style={{ color: 'grey' }}>
                           {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
                           {/* 댓글 수정 폼 */}
@@ -283,7 +284,7 @@ const BoardDetail = () => {
                               {' | '}
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
                               
-                              {/* 답글 작성 폼 */}
+                              {/* 답글 달기 버튼 클릭 */}
                               <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); setReCommentId(comment.commentId); }}>답글 달기</a></div>
                                     {ReCommentId === comment.commentId && (
                                       <div>
@@ -331,7 +332,7 @@ const BoardDetail = () => {
                   value={commentContent} // 상태 연결
                   onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
                 />
-                <Button onClick={handleCommentWrite} variant="contained" color="primary">댓글 작성</Button>
+                <Button onClick={handleCommentWrite} variant="contained" color="primary"  disabled={!commentContent}>댓글 작성</Button>
               </Grid>
             </Grid>
           </SubCard>

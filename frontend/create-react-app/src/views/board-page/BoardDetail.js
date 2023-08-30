@@ -26,6 +26,7 @@ const BoardDetail = () => {
 
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]);
+  const totalComments = commentList.length;
 
   //게시글 조회 기능 구현
   useEffect(() => {
@@ -249,7 +250,7 @@ const BoardDetail = () => {
               {/* 댓글 리스트 폼 */}
               <Grid item xs={12}>
                   <Typography variant="h6" style={{fontWeight: 'bold', fontSize: '18px',  color: 'your_desired_color_here', marginBottom: '30px' }}>
-                    댓글
+                  댓글 {totalComments}개
                   </Typography>
                   {commentList.map(comment => (
                     <div key={comment.commentId} style={{ marginBottom: '1rem', marginLeft:"10px"}}>

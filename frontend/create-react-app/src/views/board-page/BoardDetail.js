@@ -26,10 +26,8 @@ const BoardDetail = () => {
 
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]);
-
   const [recommentList, setReCommentList] = useState([]);
 
-  const totalRecomments = recommentList.length;
 
   //전체 댓글 수 조회
   const totalComments = commentList.length;
@@ -47,14 +45,45 @@ const BoardDetail = () => {
       .catch(error => console.log(error))
   }, [boardId]);
 
-
+  //답글 리스트 확인
   const handleWatchRecomments = (commentId) => { 
-    axios.get(`http://localhost:8090/recomment/list/${commentId}`) //댓글 목록 조회
+
+    setOpenReplies((prevOpenReplies) => ({
+      ...prevOpenReplies,
+      [commentId]: !prevOpenReplies[commentId],
+    }));
+
+
+    axios.get(`http://localhost:8090/recomment/list/${commentId}`) //답글 목록 조회
     .then(response => setReCommentList(response.data))
       .catch((error) => {
         console.error("Error get recomment:", error);
       });
     };
+
+
+
+  //대댓글 갯수 조회
+  const [commentRecommentCounts, setCommentRecommentCounts] = useState({});
+
+  useEffect(() => {
+    axios.get(`http://localhost:8090/comment/list/${boardId}`)
+      .then(response => {
+        setCommentList(response.data);
+
+        // 대댓글 갯수 업데이트
+        const newCounts = {};
+        response.data.forEach(comment => {
+          axios.get(`http://localhost:8090/recomment/list/${comment.commentId}`)
+            .then(response => {
+              newCounts[comment.commentId] = response.data.length;
+              setCommentRecommentCounts(prevCounts => ({ ...prevCounts, ...newCounts }));
+            })
+            .catch(error => console.error("Error get recomment:", error));
+        });
+      })
+      .catch(error => console.log(error))
+  }, [boardId]);
 
 
 
@@ -174,8 +203,10 @@ const BoardDetail = () => {
     //답글 로직 ###########
     const [ReCommentId, setReCommentId] = useState(null); // 답글 작성 상태 관리
     const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
+    const [openReplies, setOpenReplies] = useState({});
     
-    const handleReCommentWrite = (commentId) => {  // 답글 작성 버튼 클릭
+    //답글 작성
+    const handleReCommentWrite = (commentId) => {
       const newReComment = {
         userId: "임시 아이디",
         boardId: parseInt(boardId), // boardId를 숫자로 변환하여 넣어줌
@@ -187,11 +218,16 @@ const BoardDetail = () => {
         .post("http://localhost:8090/recomment/write", newReComment)
         .then((response) => {
           console.log("Recomment posted:", response.data);
+
+          const updatedCommentRecommentCounts = {
+            ...commentRecommentCounts,
+            [commentId]: (commentRecommentCounts[commentId] || 0) + 1,
+          };
     
-          axios.get(`http://localhost:8090/comment/list/${boardId}`) // 답글 작성 후 댓글 리스트 업데이트
-            .then(response => setCommentList(response.data))
-            .catch(error => console.log(error));
-    
+          setCommentRecommentCounts(updatedCommentRecommentCounts);
+
+          
+          setOpenReplies(prevOpenReplies => ({ ...prevOpenReplies, [commentId]: false }));    
           setReCommentContent("");
           setReCommentId(null);
         })
@@ -200,12 +236,6 @@ const BoardDetail = () => {
           // 에러 처리
         });
     };
-
-    const handleReCommentCancel = () => {
-      setReCommentId(null); // 답글 작성 취소 시 상태 초기화
-      setReCommentContent('');
-    };
-
 
     
 
@@ -305,25 +335,24 @@ const BoardDetail = () => {
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
                               
                               {/* 답글 달기 버튼 클릭 */}
-                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); handleWatchRecomments(comment.commentId); setReCommentId(comment.commentId); }}>--답글 {totalRecomments}개</a></div>
-                                    {ReCommentId === comment.commentId && (
-
+                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); handleWatchRecomments(comment.commentId); setReCommentId(comment.commentId); }}>{openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a></div>
+                                    
+                              {openReplies[comment.commentId] && ReCommentId === comment.commentId && (
                                  <div>
                                    {/* 답글 리스트 폼 */}
                                   {recommentList.map(recomment => (
-                                        <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"10px"}}>
+                                        <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"20px", color:"grey"}}>
                                           <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                                             {recomment.reCommentContent}
                                           </Typography>
 
                                           <Typography variant="body2" style={{ color: 'grey' }}>
                                               {recomment.userId.slice(0, -2) + '**' + " | " + recomment.recommentDate}
-                                              {/* 댓글 수정 폼 */}
-                                              {/* 댓글이 수정 중 일 경우*/}
+                                              {/* 답글 수정 폼 */}
                                               {editingCommentId === recomment.reCommentId ? (
                                                 <div>
                                                   <TextField
-                                                    label="댓글 수정"
+                                                    label="답글 수정"
                                                     multiline
                                                     rows={4}
                                                     variant="outlined"
@@ -349,23 +378,20 @@ const BoardDetail = () => {
                                         </div>
                                       ))}    
 
-
-                                        
-                                        <TextField
-                                          label="답글 작성"
-                                          multiline
-                                          rows={3}
-                                          variant="outlined"
-                                          fullWidth
-                                          value={reCommentContent}
-                                          onChange={(e) => setReCommentContent(e.target.value)}
-                                          style={{ marginTop: '10px', marginBottom: '10px' }}
-                                        />
-                                        <div style={{ textAlign: 'right' }}>
-                                          <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)}>작성</Button>
-                                          <Button variant="outlined" onClick={handleReCommentCancel}>취소</Button>
-                                        </div>
+                                      <TextField
+                                        label="답글 작성"
+                                        multiline
+                                        rows={3}
+                                        variant="outlined"
+                                        fullWidth
+                                        value={reCommentContent}
+                                        onChange={(e) => setReCommentContent(e.target.value)}
+                                        style={{ marginTop: '10px', marginBottom: '10px' }}
+                                      />
+                                      <div style={{ textAlign: 'right' }}>
+                                        <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)}>작성</Button>
                                       </div>
+                                    </div>
                                     )}
                                   </>
                                 )}
@@ -374,6 +400,7 @@ const BoardDetail = () => {
                     </div>
                   ))}
               </Grid>
+
               {/* 댓글 작성 폼 */}
               <Grid item xs={12} style={{ textAlign: 'right' }}>
                   <div style={{ marginBottom: '1rem' }}>

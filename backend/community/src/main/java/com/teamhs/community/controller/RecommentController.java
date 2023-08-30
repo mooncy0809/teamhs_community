@@ -22,15 +22,15 @@ public class RecommentController {
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 
-    @GetMapping("/list/{comment_id}")
+    @GetMapping("/list/{commentId}")
     public ResponseEntity<List<Recomment>> getReCommentsByBoardId(@PathVariable Long commentId) {
-        List<Recomment> getcomments = recommentService.getReCommentsByCommentId(commentId);
-        return new ResponseEntity<>(getcomments, HttpStatus.OK);
+        List<Recomment> getrecomments = recommentService.getReCommentsByCommentId(commentId);
+        return new ResponseEntity<>(getrecomments, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{recomment_id}")
-    public ResponseEntity<String> deleteReComment(@PathVariable Long comment_id) {
-        boolean success = recommentService.deleteReComment(comment_id);
+    public ResponseEntity<String> deleteReComment(@PathVariable Long recomment_id) {
+        boolean success = recommentService.deleteReComment(recomment_id);
         if (success) {
             return ResponseEntity.ok("대댓글이 삭제되었습니다.");
         } else {
@@ -39,8 +39,8 @@ public class RecommentController {
     }
 
     @PutMapping("/update/{recomment_id}")
-    public ResponseEntity<String> updateReComment(@PathVariable Long comment_id, @RequestBody RecommentDTO updatedReCommentDTO) {
-        boolean success = recommentService.updateReComment(comment_id, updatedReCommentDTO);
+    public ResponseEntity<String> updateReComment(@PathVariable Long recomment_id, @RequestBody RecommentDTO updatedReCommentDTO) {
+        boolean success = recommentService.updateReComment(recomment_id, updatedReCommentDTO);
         if (success) {
             return ResponseEntity.ok("대댓글이 수정되었습니다.");
         } else {

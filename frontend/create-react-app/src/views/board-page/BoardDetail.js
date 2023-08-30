@@ -26,6 +26,12 @@ const BoardDetail = () => {
 
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]);
+
+  const [recommentList, setReCommentList] = useState([]);
+
+  const totalRecomments = recommentList.length;
+
+  //전체 댓글 수 조회
   const totalComments = commentList.length;
 
   //게시글 조회 기능 구현
@@ -40,7 +46,17 @@ const BoardDetail = () => {
       .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
-  
+
+
+  const handleWatchRecomments = (commentId) => { 
+    axios.get(`http://localhost:8090/recomment/list/${commentId}`) //댓글 목록 조회
+    .then(response => setReCommentList(response.data))
+      .catch((error) => {
+        console.error("Error get recomment:", error);
+      });
+    };
+
+
 
   //수정, 삭제, 목록으로 : Dialog 예/아니오
   const navigate = useNavigate();
@@ -155,7 +171,7 @@ const BoardDetail = () => {
   };
 
 
-    //답글 로직 구현 ###########
+    //답글 로직 ###########
     const [ReCommentId, setReCommentId] = useState(null); // 답글 작성 상태 관리
     const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
     
@@ -189,6 +205,9 @@ const BoardDetail = () => {
       setReCommentId(null); // 답글 작성 취소 시 상태 초기화
       setReCommentContent('');
     };
+
+
+    
 
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
@@ -286,9 +305,52 @@ const BoardDetail = () => {
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
                               
                               {/* 답글 달기 버튼 클릭 */}
-                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); setReCommentId(comment.commentId); }}>답글 달기</a></div>
+                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); handleWatchRecomments(comment.commentId); setReCommentId(comment.commentId); }}>--답글 {totalRecomments}개</a></div>
                                     {ReCommentId === comment.commentId && (
-                                      <div>
+
+                                 <div>
+                                   {/* 답글 리스트 폼 */}
+                                  {recommentList.map(recomment => (
+                                        <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"10px"}}>
+                                          <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
+                                            {recomment.reCommentContent}
+                                          </Typography>
+
+                                          <Typography variant="body2" style={{ color: 'grey' }}>
+                                              {recomment.userId.slice(0, -2) + '**' + " | " + recomment.recommentDate}
+                                              {/* 댓글 수정 폼 */}
+                                              {/* 댓글이 수정 중 일 경우*/}
+                                              {editingCommentId === recomment.reCommentId ? (
+                                                <div>
+                                                  <TextField
+                                                    label="댓글 수정"
+                                                    multiline
+                                                    rows={4}
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    value={editedCommentContent}
+                                                    onChange={(e) => setEditedCommentContent(e.target.value)}
+                                                    style={{ marginTop: '10px', marginBottom: '10px' }}
+                                                  />
+                                                  <div style={{ textAlign: 'right' }}>
+                                                    <Button variant="contained" color="primary" onClick={() => handleSaveEdit(comment.commentId, editedCommentContent)}>수정</Button>
+                                                    <Button variant="outlined" onClick={handleCancelEdit}>취소</Button>
+                                                  </div>
+                                                </div>
+                                              ) : (
+                                                <>
+                                                  <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
+                                                  {' | '}
+                                                  <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
+                                                  </>
+                                                )}
+                                            </Typography>
+                                          <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
+                                        </div>
+                                      ))}    
+
+
+                                        
                                         <TextField
                                           label="답글 작성"
                                           multiline

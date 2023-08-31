@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef  } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -55,6 +55,16 @@ const BoardWrite = () => {
     };
 
 
+    const contentRef = useRef(null);
+    //제목에서 Tab키 누를 시 내용으로 이동
+    const handleTitleTabPress = (event) => {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        contentRef.current.focus(); // 내용 작성 부분으로 포커스 이동
+      }
+    };
+
+
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>게시글 작성</span>} style={{ marginLeft: '8px' }}>
     <Grid container spacing={gridSpacing}>
@@ -68,11 +78,13 @@ const BoardWrite = () => {
                   fullWidth
                   value={title}
                   onChange={handleTitleChange}
+                  onKeyDown={handleTitleTabPress} // 탭 키 이벤트 핸들러 추가
                 />
               </Grid>
               <Grid item xs={12}>
               <div className="quill-container">
                     <ReactQuill
+                      ref = {contentRef}
                       value={content}
                       onChange={handleContentChange}
                       theme="snow"

@@ -237,6 +237,29 @@ const BoardDetail = () => {
         });
     };
 
+    //답글삭제
+    const handleReCommentDelete = (recommentId, commentId) => {
+      axios.delete(`http://localhost:8090/recomment/delete/${recommentId}`) //댓글 삭제 버튼 클릭
+      .then(response => {
+        console.log('Delete saved:', response.data);
+        // 삭제 성공한 경우 처리
+        
+        const updatedCommentRecommentCounts = {
+          ...commentRecommentCounts,
+          [commentId]: (commentRecommentCounts[commentId] || 0) - 1,
+        };
+  
+        setCommentRecommentCounts(updatedCommentRecommentCounts);
+
+        setReCommentList(prevReComments => prevReComments.filter(recomment => recomment.reCommentId !== recommentId));
+        handleWatchRecomments(commentId)
+      })
+      .catch(error => {
+        console.error('Error delete:', error);
+        // 에러 처리
+      });
+    };
+
     
 
 
@@ -370,7 +393,7 @@ const BoardDetail = () => {
                                                 <>
                                                   <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
                                                   {' | '}
-                                                  <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
+                                                  <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>삭제</a>
                                                   </>
                                                 )}
                                             </Typography>

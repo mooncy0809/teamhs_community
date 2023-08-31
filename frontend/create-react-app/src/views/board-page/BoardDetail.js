@@ -280,7 +280,7 @@ const BoardDetail = () => {
                 </Typography>
                 <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
                   <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333' }}>
-                    {board.userId.slice(0, -2) + '**' + " | " + board.boardDate}
+                    {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + "| 조회수 : " + board.boardCnt}
                   </Typography>
                   <Grid item>
                     {/* 게시글 수정/삭제 */}

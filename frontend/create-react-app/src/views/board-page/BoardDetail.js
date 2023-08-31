@@ -260,8 +260,6 @@ const BoardDetail = () => {
       });
     };
 
-    
-
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
@@ -290,7 +288,7 @@ const BoardDetail = () => {
                     <Dialog open={openDialog} onClose={handleCloseDialog}>
                       <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>게시글 삭제</DialogTitle>
                       <DialogContent>
-                        <DialogContentText style={{fontSize:'16px'}}>정말로 이 게시글을 삭제하시겠습니까?</DialogContentText>
+                        <DialogContentText style={{fontSize:'16px'}}>정말 게시글을 삭제하시겠습니까?</DialogContentText>
                       </DialogContent>
                       <DialogActions>
                         <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
@@ -391,8 +389,6 @@ const BoardDetail = () => {
                                                 </div>
                                               ) : (
                                                 <>
-                                                  <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
-                                                  {' | '}
                                                   <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>삭제</a>
                                                   </>
                                                 )}

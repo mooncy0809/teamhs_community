@@ -35,6 +35,12 @@ const BoardList = () => {
     setCurrentPage(page - 1);
   };
 
+  const titleCellStyle = {
+    maxWidth: '40px', // 최대 길이 (70자)
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  };
 
   //페이지 이동 파트
   const navigate = useNavigate();
@@ -65,18 +71,20 @@ const BoardList = () => {
               <thead>
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
-                  <th style={{ width: '30%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
                 </tr>
               </thead>
               <tbody>
                 {boardlist.map((item) => (
                   <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
                     <td style={{ textAlign: 'center' }} >{item.boardId}</td>
-                    <td>{item.boardTitle}</td>
+                    <td style={titleCellStyle}>{item.boardTitle}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
                   </tr>
                 ))}
               </tbody>

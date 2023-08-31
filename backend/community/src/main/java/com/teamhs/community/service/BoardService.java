@@ -38,11 +38,20 @@ public class BoardService {
         return boardRepository.save(newBoard);
     }
 
-    //게시판 상세 조회
+    //게시글 상세 조회
     public Board getBoardById(Long board_id) {
-        return boardRepository.findById(board_id)
+
+        Board board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + board_id));
+
+        // 조회수 증가
+        board.setBoardCnt(board.getBoardCnt() + 1);
+        boardRepository.save(board);
+
+        return board;
     }
+
+
 
     //게시글 삭제
     public boolean deleteBoard(Long board_id) {
@@ -70,5 +79,8 @@ public class BoardService {
         }
         return false;
     }
+
+
+
 }
 

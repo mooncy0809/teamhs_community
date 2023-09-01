@@ -29,6 +29,7 @@ const BoardDetail = () => {
   const [recommentList, setReCommentList] = useState([]);
 
 
+
   //전체 댓글 수 조회
   const totalComments = commentList.length;
 

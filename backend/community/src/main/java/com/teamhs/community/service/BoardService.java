@@ -28,6 +28,10 @@ public class BoardService {
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();
         newBoard.setUserId("임시 아이디");
+
+        //category 00 - 자유게시판 01 - 뉴스
+        newBoard.setCateId(board.getCategoryId());
+
         newBoard.setBoardTitle(board.getTitle());
         newBoard.setBoardContent(board.getContent());
         newBoard.setBoardDate(LocalDate.now());

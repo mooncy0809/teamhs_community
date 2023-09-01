@@ -54,6 +54,16 @@ const BoardList = () => {
   };
 
 
+  //Tab
+  const [activeTab, setActiveTab] = useState('tab1'); // 현재 선택된 탭의 상태
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+
+
+
 
   /*태그 제거
   function removeTags(input) {
@@ -66,6 +76,28 @@ const BoardList = () => {
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
+        <div>
+          <div className="tab-container">
+            <button
+              className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
+              onClick={() => handleTabClick('tab1')}
+            >
+              자유게시판
+            </button>
+          <button
+            className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
+            onClick={() => handleTabClick('tab2')}
+          >
+            뉴스
+          </button>
+        </div>
+        <div className="tab-content" id="tab1" style={{ display: activeTab === 'tab1' ? 'block' : 'none' }}>
+          {/* 카테고리 1 내용 */}
+        </div>
+        <div className="tab-content" id="tab2" style={{ display: activeTab === 'tab2' ? 'block' : 'none' }}>
+          {/* 카테고리 2 내용 */}
+        </div>
+      </div>
           <SubCard>
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>

@@ -5,20 +5,18 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // React Router import
 
 // project imports
-import SubCard from 'ui-component/cards/SubCard';
-import MainCard from 'ui-component/cards/MainCard';
-import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
+import { gridSpacing } from 'store/constant';
 
-// ==============================|| ProblemList ||============================== //
+// ==============================|| ReplyList ||============================== //
 
-const ProblemList = () => {
+const ReplyList = () => {
   const [list , setList] = useState([]);
   const [page, setPage] = useState(0); // 현재 페이지 번호
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
  
   useEffect(() => {
-    axios.get(`http://localhost:8090/api/problems?page=${page}&size=10`)
+    axios.get(`http://localhost:8090/api/replies?page=${page}&size=3`)
         .then(response => {
           setList(response.data.content);
           setTotalPages(response.data.totalPages);
@@ -28,30 +26,27 @@ const ProblemList = () => {
 }, [page]);
 
 
+
   return(
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>문제</span>} style={{ marginLeft: '8px' }}>
-    <Grid container spacing={gridSpacing}>
-      <Grid item xs={12} sm={12}>
-        <SubCard>
+    <Grid spacing={gridSpacing}>
           <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
                         <thead>
                             <tr>
-                                <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
-                                <th style={{ width: '25%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목 </th>
+                                <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>답변</th>
                                 <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>작성자 </th>
-                                <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제출</th>
-                                <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>맞힌 사람</th>
+                                <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>결과</th>
+                                <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>날짜</th>
                             </tr>
                         </thead>
                         <tbody>
                         {list.map((item) => {
                           return (
                             // eslint-disable-next-line react/jsx-key
-                            <tr key={item.problemId}>
-                                    <td style={{ textAlign: 'center' }}>{item.problemId}</td>
-                                    <td>
+                            <tr key={item.replyId}>
+                                    <td style={{ textAlign: 'center' }}>{item.replyId}</td>
+                                    <td style={{ textAlign: 'center' }}>
                                     <Link
-                                      to={`/problem/detail/${item.problemId}`}
+                                      to={`/reply/detail/${item.replyId}`}
                                       style={{
                                         color: 'black',
                                         textDecoration: 'none',
@@ -63,17 +58,15 @@ const ProblemList = () => {
                                       onMouseLeave={(e) => {
                                         e.target.style.color = 'black';
                                       }}
-                                    >{item.problemTitle}</Link> 
+                                    >{item.userId} </Link> 
                                     </td>
-                                    <td style={{ textAlign: 'center' }}>{item.userId} </td>
-                                    <td style={{ textAlign: 'center' }}>{item.submitCnt}</td>
-                                    <td style={{ textAlign: 'center' }}>{item.answerCnt}</td>
+                                    <td style={{ textAlign: 'center' }}>{item.replyState}</td>
+                                    <td style={{ textAlign: 'center' }}>{item.replyDate}</td>   
                                 </tr>
                                 );
                               })}
                         </tbody>
             </Table>
-        </SubCard>
         <Grid
             container
             justifyContent="center"
@@ -85,10 +78,8 @@ const ProblemList = () => {
               onChange = {(event, value) => setPage(value - 1)}
             />
             </Grid>
-      </Grid>
     </Grid>
-  </MainCard>
   );
 };
 
-export default ProblemList;
+export default ReplyList;

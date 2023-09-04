@@ -19,6 +19,12 @@ const ProblemList = Loadable(lazy(() => import('views/problem-page/ProblemList')
 const ProblemDetail = Loadable(lazy(() => import('views/problem-page/ProblemDetail')));
 const ProblemEdit = Loadable(lazy(() => import('views/problem-page/ProblemEdit')));
 
+// reply page routing
+const ReplyList = Loadable(lazy(() => import('views/problem-page/ReplyTable')));
+const ReplyDetail = Loadable(lazy(() => import('views/problem-page/ReplyDetail')));
+const ReplyWrite = Loadable(lazy(() => import('views/problem-page/ReplyWrite')));
+const ReplyEdit = Loadable(lazy(() => import('views/problem-page/ReplyEdit')));
+
 // master page routing
 const ProblemWrite = Loadable(lazy(() => import('views/master-page/ProblemWrite')));
 const MasterProblemList = Loadable(lazy(() => import('views/master-page/MasterProblemList')));
@@ -64,6 +70,27 @@ const MainRoutes = {
         {
           path: 'edit/:problemId',
           element: <ProblemEdit />
+        }
+      ]
+    },
+    {
+      path: 'reply',
+      children: [
+        {
+          path: 'list',
+          element: <ReplyList />
+        },
+        {
+          path: 'detail/:replyId',
+          element: <ReplyDetail />
+        },
+        {
+          path: 'write/:problemId',
+          element: <ReplyWrite />
+        },
+        {
+          path: 'edit/:replyId',
+          element: <ReplyEdit />
         }
       ]
     },

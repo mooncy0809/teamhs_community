@@ -3,6 +3,8 @@ package com.teamhs.community.controller;
 import com.teamhs.community.dto.Request.ProblemDTO;
 import com.teamhs.community.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +29,14 @@ public class ProblemController {
 
     //list
     @GetMapping
-    public ResponseEntity<List<ProblemDTO>> getAllProblems() {
-        List<ProblemDTO> problems = problemService.getAllProblems();
-        return new ResponseEntity<>(problems, HttpStatus.OK);
+    public ResponseEntity<Page<ProblemDTO>> getProblems(Pageable pageable) {
+        Page<ProblemDTO> problemsPage = problemService.getProblemsPage(pageable);
+        return ResponseEntity.ok(problemsPage);
     }
 
     //detail
     @GetMapping("/{id}")
-    public ResponseEntity<ProblemDTO> getProblemById(@PathVariable Integer id) {
+    public ResponseEntity<ProblemDTO> getProblemById(@PathVariable Long id) {
         ProblemDTO problem = problemService.getProblemById(id);
         if (problem != null) {
             return new ResponseEntity<>(problem, HttpStatus.OK);
@@ -45,7 +47,7 @@ public class ProblemController {
 
     //update
     @PutMapping("/{id}")
-    public ResponseEntity<ProblemDTO> updateProblem(@PathVariable Integer id, @RequestBody ProblemDTO problemDTO) {
+    public ResponseEntity<ProblemDTO> updateProblem(@PathVariable Long id, @RequestBody ProblemDTO problemDTO) {
         ProblemDTO updateProblem = problemService.updateProblem(id, problemDTO);
         if (updateProblem != null) {
             return new ResponseEntity<>(updateProblem, HttpStatus.OK);
@@ -56,8 +58,9 @@ public class ProblemController {
 
     //delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProblem(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteProblem(@PathVariable Long id) {
         problemService.deleteProblem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

@@ -1,9 +1,11 @@
 package com.teamhs.community.service;
 
+import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Comment;
 import com.teamhs.community.domain.Recomment;
 import com.teamhs.community.dto.Request.RecommentDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
+import com.teamhs.community.repository.BoardRepository;
 import com.teamhs.community.repository.CommentRepository;
 import com.teamhs.community.repository.RecommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class RecommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
 
     //대댓글 리스트 조회
     public List<Recomment> getReCommentsByCommentId(Long commentId) {
@@ -30,13 +35,18 @@ public class RecommentService {
     public Recomment postReComment(RecommentDTO recommentDTO) {
         Recomment recomment = new Recomment();
 
-        recomment.setUserId(recommentDTO.getUserId());
-
         Comment comment = commentRepository.findById(recommentDTO.getCommentId())
                 .orElseThrow(() -> new ResourceNotFoundException("CommentId not found"));
 
+        Board board = boardRepository.findById(recommentDTO.getBoardId())
+                .orElseThrow(() -> new ResourceNotFoundException("Board not found"));
+
+
         recomment.setComment(comment);
-        recomment.setRecommentContent(recommentDTO.getReCommentContent());
+        recomment.setBoard(board);
+
+        recomment.setUserId(recommentDTO.getUserId());
+        recomment.setReCommentContent(recommentDTO.getReCommentContent());
         recomment.setRecommentDate(LocalDate.now());
 
         return recommentRepository.save(recomment);
@@ -60,7 +70,7 @@ public class RecommentService {
         if (recommentOptional.isPresent()) {
             Recomment existingreComment = recommentOptional.get();
 
-            existingreComment.setRecommentContent(updateReCommentDTO.getReCommentContent());
+            existingreComment.setReCommentContent(updateReCommentDTO.getReCommentContent());
             recommentRepository.save(existingreComment);
             return true;
         }

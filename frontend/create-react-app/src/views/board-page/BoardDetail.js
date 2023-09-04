@@ -270,7 +270,7 @@ const BoardDetail = () => {
 
 
   return (
-    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>자유게시판</Button>}>
+    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>{board.cateId === 1 ? '뉴스' : '자유게시판'}</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12}>
           <SubCard>

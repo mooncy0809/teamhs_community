@@ -41,6 +41,8 @@ public class AuthService {
         try{
             boolean existed = memberRepository.existsByUserIdAndUserPassword(userId, userPassword);
             if(!existed) return ResponseDto.setFailed("Sign In Information Does Not Match");
+            else System.out.println("로그인 성공!");
+
         }catch (Exception error){
             return ResponseDto.setFailed("DB Error!");
         }

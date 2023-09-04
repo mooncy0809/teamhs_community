@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 // project imports
 import * as serviceWorker from 'serviceWorker';
 import App from 'App';
-import { store } from 'store';
+import { store } from './store';
+
 
 // style + assets
 import 'assets/scss/style.scss';
@@ -22,7 +23,8 @@ root.render(
     <BrowserRouter basename={config.basename}>
       <App />
     </BrowserRouter>
-  </Provider>
+  </Provider>,
+  document.getElementById('root')
 );
 
 serviceWorker.unregister();

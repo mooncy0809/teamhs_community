@@ -20,8 +20,9 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     //자유 게시판 리스트 조회 : 페이징 작업 추가
-    public Page<Board> listPaginatedBoards(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    //카테고리 별 게시글 조회
+    public Page<Board> listPaginatedBoardsByCateId(Long cateId, Pageable pageable) {
+        return boardRepository.findAllByCateId(cateId, pageable);
     }
 
     //게시판 작성

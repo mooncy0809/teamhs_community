@@ -13,6 +13,15 @@ const other = {
   children: [
     {
       id: 'board',
+      title: '커뮤니티',
+      type: 'item',
+      url: '/board/list',
+      icon: icons.IconUsers,
+      breadcrumbs: false
+    },
+    /*
+      {
+      id: 'board',
       title: '자유게시판',
       type: 'item',
       url: '/board/list',
@@ -28,6 +37,7 @@ const other = {
       external: true,
       target: true
     }
+    */
   ]
 };
 

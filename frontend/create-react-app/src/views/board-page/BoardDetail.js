@@ -39,6 +39,7 @@ const BoardDetail = () => {
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
+  
 
   useEffect(() => {
     axios.get(`http://localhost:8090/comment/list/${boardId}`) //댓글 목록 조회

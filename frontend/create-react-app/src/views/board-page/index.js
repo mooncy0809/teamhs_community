@@ -20,7 +20,7 @@ const BoardList = () => {
   useEffect(() => {
     const fetchBoardData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15`);
+        const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${0}`);
         setBoardList(response.data.content);
         setTotalPages(response.data.totalPages);
       } catch (error) {
@@ -59,17 +59,27 @@ const BoardList = () => {
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
+    
+    let cateId = 0; // 기본값은 자유게시판
+    
+    if (tabId === 'tab2') {
+      cateId = 1; // 뉴스
+    }
+
+    // 서버에서 데이터 가져오기
+    fetchBoardData(cateId);
   };
 
-
-
-
-
-  /*태그 제거
-  function removeTags(input) {
-    const doc = new DOMParser().parseFromString(input, 'text/html');
-    return doc.body.textContent || '';
-  }*/
+  const fetchBoardData = async (cateId) => {
+    try {
+      const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}`);
+    
+      setBoardList(response.data.content);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
  
   return (
@@ -80,8 +90,7 @@ const BoardList = () => {
           <div className="tab-container">
             <button
               className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
-              onClick={() => handleTabClick('tab1')}
-            >
+              onClick={() => handleTabClick('tab1')} >
               자유게시판
             </button>
           <button
@@ -92,13 +101,7 @@ const BoardList = () => {
           </button>
         </div>
         <div className="tab-content" id="tab1" style={{ display: activeTab === 'tab1' ? 'block' : 'none' }}>
-          {/* 카테고리 1 내용 */}
-        </div>
-        <div className="tab-content" id="tab2" style={{ display: activeTab === 'tab2' ? 'block' : 'none' }}>
-          {/* 카테고리 2 내용 */}
-        </div>
-      </div>
-          <SubCard>
+        <SubCard>
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
@@ -122,6 +125,35 @@ const BoardList = () => {
               </tbody>
             </Table>
           </SubCard>
+        </div>
+        <div className="tab-content" id="tab2" style={{ display: activeTab === 'tab2' ? 'block' : 'none' }}>
+        <SubCard>
+            <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
+              <thead>
+                <tr >
+                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boardlist.map((item) => (
+                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
+                    <td style={{ textAlign: 'center' }} >{item.boardId}</td>
+                    <td style={titleCellStyle}>{item.boardTitle}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
+                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </SubCard>
+        </div>
+      </div>
+         
           <Grid
               container
               justifyContent="center"

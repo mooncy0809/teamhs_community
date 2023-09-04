@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
+
 
 @RestController
 @RequestMapping("/board")
@@ -24,11 +26,14 @@ public class BoardController {
 
     //글 목록 + 페이징 처리 추가(글 갯수 더 조회하고 싶으면 defaultValue 수정)
     @GetMapping("/list")
-    public ResponseEntity<Page<Board>> getPaginatedBoards(@RequestParam(defaultValue = "0") int page,
-                                                          @RequestParam(defaultValue = "15") int size) {
+    public ResponseEntity<Page<Board>> getPaginatedBoardsByCateId(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            @RequestParam Long cateId // 카테고리 ID를 받아옴
+    ) {
         // 정렬 정보 설정: 내림차순으로 정렬하도록 변경
         Pageable pageable = PageRequest.of(page, size, Sort.by("boardId").descending());
-        Page<Board> boards = boardService.listPaginatedBoards(pageable);
+        Page<Board> boards = boardService.listPaginatedBoardsByCateId(cateId, pageable);
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
 
@@ -63,16 +68,4 @@ public class BoardController {
             return ResponseEntity.badRequest().body("게시글 수정에 실패하였습니다.");
         }
     }
-
 }
-
-
-/*
-게시판
-1. 글 쓰기 (/board/write) ㅇ
-2. 글 목록 (/board/list) ㅇ
-3. 글 조회 (/board/{c_id}) ㅇ
-4. 글 수정 (/board/update/{c_id})
-5. 글 삭제 (/board/delete/{c_id}) ㅇ
-6. 페이징 처리 ㅇ
- */

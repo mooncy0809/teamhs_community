@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -36,11 +35,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import { useCookies } from 'react-cookie';
-import { useUserStore } from 'store';
+import { signInApi } from 'apis/index.ts';
+import { useDispatch } from 'react-redux';
+import { UseSelector } from 'react-redux'; // eslint-disable-line no-unused-vars
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
+  const dispatch = useDispatch();
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -49,10 +52,10 @@ const FirebaseLogin = ({ ...others }) => {
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [cookie, setCookies] = useCookies();        // eslint-disable-line no-unused-vars
+  //const [authView, setAuthView] = useState<boolean>(false); // eslint-disable-line no-unused-vars
 
-  const {setUser} = useUserStore();
   
-  const signInHandler = () => {
+  const signInHandler = async () => {
       if(userId.length === 0 || userPassword.length === 0){
         alert('ID와 Password를 입력하세요.');
         return;
@@ -61,25 +64,30 @@ const FirebaseLogin = ({ ...others }) => {
       userId,
       userPassword,
     };
-    axios.post('http://localhost:8090/api/auth/signIn', data)
-    .then((response) => {
-      const responseData = response.data;
-      if(!responseData.result){
-        alert("로그인에 실패했습니다.");
-        return;
-      }
+    const member = {
+      userid: userId,
+      userpassword: userPassword,
+    };
+    dispatch({type: 'LOGIN_SUCCESS', paylodad: member});
 
-      const {token, exprTime, user} = responseData.data;  // eslint-disable-line no-unused-vars
-      const expires = new Date();
-      expires.setTime(expires.getTime() + exprTime);
+    const signInResponse = await signInApi(data);
 
-      setCookies('token', token, {expires});
-      setUser(user);
-      
-    })
-    .catch((error) => {  // eslint-disable-line no-unused-vars
+    if (!signInResponse) {alert("로그인에 실패했습니다."); return;}
+
+    if(!signInResponse.result){
       alert("로그인에 실패했습니다.");
-    })
+      return;
+    }
+    alert(member.userid+ "님 환영합니다.");
+   
+    
+    const {token, exprTime, user} = signInResponse.data;  // eslint-disable-line no-unused-vars
+    const expires = new Date();
+    //expires.setTime(expires.getTime() + exprTime);
+    expires.setMilliseconds(expires.getMilliseconds() + exprTime);
+
+    setCookies('token', token, {expires});
+
   }
  
 
@@ -116,7 +124,7 @@ const FirebaseLogin = ({ ...others }) => {
               <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
                 <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
               </Box>
-              Sign in with Google
+              Sign in with Google 
             </Button>
           </AnimateButton>
         </Grid>
@@ -253,7 +261,7 @@ const FirebaseLogin = ({ ...others }) => {
                 label="Remember me"
               />
               <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
+                Forgot Password? 
               </Typography>
             </Stack>
             {errors.submit && (
@@ -265,7 +273,7 @@ const FirebaseLogin = ({ ...others }) => {
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary" onClick={signInHandler}>
-                  Sign in
+                  Sign in 
                 </Button>
               </AnimateButton>
             </Box>

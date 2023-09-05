@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table';
 
 import {useNavigate } from 'react-router-dom';
 
+
 const BoardList = () => {
 
   //리스트 조회 + 페이징 API 호출
@@ -81,20 +82,34 @@ const BoardList = () => {
     }
   };
 
+  
+
  
   return (
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
         <div>
-          <div className="tab-container">
-            <button
-              className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
-              onClick={() => handleTabClick('tab1')} >
-              자유게시판
-            </button>
+        <div className="tab-container" style={{marginBottom:'20px'}}>
+          <button
+            className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
+            style={{
+              backgroundColor: activeTab === 'tab1' ? 'skyblue' : 'transparent',
+              color: activeTab === 'tab1' ? 'white' : 'black',
+              fontSize: '18px'
+            }}
+            onClick={() => handleTabClick('tab1')}
+          >
+            자유게시판
+          </button>
+
           <button
             className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
+            style={{
+              backgroundColor: activeTab === 'tab2' ? 'skyblue' : 'transparent',
+              color: activeTab === 'tab2' ? 'white' : 'black',
+              fontSize: '18px'
+            }}
             onClick={() => handleTabClick('tab2')}
           >
             뉴스

@@ -17,12 +17,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useUserStore } from 'store';
 
 const BoardDetail = () => {
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
-  const{user, setUser} = useUserStore();// eslint-disable-line no-unused-vars
 
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]);

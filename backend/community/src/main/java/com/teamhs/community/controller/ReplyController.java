@@ -27,8 +27,8 @@ public class ReplyController {
     }
     @GetMapping
     public ResponseEntity<Page<ReplyDTO>> getProblems(Pageable pageable) {
-        Page<ReplyDTO> repiesPage = replyService.getRepliesPage(pageable);
-        return ResponseEntity.ok(repiesPage);
+        Page<ReplyDTO> repliesPage = replyService.getRepliesPage(pageable);
+        return ResponseEntity.ok(repliesPage);
     }
 
     @GetMapping("/problem/{problemId}")

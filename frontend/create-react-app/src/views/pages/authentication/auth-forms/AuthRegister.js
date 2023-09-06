@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import axios from "axios";
 import React from "react";
 
 
@@ -79,7 +78,7 @@ const FirebaseRegister = ({ ...others }) => {
     changePassword('123456');
   }, []);
   
-  const signUpHandler = () => {
+  const signUpHandler = async () => {
     if(userName.length === 0 || userId.length === 0 || userEmail.length === 0 || userPassword.length === 0 ){
       alert('회원정보를 모두 입력해주세요.');
       return;
@@ -91,11 +90,19 @@ const FirebaseRegister = ({ ...others }) => {
       userPassword,
     
     };
-    axios.post('http://localhost:8090/api/auth/signUp', data)
-    .then(() => {
-    })
-    .catch(() => {
-    })
+    
+    const signUpResponse = await signUpApi(data);
+
+    if(!signUpResponse) {
+      alert("회원가입에 실패했습니다.");
+      return;
+    }
+    if(!signUpResponse.result){
+      alert("회원가입에 실패했습니다.");
+      return;
+    }
+    alert("회원가입에 성공했습니다.");
+
   }
 
   return (

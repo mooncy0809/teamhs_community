@@ -38,11 +38,15 @@ public class Board {
     @Column(nullable = true)
     private int boardRecom;
 
+    //조회수
     @Column(nullable = true)
     private int boardCnt;
 
+
+    //없애도됨
     @Column(nullable = true)
     private int commentCnt;
+
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL) //Comment와 일대다 매핑
     private List<Comment> comments = new ArrayList<>();

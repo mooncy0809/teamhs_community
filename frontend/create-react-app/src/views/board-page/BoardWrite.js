@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef  } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { Grid, Button, TextField } from '@mui/material';
+import { Grid, Button, TextField, InputLabel } from '@mui/material';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import ReactQuill from 'react-quill';
 
+import { Select, MenuItem } from '@mui/material';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-quill/dist/quill.snow.css';
 import './customQuill.css'; //Quill Custom 파일
+
 
 const BoardWrite = () => {
 
   //게시글 작성
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('00');
+
+  //카테고리 기능 추가
+  const categories = [
+    { value: "00", label: '자유게시판' },
+    { value: "01", label: '뉴스' },
+  ];
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
 
   //내용 변경 시 setTitle 값 변경
   const handleTitleChange = (event) => {
@@ -40,6 +55,7 @@ const BoardWrite = () => {
       const postData = {
       title: title,
       content: content,
+      categoryId: selectedCategory
       };
     
       axios.post('http://localhost:8090/board/write', postData)
@@ -55,24 +71,48 @@ const BoardWrite = () => {
     };
 
 
+    const contentRef = useRef(null);
+    //제목에서 Tab키 누를 시 내용으로 이동
+    const handleTitleTabPress = (event) => {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        contentRef.current.focus(); // 내용 작성 부분으로 포커스 이동
+      }
+    };
+
+
   return (
+    
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>게시글 작성</span>} style={{ marginLeft: '8px' }}>
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>
         <SubCard>
         <Grid container spacing={2}>
+
               <Grid item xs={12}>
+                <InputLabel htmlFor="category-select">카테고리</InputLabel>
+                <Select 
+                  label="카테고리" style = {{marginBottom:'10px'}}value={selectedCategory} onChange={handleCategoryChange}>
+                  {categories.map((category) => (
+                    <MenuItem key={category.value} value={category.value}>
+                      {category.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+
                 <TextField
                   label="제목"
                   variant="outlined"
                   fullWidth
                   value={title}
                   onChange={handleTitleChange}
+                  onKeyDown={handleTitleTabPress} // 탭 키 이벤트 핸들러 추가
                 />
               </Grid>
               <Grid item xs={12}>
               <div className="quill-container">
                     <ReactQuill
+                      ref = {contentRef}
                       value={content}
                       onChange={handleContentChange}
                       theme="snow"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useNavigate} from 'react-router-dom'
 import React from "react";
 
 
@@ -31,6 +32,7 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import Google from 'assets/images/icons/social-google.svg';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { signUpApi } from 'apis/index';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
@@ -42,6 +44,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const FirebaseRegister = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
+  const navigate = useNavigate(); // eslint-disable-line no-unused-vars
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
@@ -91,7 +94,8 @@ const FirebaseRegister = ({ ...others }) => {
     
     };
     
-    const signUpResponse = await signUpApi(data);
+    try{
+      const signUpResponse = await signUpApi(data);
 
     if(!signUpResponse) {
       alert("회원가입에 실패했습니다.");
@@ -102,6 +106,10 @@ const FirebaseRegister = ({ ...others }) => {
       return;
     }
     alert("회원가입에 성공했습니다.");
+    navigate('/');
+    }catch(error){
+      console.error('회원가입 실패:', error);
+    }
 
   }
 

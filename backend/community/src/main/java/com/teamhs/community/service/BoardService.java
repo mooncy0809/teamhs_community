@@ -28,7 +28,7 @@ public class BoardService {
     //게시판 작성
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();
-        newBoard.setUserId("임시 아이디");
+        newBoard.setUserId("mmy4637");
 
         //category 00 - 자유게시판 01 - 뉴스
         newBoard.setCateId(board.getCategoryId());

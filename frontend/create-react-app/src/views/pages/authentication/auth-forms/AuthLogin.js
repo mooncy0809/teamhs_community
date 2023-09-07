@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate} from 'react-router-dom'
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -35,15 +36,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import { useCookies } from 'react-cookie';
-import { signInApi } from 'apis/index.ts';
+import { signInApi } from 'apis/index';
 import { useDispatch } from 'react-redux';
-import { UseSelector } from 'react-redux'; // eslint-disable-line no-unused-vars
+import {loginSuccess} from '../../../../store/actions';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
   const dispatch = useDispatch();
-  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
+  const navigate = useNavigate();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -51,44 +52,53 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [cookie, setCookies] = useCookies();        // eslint-disable-line no-unused-vars
-  //const [authView, setAuthView] = useState<boolean>(false); // eslint-disable-line no-unused-vars
+  const [cookie, setCookies] = useCookies(); // eslint-disable-line no-unused-vars
+  const member = useSelector((state) => state.member); // Redux 상태를 컴포넌트 상단에서 가져옴
 
-  
   const signInHandler = async () => {
-      if(userId.length === 0 || userPassword.length === 0){
-        alert('ID와 Password를 입력하세요.');
-        return;
-      }
+    if (userId.length === 0 || userPassword.length === 0) {
+      alert('ID와 Password를 입력하세요.');
+      return;
+    }
     const data = {
       userId,
       userPassword,
     };
-    const member = {
-      userid: userId,
-      userpassword: userPassword,
-    };
-    dispatch({type: 'LOGIN_SUCCESS', paylodad: member});
 
-    const signInResponse = await signInApi(data);
+    try {
+      const signInResponse = await signInApi(data);
 
-    if (!signInResponse) {alert("로그인에 실패했습니다."); return;}
+      if (!signInResponse) {
+        alert('로그인에 실패했습니다.');
+        return;
+      }
 
-    if(!signInResponse.result){
-      alert("로그인에 실패했습니다.");
-      return;
+      if (!signInResponse.result) {
+        alert('로그인에 실패했습니다.');
+        return;
+      }
+
+      const { token, exprTime, user } = signInResponse.data; // eslint-disable-line no-unused-vars
+      const expires = new Date();
+      expires.setMilliseconds(expires.getMilliseconds() + exprTime);
+
+      setCookies('token', token, { expires });
+
+      // dispatch 함수를 호출한 후에 member 상태를 가져옵니다.
+      dispatch(loginSuccess(data));
+
+      // member 상태를 확인하고 사용자 정보를 출력합니다.
+      if (member) {
+        console.log('로그인 성공! 유저 정보:', member);
+        alert(data.userId + '님 환영합니다.');
+        navigate('/');
+      } else {
+        console.error('로그인 후 member 상태를 가져오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('로그인 실패:', error);
     }
-    alert(member.userid+ "님 환영합니다.");
-   
-    
-    const {token, exprTime, user} = signInResponse.data;  // eslint-disable-line no-unused-vars
-    const expires = new Date();
-    //expires.setTime(expires.getTime() + exprTime);
-    expires.setMilliseconds(expires.getMilliseconds() + exprTime);
-
-    setCookies('token', token, {expires});
-
-  }
+  };
  
 
   const googleHandler = async () => {

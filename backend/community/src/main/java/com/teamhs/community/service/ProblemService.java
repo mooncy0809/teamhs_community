@@ -68,9 +68,10 @@ public class ProblemService {
     }
 
     private Problem convertToEntity(ProblemDTO problemDTO) {
+
         Problem problem = new Problem();
         BeanUtils.copyProperties(problemDTO, problem);
-        problem.setUserId("임시 아이디"); // userId 임시 지정
+        problem.setUserId("mmy4637"); // userId 임시 지정
         problem.setProblemDate(LocalDate.now());
 //        problem.setUser(userService.getUserById(problemDTO.getUserId()));
         return problem;

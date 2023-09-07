@@ -1,4 +1,4 @@
-import { Grid, Button, TextField } from '@mui/material';
+import { Grid, Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import React, { useState } from 'react';
@@ -20,6 +20,9 @@ import '../css/customQuill.css'; //Quill Custom 파일
 const ProblemWrite = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const [problemtype, setProblemtype] = useState("");
+  const [point, setPoint] = useState("");
 
   const navigate = useNavigate(); //페이지 이동
  
@@ -32,14 +35,27 @@ const ProblemWrite = () => {
     setContent(value);
   }
 
+  const handleChange_point = (e) => {
+    setPoint(e.target.value); 
+  };
+
+  const handleChange_category = (e) => {
+    setCategory(e.target.value); 
+  };
+
+  const handleChange_problemtype = (e) => {
+    setProblemtype(e.target.value);
+  };
+
   const handleCancleButtonClick = () => {
     navigate('/problem/list');
   };
 
   const insertProblem = () => {
       axios.post('http://localhost:8090/api/problems/write', {
-        problemPoint : 20,
-        problemType : 1,
+        problemPoint : point,
+        problemType : problemtype,
+        cateId : category,
         problemTitle : title,
         problemContent : content
       })
@@ -58,7 +74,7 @@ const ProblemWrite = () => {
       <Grid item xs={12}>
         <SubCard>
           <Grid container spacing={2}>
-          <Grid item xs={12} >
+          <Grid item xs={7} >
             <TextField
                   variant="outlined"
                   fullWidth
@@ -69,6 +85,64 @@ const ProblemWrite = () => {
 
              />
             </Grid>
+            <Grid item xs={2}>
+                <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+                {/* 카테고리 선택 드롭다운 */}
+                <Select
+                  variant="outlined"
+                  labelId="demo-simple-select-label"
+                  fullWidth
+                  value={category}
+                  onChange={handleChange_category} // 카테고리 선택 핸들러
+                  label="카테고리"
+                  sx={{ '& fieldset': { borderRadius: 2 } }}
+                >
+                  <MenuItem value={1}>IT 기술</MenuItem>
+                  <MenuItem value={2}>정보처리기사</MenuItem>
+                </Select>
+              </FormControl>
+              </Grid>
+              <Grid item xs={2}>
+                {/* 문제유형 선택 드롭다운 */}
+                <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">유형</InputLabel>
+                <Select
+                  variant="outlined"
+                  labelId="demo-simple-select-label"
+                  fullWidth
+                  value={problemtype}
+                  onChange={handleChange_problemtype} 
+                  label="유형"
+                  sx={{ '& fieldset': { borderRadius: 2 } }}
+                >
+                  <MenuItem value={1}>객관식</MenuItem>
+                  <MenuItem value={2}>단답식</MenuItem>
+                  <MenuItem value={3}>주관식</MenuItem>
+                </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={1}>
+                {/* 점수 선택 드롭다운 */}
+                <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">점수</InputLabel>
+                <Select
+                  variant="outlined"
+                  labelId="demo-simple-select-label"
+                  fullWidth
+                  value={point}
+                  onChange={handleChange_point} 
+                  label="점수"
+                  sx={{ '& fieldset': { borderRadius: 2 } }}
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                  <MenuItem value={40}>40</MenuItem>
+                  <MenuItem value={50}>50</MenuItem>
+                </Select>
+              </FormControl>
+              </Grid>
             <Grid item xs={12}>
               <div className="quill-container">
                     <ReactQuill

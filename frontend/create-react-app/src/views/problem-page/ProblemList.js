@@ -161,7 +161,7 @@ const filteredList = list.filter((item) => {
                                     <td style={{ textAlign: 'center' }}>
                                       <Button size="small" variant="contained" onClick={() => handleClickOpen(item.problemId)} >정답</Button>
                                       <Dialog
-                                        open={openAnswerModal}
+                                        open={openAnswerModal && selectedProblemId === item.problemId}
                                         onClose={handleClose}
                                         aria-labelledby="alert-dialog-title"
                                         aria-describedby="alert-dialog-description"

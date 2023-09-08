@@ -4,9 +4,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-// project imports
-import { gridSpacing } from 'store/constant';
-
 // ==============================|| AnswerList ||============================== //
 
 const AnswerList = ({ problemId }) => { // problemId를 props로 받음
@@ -42,8 +39,7 @@ const rows = answers.map((answer, index) => ({
 }));
 
   return (
-    <div>
-        <Grid spacing={gridSpacing}>
+        <Grid>
           {/* 데이터 테이블 */}
           <DataGrid
             rows={rows}
@@ -58,7 +54,6 @@ const rows = answers.map((answer, index) => ({
             checkboxSelection
           />
         </Grid>
-    </div>
   );
 };
 

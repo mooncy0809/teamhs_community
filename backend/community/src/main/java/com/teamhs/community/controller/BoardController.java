@@ -43,15 +43,15 @@ public class BoardController {
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{board_id}")
-    public ResponseEntity<Board> getBoardById(@PathVariable Long board_id) {
-        Board board = boardService.getBoardById(board_id);
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Board> getBoardById(@PathVariable Long boardId) {
+        Board board = boardService.getBoardById(boardId);
         return ResponseEntity.ok(board);
     }
 
-    @DeleteMapping("/delete/{board_id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id) {
-        boolean success = boardService.deleteBoard(board_id);
+    @DeleteMapping("/delete/{boardId}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long boardId) {
+        boolean success = boardService.deleteBoard(boardId);
         if (success) {
             return ResponseEntity.ok("게시글이 삭제되었습니다.");
         } else {
@@ -59,9 +59,9 @@ public class BoardController {
         }
     }
 
-    @PutMapping("/update/{board_id}")
-    public ResponseEntity<String> updateBoard(@PathVariable Long board_id, @RequestBody BoardDTO updatedBoardDTO) {
-        boolean success = boardService.updateBoard(board_id, updatedBoardDTO);
+    @PutMapping("/update/{boardId}")
+    public ResponseEntity<String> updateBoard(@PathVariable Long boardId, @RequestBody BoardDTO updatedBoardDTO) {
+        boolean success = boardService.updateBoard(boardId, updatedBoardDTO);
         if (success) {
             return ResponseEntity.ok("게시글이 수정되었습니다.");
         } else {

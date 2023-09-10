@@ -28,7 +28,10 @@ public class BoardService {
     //게시판 작성
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();
-        newBoard.setUserId("mmy4637");
+
+        //newBoard.setUserId("임시 아이디");
+        newBoard.setUserId(board.getUserId());
+
 
         //category 00 - 자유게시판 01 - 뉴스
         newBoard.setCateId(board.getCategoryId());
@@ -44,10 +47,10 @@ public class BoardService {
     }
 
     //게시글 상세 조회
-    public Board getBoardById(Long board_id) {
+    public Board getBoardById(Long boardId) {
 
-        Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + board_id));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
 
         // 조회수 증가
         board.setBoardCnt(board.getBoardCnt() + 1);

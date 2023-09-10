@@ -44,8 +44,8 @@ public class CommentService {
 
 
     //댓글 삭제
-    public boolean deleteComment(Long comment_id) {
-        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+    public boolean deleteComment(Long commentId) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             Comment comment = commentOptional.get();
             commentRepository.delete(comment);
@@ -55,8 +55,8 @@ public class CommentService {
     }
 
     //댓글 수정
-    public boolean updateComment(Long comment_id, CommentDTO updateCommentDTO) {
-        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+    public boolean updateComment(Long commentId, CommentDTO updateCommentDTO) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             Comment existingComment = commentOptional.get();
 

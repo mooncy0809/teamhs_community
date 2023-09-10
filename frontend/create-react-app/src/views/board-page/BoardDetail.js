@@ -17,16 +17,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useSelector } from 'react-redux'; // eslint-disable-line
+
+
 
 const BoardDetail = () => {
+
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
+
+
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
-
   const [board, setBoard] = useState(null);
-  const [commentList, setCommentList] = useState([]);
+  const [commentList, setCommentList] = useState([]); 
   const [recommentList, setReCommentList] = useState([]);
-
-
 
   //전체 댓글 수 조회
   const totalComments = commentList.length;
@@ -129,7 +133,7 @@ const BoardDetail = () => {
 
   const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
   const newComment = {
-    userId: "임시 아이디",
+    userId: member.member.userId,
     boardId: boardId,
     commentContent: commentContent,
   };
@@ -208,7 +212,7 @@ const BoardDetail = () => {
     //답글 작성
     const handleReCommentWrite = (commentId) => {
       const newReComment = {
-        userId: "임시 아이디",
+        userId: member.member.userId,
         boardId: parseInt(boardId), // boardId를 숫자로 변환하여 넣어줌
         commentId: commentId,
         reCommentContent: reCommentContent,
@@ -422,15 +426,6 @@ const BoardDetail = () => {
 
               {/* 댓글 작성 폼 */}
               <Grid item xs={12} style={{ textAlign: 'right' }}>
-                  <div style={{ marginBottom: '1rem' }}>
-                      {/* 사용자 정보 표시 */}
-                      {user!= null &&(<>
-                      <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333', marginBottom: '10px' }}>
-                        작성자: {user.userName} ({user.userId})
-                      </Typography>
-                      </>
-                       )}
-                    </div>
                 <TextField
                   label="댓글 작성"
                   multiline

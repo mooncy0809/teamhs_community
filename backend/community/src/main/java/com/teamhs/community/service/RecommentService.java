@@ -54,8 +54,8 @@ public class RecommentService {
 
 
     //대댓글 삭제
-    public boolean deleteReComment(Long recomment_id) {
-        Optional<Recomment> commentOptional = recommentRepository.findById(recomment_id);
+    public boolean deleteReComment(Long recommentId) {
+        Optional<Recomment> commentOptional = recommentRepository.findById(recommentId);
         if (commentOptional.isPresent()) {
             Recomment recomment = commentOptional.get();
             recommentRepository.delete(recomment);
@@ -65,8 +65,8 @@ public class RecommentService {
     }
 
     //대댓글 수정
-    public boolean updateReComment(Long recomment_id, RecommentDTO updateReCommentDTO) {
-        Optional<Recomment> recommentOptional = recommentRepository.findById(recomment_id);
+    public boolean updateReComment(Long recommentId, RecommentDTO updateReCommentDTO) {
+        Optional<Recomment> recommentOptional = recommentRepository.findById(recommentId);
         if (recommentOptional.isPresent()) {
             Recomment existingreComment = recommentOptional.get();
 

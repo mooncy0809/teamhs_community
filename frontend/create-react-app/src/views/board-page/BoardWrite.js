@@ -14,8 +14,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-quill/dist/quill.snow.css';
 import './customQuill.css'; //Quill Custom 파일
 
+import { useSelector } from 'react-redux'; // eslint-disable-line
+
 
 const BoardWrite = () => {
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
 
   //게시글 작성
   const [title, setTitle] = useState('');
@@ -53,6 +56,7 @@ const BoardWrite = () => {
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
       const postData = {
+      userId : member.member.userId, 
       title: title,
       content: content,
       categoryId: selectedCategory

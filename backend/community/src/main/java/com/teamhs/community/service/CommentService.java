@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +39,11 @@ public class CommentService {
 
         comment.setBoard(board);
         comment.setCommentContent(commentDTO.getCommentContent());
-        comment.setCommentDate(LocalDate.now());
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        comment.setCommentDate(formattedDateTime);
         return commentRepository.save(comment);
     }
 
@@ -60,7 +65,13 @@ public class CommentService {
         if (commentOptional.isPresent()) {
             Comment existingComment = commentOptional.get();
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = LocalDateTime.now().format(formatter);
+
+
             existingComment.setCommentContent(updateCommentDTO.getCommentContent());
+            existingComment.setCommentDate(formattedDateTime + "(수정됨)");
+
             commentRepository.save(existingComment);
             return true;
         }

@@ -12,7 +12,7 @@ public class RecommentDTO {
     private Long boardId;
     @Getter
     private String reCommentContent;
-    private LocalDate recommentDate;
+    private String recommentDate;
 
 
     public int getRecommentId() {
@@ -44,11 +44,11 @@ public class RecommentDTO {
         this.reCommentContent = reCommentContent;
     }
 
-    public LocalDate getReCommentDate() {
+    public String getReCommentDate() {
         return recommentDate;
     }
 
-    public void setReCommentDate(LocalDate recommentDate) {
+    public void setReCommentDate(String recommentDate) {
         this.recommentDate = recommentDate;
     }
 }

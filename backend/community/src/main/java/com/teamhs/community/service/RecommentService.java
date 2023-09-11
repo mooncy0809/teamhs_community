@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,11 @@ public class RecommentService {
 
         recomment.setUserId(recommentDTO.getUserId());
         recomment.setReCommentContent(recommentDTO.getReCommentContent());
-        recomment.setRecommentDate(LocalDate.now());
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        recomment.setRecommentDate(formattedDateTime);
 
         return recommentRepository.save(recomment);
     }
@@ -68,10 +74,15 @@ public class RecommentService {
     public boolean updateReComment(Long recommentId, RecommentDTO updateReCommentDTO) {
         Optional<Recomment> recommentOptional = recommentRepository.findById(recommentId);
         if (recommentOptional.isPresent()) {
-            Recomment existingreComment = recommentOptional.get();
+            Recomment existingreReComment = recommentOptional.get();
 
-            existingreComment.setReCommentContent(updateReCommentDTO.getReCommentContent());
-            recommentRepository.save(existingreComment);
+            existingreReComment.setReCommentContent(updateReCommentDTO.getReCommentContent());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = LocalDateTime.now().format(formatter);
+            existingreReComment.setRecommentDate(formattedDateTime + "(수정됨)");
+
+            recommentRepository.save(existingreReComment);
             return true;
         }
         return false;

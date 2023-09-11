@@ -40,6 +40,6 @@ public class Recomment {
     private String reCommentContent;
 
     @Column(nullable = true)
-    private LocalDate recommentDate;
+    private String recommentDate;
 
 }

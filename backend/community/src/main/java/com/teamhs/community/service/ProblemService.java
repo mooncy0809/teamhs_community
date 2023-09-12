@@ -71,7 +71,6 @@ public class ProblemService {
 
         Problem problem = new Problem();
         BeanUtils.copyProperties(problemDTO, problem);
-        problem.setUserId("mmy4637"); // userId 임시 지정
         problem.setProblemDate(LocalDate.now());
 //        problem.setUser(userService.getUserById(problemDTO.getUserId()));
         return problem;

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // eslint-disable-line no-unused-vars 
 
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
@@ -23,6 +24,7 @@ const ProblemWrite = () => {
   const [category, setCategory] = useState("");
   const [problemtype, setProblemtype] = useState("");
   const [point, setPoint] = useState("");
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
 
   const navigate = useNavigate(); //페이지 이동
  
@@ -57,7 +59,8 @@ const ProblemWrite = () => {
         problemType : problemtype,
         cateId : category,
         problemTitle : title,
-        problemContent : content
+        problemContent : content,
+        userId : member.member.userId
       })
       .then(response => {
         console.log(response);

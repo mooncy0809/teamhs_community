@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate} from 'react-router-dom'
 
 // material-ui
@@ -37,12 +36,13 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import { useCookies } from 'react-cookie';
 import { signInApi } from 'apis/index';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {loginSuccess} from '../../../../store/actions';
+import {setIsLoggedIn} from '../../../../store/actions';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-const FirebaseLogin = ({ ...others }) => {
+const FirebaseLogin = ({ onLoginSuccess, ...others }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -54,6 +54,7 @@ const FirebaseLogin = ({ ...others }) => {
   const [userPassword, setUserPassword] = useState('');
   const [cookie, setCookies] = useCookies(); // eslint-disable-line no-unused-vars
   const member = useSelector((state) => state.member); // Redux 상태를 컴포넌트 상단에서 가져옴
+  const [isAppLoggedIn, setIsAppLoggedIn] = useState(false); // eslint-disable-line no-unused-vars
 
   const signInHandler = async () => {
     if (userId.length === 0 || userPassword.length === 0) {
@@ -86,9 +87,11 @@ const FirebaseLogin = ({ ...others }) => {
 
       // dispatch 함수를 호출한 후에 member 상태를 가져옵니다.
       dispatch(loginSuccess(data));
+      onLoginSuccess();
 
       // member 상태를 확인하고 사용자 정보를 출력합니다.
       if (member) {
+        dispatch(setIsLoggedIn(true));
         console.log('로그인 성공! 유저 정보:', member);
         alert(data.userId + '님 환영합니다.');
         navigate('/');

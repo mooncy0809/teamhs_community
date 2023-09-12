@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +39,18 @@ public class CommentService {
 
         comment.setBoard(board);
         comment.setCommentContent(commentDTO.getCommentContent());
-        comment.setCommentDate(LocalDate.now());
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        comment.setCommentDate(formattedDateTime);
         return commentRepository.save(comment);
     }
 
 
     //댓글 삭제
-    public boolean deleteComment(Long comment_id) {
-        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+    public boolean deleteComment(Long commentId) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             Comment comment = commentOptional.get();
             commentRepository.delete(comment);
@@ -55,12 +60,18 @@ public class CommentService {
     }
 
     //댓글 수정
-    public boolean updateComment(Long comment_id, CommentDTO updateCommentDTO) {
-        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+    public boolean updateComment(Long commentId, CommentDTO updateCommentDTO) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             Comment existingComment = commentOptional.get();
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = LocalDateTime.now().format(formatter);
+
+
             existingComment.setCommentContent(updateCommentDTO.getCommentContent());
+            existingComment.setCommentDate(formattedDateTime + "(수정됨)");
+
             commentRepository.save(existingComment);
             return true;
         }

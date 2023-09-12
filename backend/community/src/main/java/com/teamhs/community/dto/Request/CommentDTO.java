@@ -1,6 +1,7 @@
 package com.teamhs.community.dto.Request;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 public class CommentDTO {
@@ -10,7 +11,7 @@ public class CommentDTO {
     private Long boardId;
 
     private String commentContent;
-    private LocalDate commentDate;
+    private String commentDate;
 
     public int getCommentId() {
         return commentId;
@@ -37,11 +38,11 @@ public class CommentDTO {
         this.commentContent = commentContent;
     }
 
-    public LocalDate getCommentDate() {
+    public String getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(LocalDate commentDate) {
+    public void setCommentDate(String commentDate) {
         this.commentDate = commentDate;
     }
 }

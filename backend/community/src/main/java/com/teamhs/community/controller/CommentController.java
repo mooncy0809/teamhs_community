@@ -28,9 +28,9 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{comment_id}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long comment_id) {
-        boolean success = commentService.deleteComment(comment_id);
+    @DeleteMapping("/delete/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
+        boolean success = commentService.deleteComment(commentId);
         if (success) {
             return ResponseEntity.ok("댓글이 삭제되었습니다.");
         } else {
@@ -38,9 +38,9 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/update/{comment_id}")
-    public ResponseEntity<String> updateComment(@PathVariable Long comment_id, @RequestBody CommentDTO updatedCommentDTO) {
-        boolean success = commentService.updateComment(comment_id, updatedCommentDTO);
+    @PutMapping("/update/{commentId}")
+    public ResponseEntity<String> updateComment(@PathVariable Long commentId, @RequestBody CommentDTO updatedCommentDTO) {
+        boolean success = commentService.updateComment(commentId, updatedCommentDTO);
         if (success) {
             return ResponseEntity.ok("댓글이 수정되었습니다.");
         } else {

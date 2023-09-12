@@ -17,16 +17,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useSelector } from 'react-redux'; // eslint-disable-line
+import { ReactComponent as Reservation } from "assets/images/users/default.svg";
+
 
 const BoardDetail = () => {
+
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
+
+
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
-
   const [board, setBoard] = useState(null);
-  const [commentList, setCommentList] = useState([]);
+  const [commentList, setCommentList] = useState([]); 
   const [recommentList, setReCommentList] = useState([]);
-
-
 
   //전체 댓글 수 조회
   const totalComments = commentList.length;
@@ -129,7 +133,7 @@ const BoardDetail = () => {
 
   const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
   const newComment = {
-    userId: "임시 아이디",
+    userId: member.member.userId,
     boardId: boardId,
     commentContent: commentContent,
   };
@@ -208,7 +212,7 @@ const BoardDetail = () => {
     //답글 작성
     const handleReCommentWrite = (commentId) => {
       const newReComment = {
-        userId: "임시 아이디",
+        userId: member.member.userId,
         boardId: parseInt(boardId), // boardId를 숫자로 변환하여 넣어줌
         commentId: commentId,
         reCommentContent: reCommentContent,
@@ -236,8 +240,8 @@ const BoardDetail = () => {
           // 에러 처리
         });
     };
-
-    //답글삭제
+ 
+    //답글 삭제
     const handleReCommentDelete = (recommentId, commentId) => {
       axios.delete(`http://localhost:8090/recomment/delete/${recommentId}`) //댓글 삭제 버튼 클릭
       .then(response => {
@@ -284,7 +288,13 @@ const BoardDetail = () => {
                   </Typography>
                   <Grid item>
                     {/* 게시글 수정/삭제 */}
-                    <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography> | <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                    {board.userId === member?.member?.userId ? (
+                      <>
+                       <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography> | <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                       </>
+                    ) : ( null
+                      )}
+                  
                     <Dialog open={openDialog} onClose={handleCloseDialog}>
                       <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>게시글 삭제</DialogTitle>
                       <DialogContent>
@@ -351,10 +361,16 @@ const BoardDetail = () => {
                             </div>
                           ) : (
                             <>
+                            {/*댓글 수정/삭제 버튼*/}
+                            {comment.userId === member?.member?.userId ? (
+                              <>
                               <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
                               {' | '}
                               <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
-                              
+                              </>
+                              ) : ( null
+                             )}
+
                               {/* 답글 달기 버튼 클릭 */}
                               <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); handleWatchRecomments(comment.commentId); setReCommentId(comment.commentId); }}>{openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a></div>
                                     
@@ -389,7 +405,11 @@ const BoardDetail = () => {
                                                 </div>
                                               ) : (
                                                 <>
-                                                  <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>삭제</a>
+                                                {/*답글 삭제 버튼*/}
+                                                {recomment.userId === member?.member?.userId ? (
+                                                  <a href="#"style={{ textDecoration: 'none', color: '#333333', marginLeft: '10px',}}onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>삭제</a>
+                                                  ) : (null
+                                                  )}
                                                   </>
                                                 )}
                                             </Typography>
@@ -397,6 +417,8 @@ const BoardDetail = () => {
                                         </div>
                                       ))}    
 
+                                    {member?.member?.userId ? (
+                                                    <>               
                                       <TextField
                                         label="답글 작성"
                                         multiline
@@ -407,9 +429,16 @@ const BoardDetail = () => {
                                         onChange={(e) => setReCommentContent(e.target.value)}
                                         style={{ marginTop: '10px', marginBottom: '10px' }}
                                       />
+
                                       <div style={{ textAlign: 'right' }}>
-                                        <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)}>작성</Button>
+                                        <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)} disabled={!reCommentContent}>작성</Button>
                                       </div>
+                                      </>
+                                      ) : (
+                                        <Typography variant="body1" style={{margin:'20px', fontSize:'16px', fontWeight: 'bold', color: '#333333' }}>
+                                          답글 작성을 위해 로그인 해주세요.
+                                        </Typography>
+                                      )}
                                     </div>
                                     )}
                                   </>
@@ -420,29 +449,39 @@ const BoardDetail = () => {
                   ))}
               </Grid>
 
-              {/* 댓글 작성 폼 */}
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
-                  <div style={{ marginBottom: '1rem' }}>
-                      {/* 사용자 정보 표시 */}
-                      {user!= null &&(<>
-                      <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333', marginBottom: '10px' }}>
-                        작성자: {user.userName} ({user.userId})
-                      </Typography>
-                      </>
-                       )}
-                    </div>
-                <TextField
-                  label="댓글 작성"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                  style={{ marginBottom: "1rem" }}
-                  value={commentContent} // 상태 연결
-                  onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
-                />
-                <Button onClick={handleCommentWrite} variant="contained" color="primary"  disabled={!commentContent}>댓글 작성</Button>
-              </Grid>
+              
+
+              {/* 사용자 이름 */}
+              {member?.member?.userId ? (
+                <>
+                {/* 사용자 프로필 이미지 */}
+                <div style={{ display: 'flex', alignItems: 'center', marginLeft:'15px' }}>
+                <Reservation width="35px" height="35px" />
+                <Typography variant="body1" style={{ marginLeft:'10px', fontSize:'16px', fontWeight: 'bold', color: '#333333' }}>
+                  {member.member.userId}
+                </Typography>
+                </div>
+                {/* 댓글 작성 폼 */}
+                <Grid item xs={12} style={{ textAlign: 'right' }}>
+                  <TextField
+                    label="댓글 작성"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    fullWidth
+                    style={{ marginBottom: "1rem" }}
+                    value={commentContent} // 상태 연결
+                    onChange={(e) => setCommentContent(e.target.value)} // 입력 내용 업데이트
+                  />
+                  <Button onClick={handleCommentWrite} variant="contained" color="primary"  disabled={!commentContent}>댓글 작성</Button>
+                </Grid>
+              </>
+              ) : (
+                <Typography variant="body1" style={{margin:'20px', fontSize:'16px', fontWeight: 'bold', color: '#333333' }}>
+                  댓글 작성을 위해 로그인 해주세요.
+                </Typography>
+              )}
+              
             </Grid>
           </SubCard>
         </Grid>

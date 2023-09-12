@@ -9,10 +9,13 @@ import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
 
 import {useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // eslint-disable-line
 
 
+  
 const BoardList = () => {
 
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
   //리스트 조회 + 페이징 API 호출
   const [boardlist, setBoardList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0); // Current page
@@ -82,12 +85,20 @@ const BoardList = () => {
     }
   };
 
-  
 
  
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>} style={{ marginLeft: '8px' }} secondary={<Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>게시글 작성</Button>}>
-      <Grid container spacing={gridSpacing}>
+    <MainCard
+    title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>}
+    style={{ marginLeft: '8px' }}
+    secondary={
+      member?.member?.userId ? (
+        <Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>
+          게시글 작성
+        </Button>
+      ) : null
+    }
+  ><Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
         <div>
         <div className="tab-container" style={{marginBottom:'20px'}}>

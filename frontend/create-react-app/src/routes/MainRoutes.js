@@ -27,6 +27,8 @@ const ReplyEdit = Loadable(lazy(() => import('views/problem-page/ReplyEdit')));
 
 // answer page routing
 const AnswerList = Loadable(lazy(() => import('views/problem-page/AnswerListModal')));
+const AnswerWrite = Loadable(lazy(() => import('views/problem-page/AnswerWrite')));
+const AnswerEdit = Loadable(lazy(() => import('views/problem-page/AnswerEdit')));
 
 // master page routing
 const ProblemWrite = Loadable(lazy(() => import('views/master-page/ProblemWrite')));
@@ -103,6 +105,14 @@ const MainRoutes = {
         {
           path: 'list',
           element: <AnswerList />
+        },
+        {
+          path: 'write/:problemId',
+          element: <AnswerWrite />
+        },
+        {
+          path: 'edit/:answerId',
+          element: <AnswerEdit />
         }
       ]
     },

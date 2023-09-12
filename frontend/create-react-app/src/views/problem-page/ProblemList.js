@@ -167,14 +167,14 @@ const filteredList = list.filter((item) => {
                                         aria-describedby="alert-dialog-description"
                                       >
                                         <DialogTitle id="alert-dialog-title">
-                                          {"Use Google's location service?"}
+                                          {"정답목록"}
                                         </DialogTitle>
                                         <DialogContent>
                                           {selectedProblemId !== 0 && <AnswerList problemId={selectedProblemId} onClose={handleClose} />}
                                         </DialogContent>
                                         <DialogActions>
                                           <Button autoFocus onClick={handleClose}>취소</Button>
-                                          <Button onClick={handleClose} autoFocus>정답추가</Button>
+                                          <Link to={`/answer/write/${item.problemId}`}><Button autoFocus>정답추가</Button></Link>
                                         </DialogActions>
                                       </Dialog>
                                     </td>

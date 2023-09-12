@@ -61,7 +61,7 @@ const ReplyEdit = () => {
   };
 
   return(
-  <MainCard  title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>문제 작성</span>} style={{ marginLeft: '8px' }}>
+  <MainCard  title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>답변 수정</span>} style={{ marginLeft: '8px' }}>
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>
         <SubCard>

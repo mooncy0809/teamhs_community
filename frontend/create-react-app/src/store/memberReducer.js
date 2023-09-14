@@ -3,6 +3,7 @@ import { LOGIN_SUCCESS, SET_IS_LOGGED_IN} from './constant'; // constant.js 파�
 
 const initialState = {
   member: null,
+  isLoggedIn: false,
 };
 
 const memberReducer = (state = initialState, action) => {
@@ -16,6 +17,16 @@ const memberReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: action.payload, // isLoggedIn을 업데이트
+      };
+    case 'LOGOUT':
+      return{
+        ...initialState,
+      }
+    case 'INITIALIZE_STORE':
+      return{
+        ...state,
+        member: null,
+        isLoggedIn: false,
       };
     // 다른 액션에 대한 처리 추가
     default:

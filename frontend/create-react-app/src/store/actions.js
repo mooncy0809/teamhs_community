@@ -22,3 +22,15 @@ export const setIsLoggedIn = (isLoggedIn) => {
       payload: isLoggedIn,
     };
   };
+
+export const logout = () => {
+  return{
+    type: 'LOGOUT',
+  };
+};
+
+export const initializeStore = () => {
+  return {
+    type: 'INITIALIZE_STORE',
+  };
+};

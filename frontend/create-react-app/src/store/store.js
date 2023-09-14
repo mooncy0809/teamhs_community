@@ -1,6 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import memberReducer from './memberReducer'; // 실제 reducer 파일명에 따라 수정해야 할 수도 있습니다.
-import customizationReducer from './customizationReducer'; // customizationReducer 파일명에 따라 수정해야 할 수도 있습니다.
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import memberReducer from './memberReducer';
+import customizationReducer from './customizationReducer';
 
 const rootReducer = combineReducers({
   member: memberReducer,
@@ -8,6 +10,15 @@ const rootReducer = combineReducers({
   // 다른 리듀서들도 필요한 경우 추가
 });
 
-const store = createStore(rootReducer);
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer); // 변수 이름 수정
+
+const store = createStore(persistedReducer);
+const persistor = persistStore(store);
 
 export default store;
+export { persistor};

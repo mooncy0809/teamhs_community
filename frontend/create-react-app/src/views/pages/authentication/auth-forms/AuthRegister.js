@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate} from 'react-router-dom'
 import React from "react";
 
@@ -34,7 +34,7 @@ import Google from 'assets/images/icons/social-google.svg';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { signUpApi } from 'apis/index';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
-
+import {setIsLoggedIn} from '../../../../store/actions';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -49,7 +49,7 @@ const FirebaseRegister = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
-
+  const dispatch = useDispatch();
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
 
@@ -106,6 +106,7 @@ const FirebaseRegister = ({ ...others }) => {
       return;
     }
     alert("회원가입에 성공했습니다.");
+    dispatch(setIsLoggedIn(false));
     navigate('/');
     }catch(error){
       console.error('회원가입 실패:', error);

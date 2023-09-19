@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -10,14 +11,20 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import {setIsLoggedIn} from '../../../../store/actions';
 
 // assets
 
 // ===============================|| AUTH3 - REGISTER ||=============================== //
 
 const Register = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+
+  const BackHandler = async () => {
+    dispatch(setIsLoggedIn(false));
+  }
 
   return (
     <AuthWrapper1>
@@ -54,7 +61,7 @@ const Register = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography component={Link} to="/api/auth/signIn" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      <Typography component={Link} to="/api/auth/signIn" variant="subtitle1" sx={{ textDecoration: 'none' }} onClick={BackHandler}>
                         Already have an account?
                       </Typography>
                     </Grid>

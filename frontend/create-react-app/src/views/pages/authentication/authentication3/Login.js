@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -10,18 +11,23 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import FirebaseLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import {setIsLoggedIn} from '../../../../store/actions';
 
 // assets
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = ({onAppLoginSuccess}) => { // eslint-disable-line no-unused-vars
+  const dispatch = useDispatch();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleLoginSuccess = () => {
     onAppLoginSuccess();
   };
+  const signUpHandler = async () => {
+    dispatch(setIsLoggedIn(true));
+  }
 
   return (
     <AuthWrapper1>
@@ -61,7 +67,7 @@ const Login = ({onAppLoginSuccess}) => { // eslint-disable-line no-unused-vars
                   </Grid>
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography component={Link} to="/api/auth/signUp" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      <Typography component={Link} to="/api/auth/signUp" variant="subtitle1" sx={{ textDecoration: 'none' }} onClick={signUpHandler}>
                         Don&apos;t have an account?
                       </Typography>
                     </Grid>

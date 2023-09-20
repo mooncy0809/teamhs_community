@@ -308,7 +308,7 @@ const BoardDetail = () => {
                   </Grid>
                 </Grid>
                 <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-              </Grid>
+              </Grid> 
               {/* 게시글 내용 */}
               <Grid item xs={12}>
                 <div

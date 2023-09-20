@@ -2,12 +2,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { PersistGate } from 'redux-persist/integration/react';
-import store from './store/store' // eslint-disable-line no-unused-vars
 import { persistor } from './store/store'; // eslint-disable-line no-unused-vars
 import Login from './views/pages/authentication/authentication3/Login';
 import Routes from 'routes';
 import themes from 'themes';
 import NavigationScroll from 'layout/NavigationScroll';
+
 
 const App = () => {
   const member = useSelector((state) => state.member);

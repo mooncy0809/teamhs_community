@@ -110,7 +110,7 @@ const BoardList = () => {
   ><Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
         <div>
-        <div className="tab-container" style={{marginBottom:'20px'}}>
+        <div className="tab-container" style={{marginBottom:'20px', marginLeft:'20px'}}>
 
         <button
             className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
@@ -153,10 +153,10 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '7%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
-                  <th style={{ width: '53%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
+                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
                 </tr>
               </thead>
@@ -179,10 +179,10 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
                 </tr>
               </thead>
@@ -206,10 +206,10 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
                 </tr>
               </thead>

@@ -32,182 +32,199 @@ const BoardDetail = () => {
   const [commentList, setCommentList] = useState([]); 
   const [recommentList, setReCommentList] = useState([]);
 
-  //전체 댓글 수 조회
-  const totalComments = commentList.length;
+ 
+  //조회
 
-  //게시글 조회 기능 구현
+  //게시글 조회
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${boardId}`) //게시글 목록 조회
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
   
+  //전체 댓글 갯수 조회
+  const totalComments = commentList.length;
 
+  //댓글 조회
   useEffect(() => {
-    axios.get(`http://localhost:8090/comment/list/${boardId}`) //댓글 목록 조회
+    axios.get(`http://localhost:8090/comment/list/${boardId}`)
       .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
 
-  //답글 리스트 확인
-  const handleWatchRecomments = (commentId) => { 
+//답글 갯수 조회
+const [commentRecommentCounts, setCommentRecommentCounts] = useState({});
 
-    setOpenReplies((prevOpenReplies) => ({
-      ...prevOpenReplies,
-      [commentId]: !prevOpenReplies[commentId],
-    }));
+useEffect(() => {
+  axios.get(`http://localhost:8090/comment/list/${boardId}`)
+    .then(response => {
+      setCommentList(response.data);
 
-
-    axios.get(`http://localhost:8090/recomment/list/${commentId}`) //답글 목록 조회
-    .then(response => setReCommentList(response.data))
-      .catch((error) => {
-        console.error("Error get recomment:", error);
+      // 답글 갯수 업데이트
+      const newCounts = {};
+      response.data.forEach(comment => {
+        axios.get(`http://localhost:8090/recomment/list/${comment.commentId}`)
+          .then(response => {
+            newCounts[comment.commentId] = response.data.length;
+            setCommentRecommentCounts(prevCounts => ({ ...prevCounts, ...newCounts }));
+          })
+          .catch(error => console.error("Error get recomment:", error));
       });
+    })
+    .catch(error => console.log(error))
+}, [boardId]);
+
+
+//게시글 수정/삭제
+
+    //수정, 삭제, 목록으로 : Dialog 예/아니오
+    const navigate = useNavigate();
+    const [openDialog, setOpenDialog] = useState(false);
+  
+    const handleDeleteButtonClick = () => {
+      setOpenDialog(true);
+    }
+  
+    const handleCloseDialog = () => {
+      setOpenDialog(false);
+    };
+  
+    const handleConfirmDelete = () => {
+      axios.delete(`http://localhost:8090/board/delete/${boardId}`) //Dialog 예 클릭 시 삭제 API 호출
+      .then(response => {
+        console.log('Delete saved:', response.data);
+        navigate('/board/list'); // '/board list' 경로로 페이지 이동
+        // 삭제 성공한 경우 처리
+      })
+      .catch(error => {
+        console.error('Error delete:', error);
+        // 에러 처리
+      });
+      handleCloseDialog();
+    };
+  
+    const handleEditMoveClick = () => {
+      navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
+    };
+    
+    const handleCancleButtonClick = () => {
+      navigate('/board/list'); // 목록으로 버튼 : 게시글 리스트(list) 페이지 이동
     };
 
 
 
-  //대댓글 갯수 조회
-  const [commentRecommentCounts, setCommentRecommentCounts] = useState({});
 
-  useEffect(() => {
-    axios.get(`http://localhost:8090/comment/list/${boardId}`)
-      .then(response => {
-        setCommentList(response.data);
+//댓글 작성-삭제-수정
 
-        // 대댓글 갯수 업데이트
-        const newCounts = {};
-        response.data.forEach(comment => {
-          axios.get(`http://localhost:8090/recomment/list/${comment.commentId}`)
-            .then(response => {
-              newCounts[comment.commentId] = response.data.length;
-              setCommentRecommentCounts(prevCounts => ({ ...prevCounts, ...newCounts }));
-            })
-            .catch(error => console.error("Error get recomment:", error));
-        });
-      })
+const [commentContent, setCommentContent] = useState(""); 
+ 
+//댓글 작성
+const handleCommentWrite = () => { 
+const newComment = {
+  userId: member.member.userId,
+  boardId: boardId,
+  commentContent: commentContent,
+};
+  axios
+  .post("http://localhost:8090/comment/write", newComment)
+  .then((response) => {
+    console.log("Comment posted:", response.data);
+  
+    axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+      .then(response => setCommentList(response.data))
       .catch(error => console.log(error))
-  }, [boardId]);
-
-
-
-  //수정, 삭제, 목록으로 : Dialog 예/아니오
-  const navigate = useNavigate();
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleDeleteButtonClick = () => {
-    setOpenDialog(true);
-  }
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleConfirmDelete = () => {
-    axios.delete(`http://localhost:8090/board/delete/${boardId}`) //Dialog 예 클릭 시 삭제 API 호출
-    .then(response => {
-      console.log('Delete saved:', response.data);
-      navigate('/board/list'); // '/board list' 경로로 페이지 이동
-      // 삭제 성공한 경우 처리
-    })
-    .catch(error => {
-      console.error('Error delete:', error);
-      // 에러 처리
-    });
-    handleCloseDialog();
-  };
-
-  const handleEditMoveClick = () => {
-    navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
-  };
   
-  const handleCancleButtonClick = () => {
-    navigate('/board/list'); // 목록으로 버튼 : 게시글 리스트(list) 페이지 이동
-  };
+    setCommentContent(""); // 댓글 내용 초기화
+  })
+  .catch((error) => {
+    console.error("Error posting comment:", error);
+    // 에러 처리
+  });
+};
 
+//댓글 삭제
+const handleCommentDelete = (commentId) => {
+  axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
+  .then(response => {
+    console.log('Delete saved:', response.data);
 
+    axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+      .then(response => setCommentList(response.data))
+      .catch(error => console.log(error))
+    // 삭제 성공한 경우 처리
+  })
+  .catch(error => {
+    console.error('Error delete:', error);
+    // 에러 처리
+  });
+};
 
-  //댓글 로직######
-  const [commentContent, setCommentContent] = useState(""); 
+//댓글 수정
+const [editingCommentId, setEditingCommentId] = useState(null);
+const [editedCommentContent, setEditedCommentContent] = useState("");
 
+const handleEditCommentClick = (comment) => {
+  setEditingCommentId(comment.commentId);
+};
 
-  const handleCommentWrite = () => {  //댓글 작성 버튼 클릭
-  const newComment = {
-    userId: member.member.userId,
-    boardId: boardId,
-    commentContent: commentContent,
-  };
-    axios
-    .post("http://localhost:8090/comment/write", newComment)
-    .then((response) => {
-      console.log("Comment posted:", response.data);
-    
-      axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
-        .then(response => setCommentList(response.data))
-        .catch(error => console.log(error))
-    
-      setCommentContent(""); // 댓글 내용 초기화
-    })
-    .catch((error) => {
-      console.error("Error posting comment:", error);
-      // 에러 처리
-    });
-  };
+const handleCancelEdit = () => {
+  setEditingCommentId(null);
+  setEditedCommentContent('');
+};
 
-
-  const handleCommentDelete = (commentId) => {
-    axios.delete(`http://localhost:8090/comment/delete/${commentId}`) //댓글 삭제 버튼 클릭
+//댓글 수정 로직
+const handleSaveEdit = (commentId, editedContent) => {
+  axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
     .then(response => {
-      console.log('Delete saved:', response.data);
+      console.log('Edit saved:', response.data);
 
       axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
-        .then(response => setCommentList(response.data))
-        .catch(error => console.log(error))
-      // 삭제 성공한 경우 처리
+      .then(response => setCommentList(response.data))
+      .catch(error => console.log(error))
+      // 저장이 성공한 경우 처리
+      setEditedCommentContent('');
     })
     .catch(error => {
-      console.error('Error delete:', error);
+      console.error('Error edit:', error);
       // 에러 처리
     });
-  };
+  setEditingCommentId(null); // 수정 완료 후 폼 닫기
+};
 
-  //댓글 수정
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editedCommentContent, setEditedCommentContent] = useState("");
+
+
+ 
+  //답글 클릭 시 답글 리스트 조회
+  const [openReplies, setOpenReplies] = useState({});
   
-  const handleEditCommentClick = (comment) => {
-    setEditingCommentId(comment.commentId);
-  };
+  const handleWatchRecomments = (commentId) => {
+    setOpenReplies((prevOpenReplies) => ({
+      ...prevOpenReplies,
+      [commentId]: !prevOpenReplies[commentId],
+    }));
   
-  const handleCancelEdit = () => {
-    setEditingCommentId(null);
-    setEditedCommentContent('');
-  };
-
-  //댓글 수정 저장 로직
-  const handleSaveEdit = (commentId, editedContent) => {
-    axios.put(`http://localhost:8090/comment/update/${commentId}`, { commentContent: editedContent }) 
-      .then(response => {
-        console.log('Edit saved:', response.data);
-
-        axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
-        .then(response => setCommentList(response.data))
-        .catch(error => console.log(error))
-        // 저장이 성공한 경우 처리
-        setEditedCommentContent('');
-      })
-      .catch(error => {
-        console.error('Error edit:', error);
-        // 에러 처리
+    // 기존 열려있던 댓글 닫기
+    Object.keys(openReplies).forEach((key) => {
+      if (key !== commentId && openReplies[key]) {
+        setOpenReplies((prevOpenReplies) => ({
+          ...prevOpenReplies,
+          [key]: false,
+        }));
+      }
+    });
+  
+    axios.get(`http://localhost:8090/recomment/list/${commentId}`)
+      .then(response => setReCommentList(response.data))
+      .catch((error) => {
+        console.error("Error get recomment:", error);
       });
-    setEditingCommentId(null); // 수정 완료 후 폼 닫기
   };
 
 
-    //답글 로직 ###########
+    //답글 작성 - 삭제
+
     const [ReCommentId, setReCommentId] = useState(null); // 답글 작성 상태 관리
     const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
-    const [openReplies, setOpenReplies] = useState({});
     
     //답글 작성
     const handleReCommentWrite = (commentId) => {
@@ -372,7 +389,15 @@ const BoardDetail = () => {
                              )}
 
                               {/* 답글 달기 버튼 클릭 */}
-                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} onClick={(e) => {e.preventDefault(); handleWatchRecomments(comment.commentId); setReCommentId(comment.commentId); }}>{openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a></div>
+                              <div style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} 
+                              onClick={(e) => {
+                                      e.preventDefault(); 
+                                      handleWatchRecomments(comment.commentId); 
+                                      setReCommentId(comment.commentId); 
+                                      }}>
+     
+                                {openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a>
+                              </div>
                                     
                               {openReplies[comment.commentId] && ReCommentId === comment.commentId && (
                                  <div>

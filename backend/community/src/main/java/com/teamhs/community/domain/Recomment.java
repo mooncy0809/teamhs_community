@@ -22,9 +22,8 @@ public class Recomment {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     private int recommentId;
 
-
-    @ManyToOne //Comment 엔티티와 다대일 매핑
-    @JoinColumn(name = "commentId")
+    @ManyToOne
+    @JoinColumn(name = "commentId", referencedColumnName = "commentId", nullable = true)
     @JsonIgnore //Comment - Recomment 직렬화(무한 순환 문제 해결)
     private Comment comment;
 

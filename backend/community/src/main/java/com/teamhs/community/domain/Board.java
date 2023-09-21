@@ -48,7 +48,7 @@ public class Board {
     private int commentCnt;
 
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL) //Comment와 일대다 매핑
+    //일대 다 매핑
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
-
 }

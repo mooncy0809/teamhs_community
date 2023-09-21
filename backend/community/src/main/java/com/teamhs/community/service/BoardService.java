@@ -2,15 +2,21 @@ package com.teamhs.community.service;
 
 
 import com.teamhs.community.domain.Board;
+import com.teamhs.community.domain.Comment;
 import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardRepository;
+import com.teamhs.community.repository.CommentRepository;
+import com.teamhs.community.repository.RecommentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +24,10 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
-
+    @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
+    private RecommentRepository recommentRepository;
 
     public Page<Board> listPaginateGBoards(Pageable pageable){
         return boardRepository.findAll(pageable);
@@ -67,11 +76,22 @@ public class BoardService {
 
 
     //게시글 삭제
-    public boolean deleteBoard(Long board_id) {
-        Optional<Board> boardOptional = boardRepository.findById(board_id);
+    @Transactional
+    public boolean deleteBoard(Long boardId) {
+        Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
+            List<Comment> comments = board.getComments();
+            for (Comment comment : comments) {
+                // 관련된 대댓글 삭제
+                recommentRepository.deleteByComment(comment);
+            }
+            // 관련된 댓글 삭제
+            commentRepository.deleteAll(comments);
+
+            // 게시글 삭제
             boardRepository.delete(board);
+
             return true;
         }
         return false;

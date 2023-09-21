@@ -9,5 +9,7 @@ import org.springframework.data.domain.Page;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllByCateId(Long cateId, Pageable pageable);
+
+    void deleteById(Long boardId);
 }
 

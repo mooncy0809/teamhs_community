@@ -25,7 +25,7 @@ const BoardList = () => {
   useEffect(() => {
     const fetchBoardData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${0}`);
+        const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${2}`);
         setBoardList(response.data.content);
         setTotalPages(response.data.totalPages);
       } catch (error) {
@@ -60,21 +60,29 @@ const BoardList = () => {
 
 
   //Tab
-  const [activeTab, setActiveTab] = useState('tab1'); // 현재 선택된 탭의 상태
+  const [activeTab, setActiveTab] = useState('all'); // 현재 선택된 탭의 상태
+  const [pageTitle, setPageTitle] = useState('커뮤니티'); // 페이지 제목 상태
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
     
     let cateId = 2; // 기본값은 전체
-    
-    if (tabId === 'news') {
+    let newPageTitle = '커뮤니티'; // 기본 페이지 제목
+
+    if (tabId === 'board') {
+      cateId = 0; // 자유게시판
+      newPageTitle = '자유게시판';
+    } else if (tabId === 'news') {
       cateId = 1; // 뉴스
+      newPageTitle = '뉴스';
     }
-    else if (tabId === 'board'){
-      cateId = 0; //자유 게시판
-    }
+
     // 서버에서 데이터 가져오기
     fetchBoardData(cateId);
+
+    // 탭에 따라 페이지 제목 변경
+    setPageTitle(newPageTitle);
+
   };
 
   const fetchBoardData = async (cateId) => {
@@ -91,9 +99,7 @@ const BoardList = () => {
 
  
   return (
-    <MainCard
-    title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>커뮤니티</span>}
-    style={{ marginLeft: '8px' }}
+    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>{pageTitle}</span>}style={{ marginLeft: '8px' }}
     secondary={
       member?.member?.userId ? (
         <Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>
@@ -147,8 +153,8 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
-                  <th style={{ width: '50%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '7%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
+                  <th style={{ width: '53%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>

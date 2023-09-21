@@ -143,21 +143,42 @@ const newComment = {
 };
 
 //댓글 삭제
-const handleCommentDelete = (commentId) => {
-  axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
-  .then(response => {
-    console.log('Delete saved:', response.data);
+const [deleteCommentId, setDeleteCommentId] = useState(null); // 삭제할 댓글 ID를 저장
+const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // 삭제 다이얼로그 열림/닫힘 상태
 
-    axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
-      .then(response => setCommentList(response.data))
-      .catch(error => console.log(error))
-    // 삭제 성공한 경우 처리
-  })
-  .catch(error => {
-    console.error('Error delete:', error);
-    // 에러 처리
-  });
+ // 댓글 삭제 확인 함수
+const handleConfirmDeleteComment = () => {
+  axios
+    .delete(`http://localhost:8090/comment/delete/${deleteCommentId}`)
+    .then((response) => {
+      console.log('Delete saved:', response.data);
+      setDeleteSuccess(true); // 삭제 성공 여부를 true로 설정
+    })
+    .catch((error) => {
+      console.error('Error delete:', error);
+      // 에러 처리
+    })
+    .finally(() => {
+      axios
+      .get(`http://localhost:8090/comment/list/${boardId}`)
+      .then((response) => setCommentList(response.data))
+      .catch((error) => console.log(error));
+      handleCloseDeleteDialog(); // 다이얼로그를 닫는 작업은 여기서 처리
+    });
 };
+
+// 댓글 삭제 다이얼로그 열기/닫기 함수
+const handleOpenDeleteDialog = (commentId) => {
+  setDeleteCommentId(commentId);
+  setOpenDeleteDialog(true);
+};
+
+const handleCloseDeleteDialog = () => {
+  setOpenDeleteDialog(false);
+  setDeleteCommentId(null);
+};
+
+
 
 //댓글 수정
 const [editingCommentId, setEditingCommentId] = useState(null);
@@ -357,6 +378,7 @@ const handleSaveEdit = (commentId, editedContent) => {
 
                       <Typography variant="body2" style={{ color: 'grey' }}>
                           {comment.userId.slice(0, -2) + '**' + " | " + comment.commentDate}
+                          
                           {/* 댓글 수정 폼 */}
                           {/* 댓글이 수정 중 일 경우*/}
                           {editingCommentId === comment.commentId ? (
@@ -383,7 +405,24 @@ const handleSaveEdit = (commentId, editedContent) => {
                               <>
                               <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
                               {' | '}
-                              <a href="#"style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleCommentDelete(comment.commentId);}}>삭제</a>
+                              <a href="#" style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => { e.preventDefault(); handleOpenDeleteDialog(comment.commentId);}} >삭제</a>
+                              
+                              <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
+                                <DialogTitle style={{ fontSize: '20px', fontWeight: 'bold' }}>댓글 삭제</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText style={{ fontSize: '16px' }}>
+                                    정말 댓글을 삭제하시겠습니까?
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button style={{ fontSize: '16px' }} onClick={handleConfirmDeleteComment}>
+                                    네
+                                  </Button>
+                                  <Button style={{ fontSize: '16px' }} onClick={handleCloseDeleteDialog}>
+                                    취소
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
                               </>
                               ) : ( null
                              )}

@@ -19,6 +19,11 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
+
+    public Page<Board> listPaginateGBoards(Pageable pageable){
+        return boardRepository.findAll(pageable);
+    }
+
     //자유 게시판 리스트 조회 : 페이징 작업 추가
     //카테고리 별 게시글 조회
     public Page<Board> listPaginatedBoardsByCateId(Long cateId, Pageable pageable) {

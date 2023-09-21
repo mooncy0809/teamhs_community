@@ -24,6 +24,8 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+
+
     //글 목록 + 페이징 처리 추가(글 갯수 더 조회하고 싶으면 defaultValue 수정)
     @GetMapping("/list")
     public ResponseEntity<Page<Board>> getPaginatedBoardsByCateId(
@@ -33,9 +35,22 @@ public class BoardController {
     ) {
         // 정렬 정보 설정: 내림차순으로 정렬하도록 변경
         Pageable pageable = PageRequest.of(page, size, Sort.by("boardId").descending());
-        Page<Board> boards = boardService.listPaginatedBoardsByCateId(cateId, pageable);
+
+
+        Page<Board> boards;
+        if (cateId == 2) {
+            // 카테고리 ID가 주어지지 않은 경우 전체 게시글 조회
+            boards = boardService.listPaginateGBoards(pageable);
+        } else {
+            // 카테고리 ID가 주어진 경우 해당 카테고리에 속하는 게시글만 조회
+            boards = boardService.listPaginatedBoardsByCateId(cateId, pageable);
+        }
+
+        //Page<Board> boards = boardService.listPaginatedBoardsByCateId(cateId, pageable);
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
+
+
 
     @PostMapping("/write")
     public ResponseEntity<Board> createBoard(@RequestBody BoardDTO board) {

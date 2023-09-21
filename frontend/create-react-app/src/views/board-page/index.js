@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table';
 
 import {useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // eslint-disable-line
+//import { elementAcceptingRef } from '@mui/utils';
 
 
   
@@ -64,12 +65,14 @@ const BoardList = () => {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
     
-    let cateId = 0; // 기본값은 자유게시판
+    let cateId = 2; // 기본값은 전체
     
-    if (tabId === 'tab2') {
+    if (tabId === 'news') {
       cateId = 1; // 뉴스
     }
-
+    else if (tabId === 'board'){
+      cateId = 0; //자유 게시판
+    }
     // 서버에서 데이터 가져오기
     fetchBoardData(cateId);
   };
@@ -102,31 +105,70 @@ const BoardList = () => {
         <Grid item xs={12} sm={12}>
         <div>
         <div className="tab-container" style={{marginBottom:'20px'}}>
-          <button
-            className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
+
+        <button
+            className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
             style={{
-              backgroundColor: activeTab === 'tab1' ? 'skyblue' : 'transparent',
-              color: activeTab === 'tab1' ? 'white' : 'black',
+              backgroundColor: activeTab === 'all' ? 'skyblue' : 'transparent',
+              color: activeTab === 'all' ? 'white' : 'black',
               fontSize: '18px'
             }}
-            onClick={() => handleTabClick('tab1')}
+            onClick={() => handleTabClick('all')}
+          >
+            전체
+          </button>
+
+          <button
+            className={`tab-button ${activeTab === 'board' ? 'active' : ''}`}
+            style={{
+              backgroundColor: activeTab === 'board' ? 'skyblue' : 'transparent',
+              color: activeTab === 'board' ? 'white' : 'black',
+              fontSize: '18px'
+            }}
+            onClick={() => handleTabClick('board')}
           >
             자유게시판
           </button>
 
           <button
-            className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
+            className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
             style={{
-              backgroundColor: activeTab === 'tab2' ? 'skyblue' : 'transparent',
-              color: activeTab === 'tab2' ? 'white' : 'black',
+              backgroundColor: activeTab === 'news' ? 'skyblue' : 'transparent',
+              color: activeTab === 'news' ? 'white' : 'black',
               fontSize: '18px'
             }}
-            onClick={() => handleTabClick('tab2')}
+            onClick={() => handleTabClick('news')}
           >
             뉴스
           </button>
         </div>
-        <div className="tab-content" id="tab1" style={{ display: activeTab === 'tab1' ? 'block' : 'none' }}>
+        <div className="tab-content" id="all" style={{ display: activeTab === 'all' ? 'block' : 'none' }}>
+        <SubCard>
+            <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
+              <thead>
+                <tr >
+                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
+                  <th style={{ width: '50%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
+                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boardlist.map((item) => (
+                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
+                    <td style={{ textAlign: 'center' }}>{item.cateId === 1 ? '뉴스' : '자유게시판'}</td>
+                    <td style={titleCellStyle}>{item.boardTitle}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
+                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
+                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </SubCard>
+        </div>
+        <div className="tab-content" id="board" style={{ display: activeTab === 'board' ? 'block' : 'none' }}>
         <SubCard>
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
@@ -152,7 +194,8 @@ const BoardList = () => {
             </Table>
           </SubCard>
         </div>
-        <div className="tab-content" id="tab2" style={{ display: activeTab === 'tab2' ? 'block' : 'none' }}>
+
+        <div className="tab-content" id="news" style={{ display: activeTab === 'news' ? 'block' : 'none' }}>
         <SubCard>
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>

@@ -24,7 +24,6 @@ public class Recomment {
 
     @ManyToOne
     @JoinColumn(name = "commentId", referencedColumnName = "commentId", nullable = true)
-    @JsonIgnore //Comment - Recomment 직렬화(무한 순환 문제 해결)
     private Comment comment;
 
     @Column(nullable = true)
@@ -32,7 +31,6 @@ public class Recomment {
 
     @ManyToOne //Board 엔티티와 다대일 매핑
     @JoinColumn(name = "boardId")
-    @JsonIgnore //Board - Comment 직렬화(무한 순환 문제 해결)
     private Board board;
 
     @Column(nullable = true)

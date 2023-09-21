@@ -11,4 +11,5 @@ import java.util.List;
 public interface RecommentRepository extends JpaRepository<Recomment, Long> {
     List<Recomment> findAllByComment_commentId(Long commentId);
     void deleteByComment(Comment comment);
+    List<Recomment> findByComment(Comment comment);
 }

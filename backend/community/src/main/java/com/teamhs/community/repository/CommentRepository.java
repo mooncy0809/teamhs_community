@@ -11,4 +11,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     //board_id로 해당 게시글 Comment 목록 불러오기
     List<Comment> findAllByBoard_boardId(Long boardId);
 
+    void deleteByCommentId(Long commentId);
 }

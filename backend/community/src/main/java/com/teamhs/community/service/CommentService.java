@@ -2,10 +2,13 @@ package com.teamhs.community.service;
 
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.Comment;
+import com.teamhs.community.domain.Recomment;
 import com.teamhs.community.dto.Request.CommentDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardRepository;
 import com.teamhs.community.repository.CommentRepository;
+import com.teamhs.community.repository.RecommentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private RecommentRepository recommentRepository;
 
 
     //댓글 리스트 조회
@@ -49,15 +55,22 @@ public class CommentService {
 
 
     //댓글 삭제
+    @Transactional
     public boolean deleteComment(Long commentId) {
         Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             Comment comment = commentOptional.get();
+
+            // 연관된 Recomment 엔티티 삭제
+            List<Recomment> recoments = recommentRepository.findByComment(comment);
+            recommentRepository.deleteAll(recoments);
+
             commentRepository.delete(comment);
             return true;
         }
         return false;
     }
+
 
     //댓글 수정
     public boolean updateComment(Long commentId, CommentDTO updateCommentDTO) {

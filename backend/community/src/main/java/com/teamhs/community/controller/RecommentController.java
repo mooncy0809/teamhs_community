@@ -32,9 +32,9 @@ public class RecommentController {
     public ResponseEntity<String> deleteReComment(@PathVariable Long recommentId) {
         boolean success = recommentService.deleteReComment(recommentId);
         if (success) {
-            return ResponseEntity.ok("대댓글이 삭제되었습니다.");
+            return ResponseEntity.ok("답글이 삭제되었습니다.");
         } else {
-            return ResponseEntity.badRequest().body("대댓글 삭제에 실패하였습니다.");
+            return ResponseEntity.badRequest().body("답글 삭제에 실패하였습니다.");
         }
     }
 
@@ -42,9 +42,9 @@ public class RecommentController {
     public ResponseEntity<String> updateReComment(@PathVariable Long recommentId, @RequestBody RecommentDTO updatedReCommentDTO) {
         boolean success = recommentService.updateReComment(recommentId, updatedReCommentDTO);
         if (success) {
-            return ResponseEntity.ok("대댓글이 수정되었습니다.");
+            return ResponseEntity.ok("답글이 수정되었습니다.");
         } else {
-            return ResponseEntity.badRequest().body("대댓글 수정에 실패하였습니다.");
+            return ResponseEntity.badRequest().body("답글 수정에 실패하였습니다.");
         }
     }
 

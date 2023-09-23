@@ -238,6 +238,8 @@ const handleSaveEdit = (commentId, editedContent) => {
       .catch((error) => {
         console.error("Error get recomment:", error);
       });
+
+      console.log("data는", recommentList)
   };
 
 
@@ -324,7 +326,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                   </Typography>
                       <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
                         <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333' }}>
-                          {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + "| 조회수 : " + board.boardCnt}
+                          {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + "| 조회수 : " + board.viewCnt}
                         </Typography>
                         <Grid item>
                           {/* 게시글 수정/삭제 */}
@@ -471,7 +473,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                                   {recommentList.map(recomment => (
                                         <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"20px", color:"grey"}}>
                                           <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
-                                            {recomment.reCommentContent}
+                                            {recomment.recommentContent}
                                           </Typography>
                                           <Typography variant="body2" style={{ color: 'grey' }}>
                                               {recomment.userId.slice(0, -2) + '**' + " | " + recomment.recommentDate}

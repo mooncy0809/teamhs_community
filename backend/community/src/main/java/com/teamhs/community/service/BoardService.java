@@ -46,16 +46,14 @@ public class BoardService {
         //newBoard.setUserId("임시 아이디");
         newBoard.setUserId(board.getUserId());
 
-
         //category 00 - 자유게시판 01 - 뉴스
         newBoard.setCateId(board.getCategoryId());
 
         newBoard.setBoardTitle(board.getTitle());
         newBoard.setBoardContent(board.getContent());
         newBoard.setBoardDate(LocalDate.now());
-        newBoard.setBoardRecom(0);
-        newBoard.setBoardCnt(0);
-        newBoard.setCommentCnt(0);
+        newBoard.setViewCnt(0);
+        newBoard.setLikeCnt(0);
 
         return boardRepository.save(newBoard);
     }
@@ -67,7 +65,7 @@ public class BoardService {
                 .orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
 
         // 조회수 증가
-        board.setBoardCnt(board.getBoardCnt() + 1);
+        board.setViewCnt(board.getViewCnt() + 1);
         boardRepository.save(board);
 
         return board;
@@ -98,15 +96,14 @@ public class BoardService {
     }
 
     //게시글 수정
-    public boolean updateBoard(Long board_id, BoardDTO updatedBoardDTO) {
-        Optional<Board> boardOptional = boardRepository.findById(board_id);
+    public boolean updateBoard(Long boardId, BoardDTO updatedBoardDTO) {
+        Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             Board existingBoard = boardOptional.get();
             existingBoard.setBoardTitle(updatedBoardDTO.getTitle());
             existingBoard.setBoardContent(updatedBoardDTO.getContent());
-            existingBoard.setBoardRecom(updatedBoardDTO.getRecommend());
-            existingBoard.setBoardCnt(updatedBoardDTO.getCount());
-            existingBoard.setCommentCnt(updatedBoardDTO.getCommentCount());
+            existingBoard.setLikeCnt(updatedBoardDTO.getLikeCnt());
+            existingBoard.setViewCnt(updatedBoardDTO.getViewCnt());
             boardRepository.save(existingBoard);
             return true;
         }

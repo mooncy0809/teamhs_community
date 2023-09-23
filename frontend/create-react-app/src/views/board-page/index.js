@@ -167,7 +167,7 @@ const BoardList = () => {
                     <td style={titleCellStyle}>{item.boardTitle}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
                   </tr>
                 ))}
               </tbody>
@@ -193,7 +193,7 @@ const BoardList = () => {
                     <td style={titleCellStyle}>{item.boardTitle}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
                   </tr>
                 ))}
               </tbody>
@@ -220,7 +220,7 @@ const BoardList = () => {
                     <td style={titleCellStyle}>{item.boardTitle}</td>
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
                   </tr>
                 ))}
               </tbody>

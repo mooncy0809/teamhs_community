@@ -9,9 +9,8 @@ public class BoardDTO {
     private String boardTitle;
     private String boardContent;
     private LocalDate boardDate;
-    private int boardRecom;
-    private int boardCnt;
-    private int commentCnt;
+    private int viewCnt;
+    private int likeCnt;
 
     public String getUserId() {
         return userId;
@@ -60,28 +59,20 @@ public class BoardDTO {
         this.boardDate = boardDate;
     }
 
-    public int getRecommend() {
-        return boardRecom;
+    public int getViewCnt() {
+        return viewCnt;
     }
 
-    public void setRecommend(int boardRecom) {
-        this.boardRecom = boardRecom;
+    public void setViewCnt(int viewCnt) {
+        this.viewCnt = viewCnt;
     }
 
-    public int getCount() {
-        return boardCnt;
+    public int getLikeCnt() {
+        return likeCnt;
     }
 
-    public void setCount(int boardCnt) {
-        this.boardCnt = boardCnt;
-    }
-
-    public int getCommentCount() {
-        return commentCnt;
-    }
-
-    public void setCommentCount(int commentCnt) {
-        this.commentCnt = commentCnt;
+    public void getLikeCnt(int likeCnt) {
+        this.likeCnt = likeCnt;
     }
 
 }

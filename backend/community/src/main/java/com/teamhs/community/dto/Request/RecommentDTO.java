@@ -11,7 +11,7 @@ public class RecommentDTO {
     private String userId;
     private Long boardId;
     @Getter
-    private String reCommentContent;
+    private String recommentContent;
     private String recommentDate;
 
 
@@ -40,8 +40,8 @@ public class RecommentDTO {
         this.boardId = boardId;
     }
 
-    public void setReCommentContent(String reCommentContent) {
-        this.reCommentContent = reCommentContent;
+    public void setReCommentContent(String recommentContent) {
+        this.recommentContent = recommentContent;
     }
 
     public String getReCommentDate() {

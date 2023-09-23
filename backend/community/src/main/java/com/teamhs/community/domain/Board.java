@@ -36,16 +36,11 @@ public class Board {
     private LocalDate boardDate;
 
     @Column(nullable = true)
-    private int boardRecom;
+    private int likeCnt;
 
     //조회수
     @Column(nullable = true)
-    private int boardCnt;
-
-
-    //없애도됨
-    @Column(nullable = true)
-    private int commentCnt;
+    private int viewCnt;
 
 
     //일대 다 매핑

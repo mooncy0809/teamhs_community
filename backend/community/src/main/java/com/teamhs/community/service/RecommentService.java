@@ -48,7 +48,7 @@ public class RecommentService {
         recomment.setBoard(board);
 
         recomment.setUserId(recommentDTO.getUserId());
-        recomment.setReCommentContent(recommentDTO.getReCommentContent());
+        recomment.setRecommentContent(recommentDTO.getRecommentContent());
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -76,7 +76,7 @@ public class RecommentService {
         if (recommentOptional.isPresent()) {
             Recomment existingreReComment = recommentOptional.get();
 
-            existingreReComment.setReCommentContent(updateReCommentDTO.getReCommentContent());
+            existingreReComment.setRecommentContent(updateReCommentDTO.getRecommentContent());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = LocalDateTime.now().format(formatter);

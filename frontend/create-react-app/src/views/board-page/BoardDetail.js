@@ -20,6 +20,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from 'react-redux'; // eslint-disable-line
 import { ReactComponent as Reservation } from "assets/images/users/default.svg";
 
+// assets
+import { IconEye} from '@tabler/icons';
+
+
 
 const BoardDetail = () => {
 
@@ -325,21 +329,23 @@ const handleSaveEdit = (commentId, editedContent) => {
                     {board.boardTitle}
                   </Typography>
                       <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
-                        <Typography variant="body1" style={{ fontWeight: 'bold', color: '#333333' }}>
-                          {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + "| 조회수 : " + board.viewCnt}
+                        <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
+                          {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
+                          <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
+                            {board.viewCnt}
                         </Typography>
+
                         <Grid item>
                           {/* 게시글 수정/삭제 */}
                           {board.userId === member?.member?.userId ? (
                             <>
-                            <Typography variant="contained" onClick={handleEditMoveClick}>수정</Typography>
+                            <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="contained" onClick={handleEditMoveClick}>수정</Typography>
                             {' | '}
-                            <Typography variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+                            <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
                             </>
                           ) : ( 
                             null
                             )}
-                        
                           <Dialog open={openDialog} onClose={handleCloseDialog}>
                               <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>
                                 게시글 삭제
@@ -371,7 +377,6 @@ const handleSaveEdit = (commentId, editedContent) => {
                   }}
                 ></div>
               </Grid>
-
 
               {/* 목록으로 버튼 */}
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>

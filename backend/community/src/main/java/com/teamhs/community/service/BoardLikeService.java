@@ -36,6 +36,7 @@ public class BoardLikeService {
 
                 // 사용자의 좋아요 정보를 저장합니다.
                 BoardLike boardLike = new BoardLike();
+
                 boardLike.setMember(memberRepository.getOne(userId)); // 사용자 엔티티를 가져옵니다.
                 boardLike.setBoard(existingBoard);
                 boardLikeRepository.save(boardLike);

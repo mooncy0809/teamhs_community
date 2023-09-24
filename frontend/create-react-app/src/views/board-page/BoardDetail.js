@@ -20,6 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from 'react-redux'; // eslint-disable-line
 import { ReactComponent as Reservation } from "assets/images/users/default.svg";
 import { ReactComponent as UnlikeIcon } from "assets/images/icons/unlike.svg";
+import { ReactComponent as LikeIcon } from "assets/images/icons/like.svg";
 
 // assets
 import { IconEye} from '@tabler/icons';
@@ -309,6 +310,44 @@ const handleSaveEdit = (commentId, editedContent) => {
     };
 
 
+    //좋아요 기능
+    const [liked, setLiked] = useState(false); // 좋아요 상태를 관리하는 상태 변수
+
+    // 좋아요 버튼 클릭 시
+    const handleLikeClick = () => {
+      axios.post(`http://localhost:8090/board/like/${boardId}/${member.member.userId}`)
+        .then(
+          response => {// eslint-disable-line no-unused-vars
+          // 성공한 경우
+          setLiked(true); // 좋아요 상태를 true로 변경
+        })
+        .catch(
+          error => {// eslint-disable-line no-unused-vars
+          // 에러 처리
+        });
+    };
+
+    // 취소 버튼 클릭 시
+    const handleCancelLikeClick = () => {
+      axios.delete(`http://localhost:8090/board/unlike/${boardId}/${member.member.userId}`)
+        .then(
+          response => {// eslint-disable-line no-unused-vars
+          // 성공한 경우
+          setLiked(false); // 좋아요 상태를 false로 변경
+        })
+        .catch(
+          error => {// eslint-disable-line no-unused-vars
+          // 에러 처리
+        });
+    };
+
+    // 좋아요 상태에 따라 아이콘 표시
+    const likeIcon = liked ? <LikeIcon /> : <UnlikeIcon />;
+
+
+
+
+
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
     return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
@@ -333,7 +372,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                         <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
                           {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
                           <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
-                            {board.viewCnt}
+                            {board.viewCnt + " | " + board.likeCnt}
                         </Typography>
 
                         <Grid item>
@@ -379,25 +418,30 @@ const handleSaveEdit = (commentId, editedContent) => {
                 ></div>
               </Grid>
 
-            
 
+
+
+              {/*UnlikeIcon은 좋아요, 목록으로 버튼 */}    
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
                 <div
-                      style={{
-                        width: '45px',
-                        height: '45px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: '50%',
-                        border: '1px solid #000', // 검정색 테두리
-                        backgroundColor: 'transparent', // 배경색 없음
-                        marginBottom: '20px',
-                      }}
-                    >
-                  <UnlikeIcon style={{ width: '35px', height: '35px', color: '#000' }} /> {/* 검정색 아이콘 */}
+                  style={{
+                    width: '45px',
+                    height: '45px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '50%',
+                    border: '1px solid #000', // 검정색 테두리
+                    backgroundColor: 'transparent', // 배경색 없음
+                    marginBottom: '20px',
+                  }}
+                >
+                  {likeIcon}
                 </div>
+                <Button variant="outlined" onClick={liked ? handleCancelLikeClick : handleLikeClick}>
+                  {liked ? '좋아요 취소' : '좋아요'}
+                </Button>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
                   목록으로
                 </Button>

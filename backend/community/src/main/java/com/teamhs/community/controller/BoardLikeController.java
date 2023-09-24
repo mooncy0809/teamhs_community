@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/like")
+@RequestMapping("/board")
 public class BoardLikeController {
 
     private final BoardLikeService boardLikeService;
 
-    @PostMapping("/click/{boardId}/{userId}")
+    @PostMapping("/like/{boardId}/{userId}")
     public ResponseEntity<Boolean> clickLike(@PathVariable Long boardId, @PathVariable String userId) {
         boolean success = boardLikeService.clickLike(userId, boardId);
         if (success) {
@@ -22,7 +22,7 @@ public class BoardLikeController {
         }
     }
 
-    @DeleteMapping("/cancel/{boardId}/{userId}")
+    @DeleteMapping("/unlike/{boardId}/{userId}")
     public ResponseEntity<Boolean> cancelLike(@PathVariable Long boardId, @PathVariable String userId) {
         boolean success = boardLikeService.cancelLike(userId, boardId);
         if (success) {

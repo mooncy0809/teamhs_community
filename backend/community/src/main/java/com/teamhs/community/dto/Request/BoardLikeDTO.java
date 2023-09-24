@@ -11,7 +11,7 @@ public class BoardLikeDTO {
     private String userId;
     private Long boardId;
 
-    public BoardLikeDTO(String userId, Long boardId) {
+    public BoardLikeDTO( String userId, Long boardId) {
         this.userId = userId;
         this.boardId = boardId;
     }

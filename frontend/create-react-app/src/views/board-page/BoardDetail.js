@@ -19,6 +19,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from 'react-redux'; // eslint-disable-line
 import { ReactComponent as Reservation } from "assets/images/users/default.svg";
+import { ReactComponent as UnlikeIcon } from "assets/images/icons/unlike.svg";
 
 // assets
 import { IconEye} from '@tabler/icons';
@@ -378,12 +379,31 @@ const handleSaveEdit = (commentId, editedContent) => {
                 ></div>
               </Grid>
 
-              {/* 목록으로 버튼 */}
-              <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-                <Button variant="outlined" onClick={handleCancleButtonClick} style={{textAlign:'center'}}>목록으로</Button>
-                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-              </Grid>
+            
 
+              <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
+                <div
+                      style={{
+                        width: '45px',
+                        height: '45px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: '50%',
+                        border: '1px solid #000', // 검정색 테두리
+                        backgroundColor: 'transparent', // 배경색 없음
+                        marginBottom: '20px',
+                      }}
+                    >
+                  <UnlikeIcon style={{ width: '35px', height: '35px', color: '#000' }} /> {/* 검정색 아이콘 */}
+                </div>
+                <Button variant="outlined" onClick={handleCancleButtonClick}>
+                  목록으로
+                </Button>
+              </div>
+              <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
+            </Grid>
 
               {/* 댓글*/}
               <Grid item xs={12}>

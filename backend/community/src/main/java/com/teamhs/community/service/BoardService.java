@@ -78,6 +78,7 @@ public class BoardService {
 
 
 
+
     //게시글 삭제
     @Transactional
     public boolean deleteBoard(Long boardId) {

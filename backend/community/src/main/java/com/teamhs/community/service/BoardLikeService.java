@@ -28,7 +28,6 @@ public class BoardLikeService {
         Board boards = boardRepository.findById(boardId).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
         // 조회수 증가
         boards.setBoardId(boards.getBoardId());
-        boards.setViewCnt(boards.getViewCnt());
         boards.setLikeCnt(boards.getLikeCnt() + 1);
 
         BoardLike like = new BoardLike();
@@ -45,7 +44,6 @@ public class BoardLikeService {
         Board boards = boardRepository.findById(boardId).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
         // 조회수 증가
         boards.setBoardId(boards.getBoardId());
-        boards.setViewCnt(boards.getViewCnt());
         boards.setLikeCnt(boards.getLikeCnt() - 1);
         boardRepository.save(boards);
         boardLikeRepository.deleteByMemberUserIdAndBoardBoardId(userId, boardId);

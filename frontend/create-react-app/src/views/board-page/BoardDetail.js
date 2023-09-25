@@ -327,10 +327,18 @@ const handleSaveEdit = (commentId, editedContent) => {
           // 성공적으로 좋아요를 눌렀을 때 클라이언트에서 UI 업데이트
           if (response.data.success) {
             setLiked(true);
-
-            axios.get(`http://localhost:8090/board/${boardId}`)
-            .then(response => setBoard(response.data))
+            axios.get(`http://localhost:8090/like/check/${boardId}/${member.member.userId}`)
+            .then(response => 
+              setLiked(response.data)
+              )
             .catch(error => console.log(error))
+            
+            if (liked === false){
+              board.likeCnt = board.likeCnt + 1
+            }
+            else{
+              board.likeCnt = board.likeCnt - 1
+            }
             
           }
         })

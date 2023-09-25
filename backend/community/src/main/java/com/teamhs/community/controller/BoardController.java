@@ -36,7 +36,6 @@ public class BoardController {
         // 정렬 정보 설정: 내림차순으로 정렬하도록 변경
         Pageable pageable = PageRequest.of(page, size, Sort.by("boardId").descending());
 
-
         Page<Board> boards;
         if (cateId == 2) {
             // 카테고리 ID가 주어지지 않은 경우 전체 게시글 조회
@@ -49,8 +48,6 @@ public class BoardController {
         //Page<Board> boards = boardService.listPaginatedBoardsByCateId(cateId, pageable);
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
-
-
 
     @PostMapping("/write")
     public ResponseEntity<Board> createBoard(@RequestBody BoardDTO board) {

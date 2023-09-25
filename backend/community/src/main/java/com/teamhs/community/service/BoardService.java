@@ -77,8 +77,6 @@ public class BoardService {
     }
 
 
-
-
     //게시글 삭제
     @Transactional
     public boolean deleteBoard(Long boardId) {
@@ -94,11 +92,10 @@ public class BoardService {
             // 관련된 댓글 삭제
             commentRepository.deleteAll(comments);
 
+            boardLikeRepository.deleteByBoardBoardId(boardId);
+
             // 게시글 삭제
             boardRepository.delete(board);
-
-            boardLikeRepository.deleteByBoardBoardId(board.getBoardId());
-
             return true;
         }
         return false;

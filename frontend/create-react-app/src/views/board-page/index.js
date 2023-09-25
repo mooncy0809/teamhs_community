@@ -94,6 +94,19 @@ const BoardList = () => {
     }
   };
 
+  //검색 기능 추가
+  const [category, setCategory] = useState('title'); // 초기 카테고리 값은 '제목'
+  const [searchText, setSearchText] = useState('');
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+
  
   return (
     <MainCard 
@@ -241,7 +254,10 @@ const BoardList = () => {
         {/*검색*/}
           <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
             <Grid item>
-              <Select defaultValue="title">
+              <Select 
+              defaultValue="title"
+              value={category}
+              onChange={handleCategoryChange}>
                 <MenuItem value="title">제목</MenuItem>
                 <MenuItem value="content">내용</MenuItem>
               </Select>
@@ -250,6 +266,8 @@ const BoardList = () => {
               <TextField
                 label="search"
                 variant="outlined"
+                value={searchText}
+                onChange={handleSearchTextChange}
                 style={{width:"300px"}}  
                 fullWidth
               />

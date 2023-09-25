@@ -154,10 +154,11 @@ const BoardList = () => {
               <thead>
                 <tr >
                   <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
-                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
+                  <th style={{ width: '55%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
                 </tr>
               </thead>
               <tbody>
@@ -168,6 +169,7 @@ const BoardList = () => {
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                     <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
                   </tr>
                 ))}
               </tbody>
@@ -179,11 +181,12 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
                 </tr>
               </thead>
               <tbody>
@@ -194,6 +197,7 @@ const BoardList = () => {
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                     <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
                   </tr>
                 ))}
               </tbody>
@@ -206,11 +210,12 @@ const BoardList = () => {
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
                 <tr >
-                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
+                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
                   <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
                   <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
                   <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
+                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
                 </tr>
               </thead>
               <tbody>
@@ -221,6 +226,7 @@ const BoardList = () => {
                     <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
                     <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
                     <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
+                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
                   </tr>
                 ))}
               </tbody>

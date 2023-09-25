@@ -2,73 +2,56 @@ package com.teamhs.community.service;
 
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.BoardLike;
+import com.teamhs.community.domain.Member;
+import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardLikeRepository;
 import com.teamhs.community.repository.BoardRepository;
-import com.teamhs.community.repository.MemberRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
+@RequiredArgsConstructor
 public class BoardLikeService {
 
     @Autowired
-    private BoardRepository boardRepository;
-    @Autowired
     private BoardLikeRepository boardLikeRepository;
-
     @Autowired
-    private MemberRepository memberRepository;
+    private BoardRepository boardRepository;
 
-    public boolean clickLike(String userId, Long boardId) {
-        Optional<Board> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isPresent()) {
-            Board existingBoard = boardOptional.get();
+    @Transactional
+    public void likeBoard(String userId, Long boardId) {
+        Member member = new Member();
+        member.setUserId(userId);
 
-            // 사용자가 이미 해당 게시글에 좋아요를 눌렀는지 확인.
-            boolean userLiked = hasUserLikedBoard(userId, boardId);
+        Board boards = boardRepository.findById(boardId).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
+        // 조회수 증가
+        boards.setBoardId(boards.getBoardId());
+        boards.setViewCnt(boards.getViewCnt());
+        boards.setLikeCnt(boards.getLikeCnt() + 1);
 
-            if (!userLiked) {
-                // 사용자가 아직 좋아요를 누르지 않은 경우에만 좋아요.
-                existingBoard.setLikeCnt(existingBoard.getLikeCnt() + 1);
-                boardRepository.save(existingBoard);
+        BoardLike like = new BoardLike();
+        like.setMember(member);
+        like.setBoard(boards);
 
-                // 사용자의 좋아요 정보를 저장합니다.
-                BoardLike boardLike = new BoardLike();
-
-                boardLike.setMember(memberRepository.getOne(userId)); // 사용자 엔티티를 가져옵니다.
-                boardLike.setBoard(existingBoard);
-                boardLikeRepository.save(boardLike);
-
-                return true;
-            }
-        }
-        return false;
+        boardRepository.save(boards);
+        boardLikeRepository.save(like);
     }
 
-    public boolean cancelLike(String userId, Long boardId) {
-        Optional<Board> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isPresent()) {
-            Board existingBoard = boardOptional.get();
+    @Transactional
+    public void unlikeBoard(String userId, Long boardId) {
 
-            // 여기에서 사용자가 해당 게시글에 좋아요를 눌렀는지 확인합니다.
-            boolean userLiked = hasUserLikedBoard(userId, boardId);
-
-            if (userLiked) {
-                existingBoard.setLikeCnt(existingBoard.getLikeCnt() - 1);
-                boardRepository.save(existingBoard);
-                // 사용자의 좋아요 정보를 삭제합니다.
-                boardLikeRepository.deleteByMemberUserIdAndBoardBoardId(userId, boardId);
-
-                return true;
-            }
-        }
-        return false;
+        Board boards = boardRepository.findById(boardId).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + boardId));
+        // 조회수 증가
+        boards.setBoardId(boards.getBoardId());
+        boards.setViewCnt(boards.getViewCnt());
+        boards.setLikeCnt(boards.getLikeCnt() - 1);
+        boardRepository.save(boards);
+        boardLikeRepository.deleteByMemberUserIdAndBoardBoardId(userId, boardId);
     }
 
-    public boolean hasUserLikedBoard(String userId, Long boardId) {
-        // 사용자 ID와 게시글 ID를 이용하여 해당 사용자가 해당 게시글에 좋아요를 눌렀는지 확인.
+    public boolean checkIfUserLikedBoard(String userId, Long boardId) {
         return boardLikeRepository.existsByMemberUserIdAndBoardBoardId(userId, boardId);
     }
 }

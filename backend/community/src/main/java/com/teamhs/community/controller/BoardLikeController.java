@@ -1,35 +1,46 @@
 package com.teamhs.community.controller;
 
 import com.teamhs.community.service.BoardLikeService;
+import com.teamhs.community.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/like")
 public class BoardLikeController {
 
-    private final BoardLikeService boardLikeService;
+    @Autowired
+    private BoardService boardService;
+    @Autowired
+    private BoardLikeService boardLikeService;
 
-    @PostMapping("/like/{boardId}/{userId}")
-    public ResponseEntity<Boolean> clickLike(@PathVariable Long boardId, @PathVariable String userId) {
-        boolean success = boardLikeService.clickLike(userId, boardId);
-        if (success) {
-            return ResponseEntity.ok(true);
+    @PostMapping("/{boardId}/{userId}")
+    public ResponseEntity<?> likeBoard(@PathVariable ("boardId") Long boardId, @PathVariable("userId") String userId) {
+        // 사용자가 이미 좋아요를 눌렀는지 확인
+        boolean alreadyLiked = boardLikeService.checkIfUserLikedBoard(userId, boardId);
+
+        if (alreadyLiked) {
+            // 이미 좋아요를 눌렀다면 좋아요 취소
+            boardLikeService.unlikeBoard(userId, boardId);
+            return ResponseEntity.ok(Map.of("success", true, "message", "좋아요를 취소했습니다."));
         } else {
-            return ResponseEntity.badRequest().body(false);
+            // 좋아요 추가
+            boardLikeService.likeBoard(userId, boardId);
+            return ResponseEntity.ok(Map.of("success", true, "message", "좋아요를 눌렀습니다."));
         }
     }
 
-    @DeleteMapping("/unlike/{boardId}/{userId}")
-    public ResponseEntity<Boolean> cancelLike(@PathVariable Long boardId, @PathVariable String userId) {
-        boolean success = boardLikeService.cancelLike(userId, boardId);
-        if (success) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.badRequest().body(false);
-        }
+    @GetMapping("/check/{boardId}/{userId}")
+    public boolean checkLike(@PathVariable ("boardId") Long boardId, @PathVariable("userId") String userId) {
+        // 사용자가 이미 좋아요를 눌렀는지 확인
+        boolean alreadyLiked = boardLikeService.checkIfUserLikedBoard(userId, boardId);
+        return alreadyLiked;
     }
+
 
 }

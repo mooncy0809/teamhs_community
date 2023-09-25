@@ -43,7 +43,7 @@ const BoardDetail = () => {
 
   //게시글 조회
   useEffect(() => {
-    axios.get(`http://localhost:8090/board/${boardId}`) //게시글 목록 조회
+    axios.get(`http://localhost:8090/board/${boardId}`)
       .then(response => setBoard(response.data))
       .catch(error => console.log(error))
   }, [boardId]);
@@ -244,13 +244,10 @@ const handleSaveEdit = (commentId, editedContent) => {
       .catch((error) => {
         console.error("Error get recomment:", error);
       });
-
-      console.log("data는", recommentList)
   };
 
 
     //답글 작성 - 삭제
-
     const [ReCommentId, setReCommentId] = useState(null); // 답글 작성 상태 관리
     const [reCommentContent, setReCommentContent] = useState(""); // 답글 내용 상태 관리
     
@@ -311,48 +308,44 @@ const handleSaveEdit = (commentId, editedContent) => {
 
 
     //좋아요 기능
-    const [liked, setLiked] = useState(false); // 좋아요 상태를 관리하는 상태 변수
+    const [liked, setLiked] = useState(""); // 좋아요 상태를 관리하는 상태 변수
+    
+    //like가 눌려져 있는지 설정하기
+    useEffect(() => {
+      axios.get(`http://localhost:8090/like/check/${boardId}/${member.member.userId}`)
+        .then(response => 
+          setLiked(response.data)
+          )
+        .catch(error => console.log(error))
+    });
 
-    // 좋아요 버튼 클릭 시
+
     const handleLikeClick = () => {
-      axios.post(`http://localhost:8090/board/like/${boardId}/${member.member.userId}`)
-        .then(
-          response => {// eslint-disable-line no-unused-vars
-          // 성공한 경우
-          setLiked(true); // 좋아요 상태를 true로 변경
+      // 서버에 좋아요 요청 보내기
+      axios.post(`http://localhost:8090/like/${boardId}/${member.member.userId}`)
+        .then(response => {
+          // 성공적으로 좋아요를 눌렀을 때 클라이언트에서 UI 업데이트
+          if (response.data.success) {
+            setLiked(true);
+
+            axios.get(`http://localhost:8090/board/${boardId}`)
+            .then(response => setBoard(response.data))
+            .catch(error => console.log(error))
+            
+          }
         })
-        .catch(
-          error => {// eslint-disable-line no-unused-vars
-          // 에러 처리
+        .catch(error => {
+          console.error('Error liking post:', error);
         });
     };
 
-    // 취소 버튼 클릭 시
-    const handleCancelLikeClick = () => {
-      axios.delete(`http://localhost:8090/board/unlike/${boardId}/${member.member.userId}`)
-        .then(
-          response => {// eslint-disable-line no-unused-vars
-          // 성공한 경우
-          setLiked(false); // 좋아요 상태를 false로 변경
-        })
-        .catch(
-          error => {// eslint-disable-line no-unused-vars
-          // 에러 처리
-        });
-    };
-
-    // 좋아요 상태에 따라 아이콘 표시
+    // 좋아요 상태에 따라 아이콘 표시(true = 좋아요 한 상태, false = 좋아요 안 한 상태)
     const likeIcon = liked ? <LikeIcon /> : <UnlikeIcon />;
-
-
-
-
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
     return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
-
 
   return (
     <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>{board.cateId === 1 ? '뉴스' : '자유게시판'}</Button>}>
@@ -372,7 +365,15 @@ const handleSaveEdit = (commentId, editedContent) => {
                         <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
                           {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
                           <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
-                            {board.viewCnt + " | " + board.likeCnt}
+                            {board.viewCnt + " | "}
+                          <UnlikeIcon fontSize="inherit" 
+                          style={{
+                            width: '24px',
+                            height: '24px',
+                            verticalAlign: 'middle'
+                          }}  /> {/* 아이콘을 추가합니다. */}
+                          {board.likeCnt}
+
                         </Typography>
 
                         <Grid item>
@@ -403,7 +404,6 @@ const handleSaveEdit = (commentId, editedContent) => {
                 <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
               </Grid> 
 
-
               {/* 게시글 내용 */}
               <Grid item xs={12}>
                 <div
@@ -418,30 +418,30 @@ const handleSaveEdit = (commentId, editedContent) => {
                 ></div>
               </Grid>
 
-
-
-
-              {/*UnlikeIcon은 좋아요, 목록으로 버튼 */}    
+              {/*좋아요 버튼, 목록으로 버튼 */}    
               <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
                 <div
-                  style={{
-                    width: '45px',
-                    height: '45px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: '50%',
-                    border: '1px solid #000', // 검정색 테두리
-                    backgroundColor: 'transparent', // 배경색 없음
-                    marginBottom: '20px',
-                  }}
-                >
-                  {likeIcon}
-                </div>
-                <Button variant="outlined" onClick={liked ? handleCancelLikeClick : handleLikeClick}>
-                  {liked ? '좋아요 취소' : '좋아요'}
-                </Button>
+                      role="button" // 클릭 가능한 요소로 역할을 설정합니다.
+                      tabIndex={0} 
+                      onClick={handleLikeClick}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleLikeClick();
+                        }
+                      }}
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom : '15px',
+                        cursor: 'pointer', // Add cursor pointer for better user experience
+                      }} 
+                    >
+                    {likeIcon}
+                  </div>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
                   목록으로
                 </Button>

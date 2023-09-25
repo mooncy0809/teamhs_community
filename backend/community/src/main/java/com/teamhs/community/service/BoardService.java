@@ -2,9 +2,12 @@ package com.teamhs.community.service;
 
 
 import com.teamhs.community.domain.Board;
+import com.teamhs.community.domain.BoardLike;
 import com.teamhs.community.domain.Comment;
+import com.teamhs.community.domain.Member;
 import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
+import com.teamhs.community.repository.BoardLikeRepository;
 import com.teamhs.community.repository.BoardRepository;
 import com.teamhs.community.repository.CommentRepository;
 import com.teamhs.community.repository.RecommentRepository;
@@ -28,6 +31,8 @@ public class BoardService {
     private CommentRepository commentRepository;
     @Autowired
     private RecommentRepository recommentRepository;
+    @Autowired
+    private BoardLikeRepository boardLikeRepository;
 
     public Page<Board> listPaginateGBoards(Pageable pageable){
         return boardRepository.findAll(pageable);
@@ -80,6 +85,7 @@ public class BoardService {
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
             List<Comment> comments = board.getComments();
+
             for (Comment comment : comments) {
                 // 관련된 대댓글 삭제
                 recommentRepository.deleteByComment(comment);
@@ -89,6 +95,8 @@ public class BoardService {
 
             // 게시글 삭제
             boardRepository.delete(board);
+
+            boardLikeRepository.deleteByBoardBoardId(board.getBoardId());
 
             return true;
         }

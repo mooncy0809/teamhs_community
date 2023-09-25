@@ -18,7 +18,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
-    private int boardId;
+    private Long boardId;
 
     @Column(nullable = true)
     private String userId;

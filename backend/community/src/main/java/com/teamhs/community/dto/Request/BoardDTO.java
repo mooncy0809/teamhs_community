@@ -1,9 +1,12 @@
 package com.teamhs.community.dto.Request;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
 public class BoardDTO {
     private int boardId;
+    @Getter
     private String userId;
     private int cateId;
     private String boardTitle;
@@ -12,14 +15,9 @@ public class BoardDTO {
     private int viewCnt;
     private int likeCnt;
 
-    public String getUserId() {
-        return userId;
-    }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
     public int getBoardId() {
         return boardId;
     }
@@ -71,7 +69,7 @@ public class BoardDTO {
         return likeCnt;
     }
 
-    public void getLikeCnt(int likeCnt) {
+    public void setLikeCnt(int likeCnt) {
         this.likeCnt = likeCnt;
     }
 

@@ -307,7 +307,7 @@ const handleSaveEdit = (commentId, editedContent) => {
     };
 
 
-    //게시글 추천 기능
+    //좋아요 기능
     const [liked, setLiked] = useState(""); // 좋아요 상태를 관리하는 상태 변수
     
     //like가 눌려져 있는지 설정하기
@@ -318,6 +318,7 @@ const handleSaveEdit = (commentId, editedContent) => {
           )
         .catch(error => console.log(error))
     });
+
 
     const handleLikeClick = () => {
       // 서버에 좋아요 요청 보내기
@@ -349,13 +350,7 @@ const handleSaveEdit = (commentId, editedContent) => {
     // 좋아요 상태에 따라 아이콘 표시(true = 좋아요 한 상태, false = 좋아요 안 한 상태)
     const likeIcon = liked ? <LikeIcon /> : <UnlikeIcon />;
 
-
-
-
-
-
-
-
+    
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
@@ -446,6 +441,8 @@ const handleSaveEdit = (commentId, editedContent) => {
                         }
                       }}
                       style={{
+                        width: '40px',
+                        height: '40px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -538,67 +535,67 @@ const handleSaveEdit = (commentId, editedContent) => {
 
                               {/* 답글*/}
                               {/* 답글 갯수 표시 */}
-                              <div 
-                                  style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} 
-                                  onClick={(e) => {
-                                          e.preventDefault(); 
-                                          handleWatchRecomments(comment.commentId); 
-                                          setReCommentId(comment.commentId); 
-                                          }}
-                              >
-                                {openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a>
-                              </div>
+                            <div 
+                                style={{textAlign:'right'}}><a href="#" style={{ textDecoration: 'none', color: 'grey' }} 
+                                onClick={(e) => {
+                                        e.preventDefault(); 
+                                        handleWatchRecomments(comment.commentId); 
+                                        setReCommentId(comment.commentId); 
+                                        }}
+                            >
+                              {openReplies[comment.commentId] ? "닫기" : `답글 ${commentRecommentCounts[comment.commentId] || 0}개`}</a>
+                                </div>
                                     
-                               {/* 답글 리스트 폼 */}     
-                              {openReplies[comment.commentId] && ReCommentId === comment.commentId && (
-                                 <div>
-                                  {recommentList.map(recomment => (
-                                        <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"20px", color:"grey"}}>
-                                          <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
-                                            {recomment.recommentContent}
-                                          </Typography>
-                                          <Typography variant="body2" style={{ color: 'grey' }}>
-                                              {recomment.userId.slice(0, -2) + '**' + " | " + recomment.recommentDate}
-                                                {/*답글 삭제 버튼*/}
-                                                {recomment.userId === member?.member?.userId ? (
-                                                    <a href="#"style={{ textDecoration: 'none', color: '#333333', marginLeft: '10px',}}
-                                                    onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>
-                                                      삭제
-                                                    </a>
-                                                  ) : (
-                                                    null
-                                                  )}
+                                {/* 답글 리스트 폼 */}     
+                                {openReplies[comment.commentId] && ReCommentId === comment.commentId && (
+                                  <div>
+                                    {recommentList.map(recomment => (
+                                          <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"20px", color:"grey"}}>
+                                            <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
+                                              {recomment.recommentContent}
                                             </Typography>
-                                          <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
-                                        </div>
-                                      ))}    
-
-                                    {/* 답글 작성 폼 */}                    
-                                    {member?.member?.userId ? (
-                                      <>               
-                                          <TextField
-                                            label="답글 작성"
-                                            multiline
-                                            rows={3}
-                                            variant="outlined"
-                                            fullWidth
-                                            value={reCommentContent}
-                                            onChange={(e) => setReCommentContent(e.target.value)}
-                                            style={{ marginTop: '10px', marginBottom: '10px' }}
-                                          />
-                                          <div style={{ textAlign: 'right' }}>
-                                            <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)} disabled={!reCommentContent}>작성</Button>
+                                            <Typography variant="body2" style={{ color: 'grey' }}>
+                                                {recomment.userId.slice(0, -2) + '**' + " | " + recomment.recommentDate}
+                                                  {/*답글 삭제 버튼*/}
+                                                  {recomment.userId === member?.member?.userId ? (
+                                                      <a href="#"style={{ textDecoration: 'none', color: '#333333', marginLeft: '10px',}}
+                                                      onClick={(e) => {e.preventDefault(); handleReCommentDelete(recomment.recommentId, comment.commentId);}}>
+                                                        삭제
+                                                      </a>
+                                                    ) : (
+                                                      null
+                                                    )}
+                                              </Typography>
+                                            <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
                                           </div>
-                                      </>
+                                        ))}    
 
-                                      ) : (
-                                        <Typography variant="body1" style={{margin:'20px', fontSize:'16px', fontWeight: 'bold', color: '#333333' }}>
-                                          답글 작성을 위해 로그인 해주세요.
-                                        </Typography>
+                                      {/* 답글 작성 폼 */}                    
+                                      {member?.member?.userId ? (
+                                        <>               
+                                            <TextField
+                                              label="답글 작성"
+                                              multiline
+                                              rows={3}
+                                              variant="outlined"
+                                              fullWidth
+                                              value={reCommentContent}
+                                              onChange={(e) => setReCommentContent(e.target.value)}
+                                              style={{ marginTop: '10px', marginBottom: '10px' }}
+                                            />
+                                            <div style={{ textAlign: 'right' }}>
+                                              <Button variant="contained" color="primary" onClick={() => handleReCommentWrite(comment.commentId)} disabled={!reCommentContent}>작성</Button>
+                                            </div>
+                                        </>
+
+                                        ) : (
+                                          <Typography variant="body1" style={{margin:'20px', fontSize:'16px', fontWeight: 'bold', color: '#333333' }}>
+                                            답글 작성을 위해 로그인 해주세요.
+                                          </Typography>
+                                        )}
+
+                                      </div>
                                       )}
-
-                                    </div>
-                                    )}
 
                                   </>
 

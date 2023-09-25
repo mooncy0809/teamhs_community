@@ -1,4 +1,4 @@
-import { Grid, Button, Pagination} from '@mui/material';
+import { Grid, Button, Pagination, TextField, Select, MenuItem} from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -10,8 +10,6 @@ import Table from 'react-bootstrap/Table';
 
 import {useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // eslint-disable-line
-//import { elementAcceptingRef } from '@mui/utils';
-
 
   
 const BoardList = () => {
@@ -96,59 +94,64 @@ const BoardList = () => {
     }
   };
 
-
  
   return (
-    <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>{pageTitle}</span>}style={{ marginLeft: '8px' }}
-    secondary={
-      member?.member?.userId ? (
-        <Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px' }}>
-          게시글 작성
-        </Button>
-      ) : null
-    }
-  ><Grid container spacing={gridSpacing}>
+    <MainCard 
+          title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>{pageTitle}</span>}
+          style={{ marginLeft: '8px' }}
+          secondary={
+            member?.member?.userId ? (
+              <Button variant="contained" onClick={handleButtonClick} style={{ marginRight: '8px',fontWeight: 'bold', background: '#ede7f6', color: '#5e35b1' }}>
+                게시글 작성
+              </Button>
+            ) : null
+          }>
+    <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
         <div>
-        <div className="tab-container" style={{marginBottom:'20px', marginLeft:'20px'}}>
+          <div className="tab-container" style={{ marginBottom:'20px', marginLeft:'20px'}}>
 
-        <button
-            className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
-            style={{
-              backgroundColor: activeTab === 'all' ? 'skyblue' : 'transparent',
-              color: activeTab === 'all' ? 'white' : 'black',
-              fontSize: '18px'
-            }}
-            onClick={() => handleTabClick('all')}
-          >
-            전체
-          </button>
+              <button
+                  className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+                  style={{
+                    backgroundColor: activeTab === 'all' ? '#ede7f6' : 'transparent',
+                    color: activeTab === 'all' ? '#5e35b1' : 'black',
+                    fontSize: '18px',
+                    border: '1.5px solid #5e35b1' // 보더 추가 및 보더 색상 변경
+                  }}
+                  onClick={() => handleTabClick('all')}
+                >
+                전체
+              </button>
 
-          <button
-            className={`tab-button ${activeTab === 'board' ? 'active' : ''}`}
-            style={{
-              backgroundColor: activeTab === 'board' ? 'skyblue' : 'transparent',
-              color: activeTab === 'board' ? 'white' : 'black',
-              fontSize: '18px'
-            }}
-            onClick={() => handleTabClick('board')}
-          >
-            자유게시판
-          </button>
+              <button
+                className={`tab-button ${activeTab === 'board' ? 'active' : ''}`}
+                style={{
+                  backgroundColor: activeTab === 'board' ? '#ede7f6' : 'transparent',
+                  color: activeTab === 'board' ? '#5e35b1' : 'black',
+                  fontSize: '18px',
+                  border: '1.5px solid #5e35b1' 
+                }}
+                onClick={() => handleTabClick('board')}
+              >
+                자유게시판
+              </button>
 
-          <button
-            className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
-            style={{
-              backgroundColor: activeTab === 'news' ? 'skyblue' : 'transparent',
-              color: activeTab === 'news' ? 'white' : 'black',
-              fontSize: '18px'
-            }}
-            onClick={() => handleTabClick('news')}
-          >
-            뉴스
-          </button>
+              <button
+                className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
+                style={{
+                  backgroundColor: activeTab === 'news' ? '#ede7f6' : 'transparent',
+                  color: activeTab === 'news' ? '#5e35b1' : 'black',
+                  fontSize: '18px',
+                  border: '1.5px solid #5e35b1' 
+                }}
+                onClick={() => handleTabClick('news')}
+              >
+                뉴스
+              </button>
         </div>
         <div className="tab-content" id="all" style={{ display: activeTab === 'all' ? 'block' : 'none' }}>
+
         <SubCard>
             <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
               <thead>
@@ -234,7 +237,32 @@ const BoardList = () => {
           </SubCard>
         </div>
       </div>
-         
+
+        {/*검색*/}
+          <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+            <Grid item>
+              <Select defaultValue="title">
+                <MenuItem value="title">제목</MenuItem>
+                <MenuItem value="content">내용</MenuItem>
+              </Select>
+            </Grid>
+            <Grid item>
+              <TextField
+                label="search"
+                variant="outlined"
+                style={{width:"300px"}}  
+                fullWidth
+              />
+            </Grid>
+            <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+              <Button variant="contained">
+                검색
+              </Button>
+            </Grid>
+          </Grid>
+
+
+          {/*페이징*/}        
           <Grid
               container
               justifyContent="center"

@@ -47,10 +47,10 @@ public class CommentService {
         comment.setBoard(board);
         comment.setCommentContent(commentDTO.getCommentContent());
 
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = LocalDateTime.now().format(formatter);
         comment.setCommentDate(formattedDateTime);
+
         return commentRepository.save(comment);
     }
 

@@ -307,7 +307,7 @@ const handleSaveEdit = (commentId, editedContent) => {
     };
 
 
-    //좋아요 기능
+    //게시글 추천 기능
     const [liked, setLiked] = useState(""); // 좋아요 상태를 관리하는 상태 변수
     
     //like가 눌려져 있는지 설정하기
@@ -318,7 +318,6 @@ const handleSaveEdit = (commentId, editedContent) => {
           )
         .catch(error => console.log(error))
     });
-
 
     const handleLikeClick = () => {
       // 서버에 좋아요 요청 보내기
@@ -332,7 +331,7 @@ const handleSaveEdit = (commentId, editedContent) => {
               setLiked(response.data)
               )
             .catch(error => console.log(error))
-            
+
             if (liked === false){
               board.likeCnt = board.likeCnt + 1
             }
@@ -349,6 +348,14 @@ const handleSaveEdit = (commentId, editedContent) => {
 
     // 좋아요 상태에 따라 아이콘 표시(true = 좋아요 한 상태, false = 좋아요 안 한 상태)
     const likeIcon = liked ? <LikeIcon /> : <UnlikeIcon />;
+
+
+
+
+
+
+
+
 
   //게시글 내용이 없거나 로딩이 되지 않을 경우
   if (!board) {
@@ -439,8 +446,6 @@ const handleSaveEdit = (commentId, editedContent) => {
                         }
                       }}
                       style={{
-                        width: '40px',
-                        height: '40px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

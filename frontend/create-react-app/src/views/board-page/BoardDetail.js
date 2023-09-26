@@ -532,7 +532,6 @@ const handleSaveEdit = (commentId, editedContent) => {
                                 null
                              )}
 
-
                               {/* 답글*/}
                               {/* 답글 갯수 표시 */}
                             <div 
@@ -574,7 +573,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                                       {member?.member?.userId ? (
                                         <>               
                                             <TextField
-                                              label="답글 작성"
+                                              label={`${member.member.userName}(${member.member.userId})님 답글 작성`}
                                               multiline
                                               rows={3}
                                               variant="outlined"
@@ -623,7 +622,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                 {/* 댓글 작성 폼 */}
                 <Grid item xs={12} style={{ textAlign: 'right' }}>
                   <TextField
-                    label="댓글 작성"
+                    label={`${member.member.userName}(${member.member.userId})님 댓글을 작성해보세요!`}
                     multiline
                     rows={4}
                     variant="outlined"

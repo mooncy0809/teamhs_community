@@ -121,7 +121,6 @@ const BoardList = () => {
   
 
 
- 
   return (
     <MainCard 
           title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>{pageTitle}</span>}

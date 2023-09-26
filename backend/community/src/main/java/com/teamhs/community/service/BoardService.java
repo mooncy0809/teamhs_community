@@ -48,13 +48,27 @@ public class BoardService {
     public Page<Board> searchBoards(Long cateId, String sCate, String sText, Pageable pageable) {
         if ("title".equals(sCate)) {
             // 제목으로 검색
-            return boardRepository.findAllByCateIdAndBoardTitleContaining(cateId, sText, pageable);
+            if (cateId == 2){
+                return boardRepository.findAllByBoardTitleContaining(sText, pageable);
+            }else{
+                return boardRepository.findAllByCateIdAndBoardTitleContaining(cateId, sText, pageable);
+            }
+
         } else if ("content".equals(sCate)) {
             // 내용으로 검색
-            return boardRepository.findAllByCateIdAndBoardContentContaining(cateId, sText, pageable);
+            if(cateId == 2){
+                return boardRepository.findAllByBoardContentContaining(sText, pageable);
+            }else{
+                return boardRepository.findAllByCateIdAndBoardContentContaining(cateId, sText, pageable);
+            }
         } else {
             // 기본적으로 전체 내용으로 검색 (카테고리에 상관없이)
-            return boardRepository.findAllByCateIdAndBoardTitleContainingOrCateIdAndBoardContentContaining(cateId, sText, cateId,sText, pageable);
+            if (cateId == 2){
+                return boardRepository.findAllByBoardTitleContainingOrBoardContentContaining(sText, sText, pageable);
+            }else{
+                return boardRepository.findAllByCateIdAndBoardTitleContainingOrCateIdAndBoardContentContaining(cateId, sText, cateId, sText, pageable);
+            }
+
         }
     }
 

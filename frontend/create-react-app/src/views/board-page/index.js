@@ -261,7 +261,7 @@ const BoardList = () => {
         </Grid>
       </Grid>
       
-      
+
           {/*페이징*/}        
           <Paging handlepage={handlePageChange}/>
         </Grid>

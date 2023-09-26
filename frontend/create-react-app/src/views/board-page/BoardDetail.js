@@ -1,5 +1,6 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux'; // eslint-disable-line
 
 import { Grid, Button, Typography, TextField } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -12,18 +13,14 @@ import 'react-quill/dist/quill.snow.css';
 import './customQuill.css';
 
 //Dialog
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { useSelector } from 'react-redux'; // eslint-disable-line
+import Swal from "sweetalert2";
+
+//Icons
 import { ReactComponent as Reservation } from "assets/images/users/default.svg";
 import { ReactComponent as UnlikeIcon } from "assets/images/icons/unlike.svg";
 import { ReactComponent as LikeIcon } from "assets/images/icons/like.svg";
-
-// assets
 import { IconEye} from '@tabler/icons';
+
 
 
 const BoardDetail = () => {
@@ -78,33 +75,40 @@ useEffect(() => {
 }, [boardId]);
 
 
-//게시글 수정/삭제
-
-    //수정, 삭제, 목록으로 : Dialog 예/아니오
+    //게시글 수정/삭제
     const navigate = useNavigate();
-    const [openDialog, setOpenDialog] = useState(false);
-  
-    const handleDeleteButtonClick = () => {
-      setOpenDialog(true);
-    }
-  
-    const handleCloseDialog = () => {
-      setOpenDialog(false);
-    };
   
     const handleConfirmDelete = () => {
-      axios.delete(`http://localhost:8090/board/delete/${boardId}`) //Dialog 예 클릭 시 삭제 API 호출
-      .then(response => {
-        console.log('Delete saved:', response.data);
-        navigate('/board/list'); // '/board list' 경로로 페이지 이동
-        // 삭제 성공한 경우 처리
-      })
-      .catch(error => {
-        console.error('Error delete:', error);
-        // 에러 처리
-      });
-      handleCloseDialog();
-    };
+        // Show a confirmation dialog
+        Swal.fire({
+          title: "게시글 삭제",
+          text: "정말 게시글을 삭제하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "네",
+          cancelButtonText: "아니요",
+          confirmButtonColor: "#d33",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // User confirmed deletion, proceed with the deletion
+            axios.delete(`http://localhost:8090/board/delete/${boardId}`)
+            .then(response => {
+              console.log('Delete saved:', response.data);
+              navigate('/board/list'); // '/board list' 경로로 페이지 이동
+              // 삭제 성공한 경우 처리
+              // Show a success message
+              Swal.fire("게시글 삭제 완료", "게시글이 삭제되었습니다.", "success");
+            })
+            .catch(error => {
+              console.error('Error delete:', error);
+              // 에러 처리
+              // Show an error message
+              Swal.fire("삭제 오류", "게시글 삭제 중 오류가 발생했습니다.", "error");
+            });
+          }
+        });
+      };
   
     const handleEditMoveClick = () => {
       navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
@@ -115,71 +119,67 @@ useEffect(() => {
     };
 
 
-
-
-//댓글 작성-삭제-수정
-
-const [commentContent, setCommentContent] = useState(""); 
- 
-//댓글 작성
-const handleCommentWrite = () => { 
-const newComment = {
-  userId: member.member.userId,
-  boardId: boardId,
-  commentContent: commentContent,
-};
-  axios
-  .post("http://localhost:8090/comment/write", newComment)
-  .then((response) => {
-    console.log("Comment posted:", response.data);
-  
-    axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
-      .then(response => setCommentList(response.data))
-      .catch(error => console.log(error))
-  
-    setCommentContent(""); // 댓글 내용 초기화
-  })
-  .catch((error) => {
-    console.error("Error posting comment:", error);
-    // 에러 처리
-  });
-};
+    //댓글 작성-삭제-수정
+    const [commentContent, setCommentContent] = useState(""); 
+    
+    //댓글 작성
+    const handleCommentWrite = () => { 
+    const newComment = {
+      userId: member.member.userId,
+      boardId: boardId,
+      commentContent: commentContent,
+    };
+      axios
+      .post("http://localhost:8090/comment/write", newComment)
+      .then((response) => {
+        console.log("Comment posted:", response.data);
+      
+        axios.get(`http://localhost:8090/comment/list/${boardId}`) //등록 후 댓글 리스트 업데이트
+          .then(response => setCommentList(response.data))
+          .catch(error => console.log(error))
+      
+        setCommentContent(""); // 댓글 내용 초기화
+      })
+      .catch((error) => {
+        console.error("Error posting comment:", error);
+        // 에러 처리
+      });
+    };
 
 //댓글 삭제
-const [deleteCommentId, setDeleteCommentId] = useState(null); // 삭제할 댓글 ID를 저장
-const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // 삭제 다이얼로그 열림/닫힘 상태
 
- // 댓글 삭제 확인 함수
-const handleConfirmDeleteComment = () => {
-  axios
-    .delete(`http://localhost:8090/comment/delete/${deleteCommentId}`)
-    .then((response) => {
-      console.log('Delete saved:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error delete:', error);
-      // 에러 처리
-    })
-    .finally(() => {
+const deleteCommentDialog = (commentId) => {
+  Swal.fire({
+    title: "댓글 삭제",
+    text: "정말 댓글을 삭제하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "네",
+    cancelButtonText: "아니요",
+    confirmButtonColor: "#d33",
+  }).then((result) => {
+    if (result.isConfirmed) {
       axios
-      .get(`http://localhost:8090/comment/list/${boardId}`)
-      .then((response) => setCommentList(response.data))
-      .catch((error) => console.log(error));
-      handleCloseDeleteDialog(); // 다이얼로그를 닫는 작업은 여기서 처리
-    });
+        .delete(`http://localhost:8090/comment/delete/${commentId}`)
+        .then((response) => {
+          console.log("Delete saved:", response.data);
+          Swal.fire("댓글 삭제 완료", "댓글이 삭제되었습니다.", "success");
+        })
+        .catch((error) => {
+          console.error("Error delete:", error);
+          Swal.fire("댓글 삭제 실패", "댓글 삭제가 되지 않았습니다.", "error");
+          // 에러 처리
+        })
+        .finally(() => {
+          axios
+            .get(`http://localhost:8090/comment/list/${boardId}`)
+            .then((response) => setCommentList(response.data))
+            .catch((error) => console.log(error));
+          // 다이얼로그를 닫는 작업은 여기서 처리하지 않습니다.
+        });
+    }
+  });
 };
-
-// 댓글 삭제 다이얼로그 열기/닫기 함수
-const handleOpenDeleteDialog = (commentId) => {
-  setDeleteCommentId(commentId);
-  setOpenDeleteDialog(true);
-};
-
-const handleCloseDeleteDialog = () => {
-  setOpenDeleteDialog(false);
-  setDeleteCommentId(null);
-};
-
 
 
 //댓글 수정
@@ -401,23 +401,11 @@ const handleSaveEdit = (commentId, editedContent) => {
               <>
               <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="contained" onClick={handleEditMoveClick}>수정</Typography>
               {' | '}
-              <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+              <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="text" onClick={handleConfirmDelete}>삭제</Typography>
               </>
             ) : ( 
               null
               )}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>
-                  게시글 삭제
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText style={{fontSize:'16px'}}>정말 게시글을 삭제하시겠습니까?</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
-                  <Button style={{fontSize:'16px'}} onClick={handleCloseDialog} >취소</Button>
-                </DialogActions>
-            </Dialog>
           </Grid>
         </Grid>
       );
@@ -455,7 +443,6 @@ const handleSaveEdit = (commentId, editedContent) => {
         <Grid item xs={12}>
           <SubCard>
             <Grid container spacing={2}>
-
               {/* 게시글 타이틀 */}
               <Grid item xs={12}>
                 <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px'}}>
@@ -525,27 +512,8 @@ const handleSaveEdit = (commentId, editedContent) => {
                               <a href="#"style={{ marginLeft: '10px', textDecoration: 'none', color: '#333333' }}onClick={(e) => {e.preventDefault(); handleEditCommentClick(comment); }}>수정</a>
                               {' | '}
                               {/*댓글 삭제 */}
-                              <a href="#" style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => { e.preventDefault(); handleOpenDeleteDialog(comment.commentId);}} >삭제</a>
-                              
-                              <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
-                                  <DialogTitle style={{ fontSize: '20px', fontWeight: 'bold' }}>
-                                  댓글 삭제
-                                  </DialogTitle>
-                                  <DialogContent>
-                                    <DialogContentText style={{ fontSize: '16px' }}>
-                                      정말 댓글을 삭제하시겠습니까?
-                                    </DialogContentText>
-                                  </DialogContent>
-                                  <DialogActions>
-                                    <Button style={{ fontSize: '16px' }} onClick={handleConfirmDeleteComment}>
-                                      네
-                                    </Button>
-                                    <Button style={{ fontSize: '16px' }} onClick={handleCloseDeleteDialog}>
-                                      취소
-                                    </Button>
-                                  </DialogActions>
-                              </Dialog>
-                              </>
+                              <a href="#" style={{ textDecoration: 'none', color: '#333333' }}onClick={(e) => { e.preventDefault(); deleteCommentDialog(comment.commentId);}} >삭제</a>
+                                          </>
                               ) : ( 
                                 null
                              )}

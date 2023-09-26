@@ -59,7 +59,8 @@ const BoardList = () => {
   };
 
 
-  //Tab
+  //Tab 및 검색
+  const [cateId, setCateId] = useState(2); // cateId 상태 추가
   const [activeTab, setActiveTab] = useState('all'); // 현재 선택된 탭의 상태
   const [pageTitle, setPageTitle] = useState('커뮤니티'); // 페이지 제목 상태
   const [sText, setSText] = useState(''); // 검색어 상태 추가
@@ -72,20 +73,20 @@ const BoardList = () => {
     setSText('')
     setSCate('all')
 
-    let cateId = 2; // 기본값은 전체
+    let newCate = 2; // 기본값은 전체
     let newPageTitle = '커뮤니티'; // 기본 페이지 제목
 
     if (tabId === 'board') {
-      cateId = 0; // 자유게시판
+      newCate = 0; // 자유게시판
       newPageTitle = '자유게시판';
     } else if (tabId === 'news') {
-      cateId = 1; // 뉴스
+      newCate = 1; // 뉴스
       newPageTitle = '뉴스';
     }
 
-    // 서버에서 데이터 가져오기
-    fetchBoardData(cateId, 'all', '');
-    // 탭에 따라 페이지 제목 변경
+    setCateId(newCate)
+
+    fetchBoardData(newCate, 'all', '');
     setPageTitle(newPageTitle);
 
   };
@@ -103,19 +104,12 @@ const BoardList = () => {
 
   const handleSearchBtn = () => {
     // 서버에서 데이터 가져오기
-    let cateId = 2
-    
     fetchBoardData(cateId, sCate, sText);
     setSText('')
   };
  
-
   const fetchBoardData = async (cateId, searchCategory, searchText) => {
     try {
-      console.log("cateId", cateId);
-      console.log("searchCate", searchCategory);
-      console.log("searchText", searchText);
-      //const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}`);
       const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}&sCate=${searchCategory}&sText=${searchText}`);
     
       setBoardList(response.data.content);
@@ -124,6 +118,7 @@ const BoardList = () => {
       console.log(error);
     }
   };
+  
 
 
  

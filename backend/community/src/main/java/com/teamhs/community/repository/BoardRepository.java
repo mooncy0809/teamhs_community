@@ -9,7 +9,14 @@ import org.springframework.data.domain.Page;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllByCateId(Long cateId, Pageable pageable);
+    // 카테고리와 제목을 기준으로 게시글 검색
+    Page<Board> findAllByBoardTitleContaining(String title, Pageable pageable);
 
+    // 카테고리와 내용을 기준으로 게시글 검색
+    Page<Board> findAllByBoardContentContaining(String content, Pageable pageable);
+
+    // 전체 게시글에서 제목 또는 내용으로 검색
+    Page<Board> findAllByBoardTitleContainingOrBoardContentContaining(String title, String content, Pageable pageable);
     void deleteById(Long boardId);
 
 

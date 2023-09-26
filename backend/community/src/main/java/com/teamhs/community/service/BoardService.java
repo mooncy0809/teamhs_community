@@ -44,6 +44,24 @@ public class BoardService {
         return boardRepository.findAllByCateId(cateId, pageable);
     }
 
+    // 검색어와 검색 카테고리에 따라 게시글을 검색
+    public Page<Board> searchBoards(Long cateId, String sCate, String sText, Pageable pageable) {
+        if ("title".equals(sCate)) {
+            // 제목으로 검색
+            return boardRepository.findAllByBoardTitleContaining(sText, pageable);
+        } else if ("content".equals(sCate)) {
+            // 내용으로 검색
+            return boardRepository.findAllByBoardContentContaining(sText, pageable);
+        } else {
+            // 기본적으로 전체 내용으로 검색 (카테고리에 상관없이)
+            return boardRepository.findAllByBoardTitleContainingOrBoardContentContaining(sText, sText, pageable);
+        }
+    }
+
+
+
+
+
     //게시판 작성
     public Board postBoard(BoardDTO board) {
         Board newBoard = new Board();

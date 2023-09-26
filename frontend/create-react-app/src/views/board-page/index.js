@@ -7,9 +7,11 @@ import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import Table from 'react-bootstrap/Table';
-
 import {useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // eslint-disable-line
+
+import { IconEye} from '@tabler/icons';
+import { ReactComponent as UnlikeIcon } from "assets/images/icons/unlike.svg";
 
   
 const BoardList = () => {
@@ -60,10 +62,16 @@ const BoardList = () => {
   //Tab
   const [activeTab, setActiveTab] = useState('all'); // 현재 선택된 탭의 상태
   const [pageTitle, setPageTitle] = useState('커뮤니티'); // 페이지 제목 상태
+  const [sText, setSText] = useState(''); // 검색어 상태 추가
+  const [sCate, setSCate] = useState('all'); // 검색 카테고리 상태 추가
 
+  //cateId(0=자유게시판, 1=뉴스, 2=전체)
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
-    
+
+    setSText('')
+    setSCate('all')
+
     let cateId = 2; // 기본값은 전체
     let newPageTitle = '커뮤니티'; // 기본 페이지 제목
 
@@ -76,34 +84,45 @@ const BoardList = () => {
     }
 
     // 서버에서 데이터 가져오기
-    fetchBoardData(cateId);
-
+    fetchBoardData(cateId, 'all', '');
     // 탭에 따라 페이지 제목 변경
     setPageTitle(newPageTitle);
 
   };
 
-  const fetchBoardData = async (cateId) => {
+  // 검색어 입력 시 상태 업데이트
+  const handleSTextChange = (event) => {
+    setSText(event.target.value);
+  };
+
+  // 검색 카테고리 선택 시 상태 업데이트
+  const handleSCateChange = (event) => {
+    setSCate(event.target.value);
+  };
+
+
+  const handleSearchBtn = () => {
+    // 서버에서 데이터 가져오기
+    let cateId = 2
+    
+    fetchBoardData(cateId, sCate, sText);
+    setSText('')
+  };
+ 
+
+  const fetchBoardData = async (cateId, searchCategory, searchText) => {
     try {
-      const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}`);
+      console.log("cateId", cateId);
+      console.log("searchCate", searchCategory);
+      console.log("searchText", searchText);
+      //const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}`);
+      const response = await axios.get(`http://localhost:8090/board/list?page=${currentPage}&size=15&cateId=${cateId}&sCate=${searchCategory}&sText=${searchText}`);
     
       setBoardList(response.data.content);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  //검색 기능 추가
-  const [category, setCategory] = useState('title'); // 초기 카테고리 값은 '제목'
-  const [searchText, setSearchText] = useState('');
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value);
   };
 
 
@@ -171,10 +190,11 @@ const BoardList = () => {
                 <tr >
                   <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
                   <th style={{ width: '55%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
+                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -199,10 +219,10 @@ const BoardList = () => {
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
+                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
                 </tr>
               </thead>
               <tbody>
@@ -228,10 +248,10 @@ const BoardList = () => {
                 <tr >
                   <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
                   <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록날짜</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>아이디</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>조회수</th>
-                  <th style={{ width: '5%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>추천수</th>
+                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
+                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
+                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
                 </tr>
               </thead>
               <tbody>
@@ -252,32 +272,37 @@ const BoardList = () => {
       </div>
 
         {/*검색*/}
-          <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
-            <Grid item>
-              <Select 
-              defaultValue="title"
-              value={category}
-              onChange={handleCategoryChange}>
-                <MenuItem value="title">제목</MenuItem>
-                <MenuItem value="content">내용</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item>
-              <TextField
-                label="search"
-                variant="outlined"
-                value={searchText}
-                onChange={handleSearchTextChange}
-                style={{width:"300px"}}  
-                fullWidth
-              />
-            </Grid>
-            <Grid item style={{ display: 'flex', alignItems: 'center' }}>
-              <Button variant="contained">
-                검색
-              </Button>
-            </Grid>
+        <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+          <Grid item>
+            <Select 
+                defaultValue="all"
+                value={sCate}
+                onChange={handleSCateChange}
+                inputProps={{
+                  name: 's_cate',
+                  id: 's_cate',
+                }}>
+                  <MenuItem value="all">전체</MenuItem>
+                  <MenuItem value="title">제목</MenuItem>
+                  <MenuItem value="content">내용</MenuItem>
+            </Select>
           </Grid>
+          <Grid item>
+            <TextField
+              label="search"
+              variant="outlined"
+              value={sText}
+              onChange={handleSTextChange}
+              style={{width:"300px"}}  
+              fullWidth
+            />
+          </Grid>
+          <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+            <Button variant="contained" onClick={handleSearchBtn}>
+              검색
+            </Button>
+          </Grid>
+        </Grid>
 
 
           {/*페이징*/}        

@@ -26,7 +26,6 @@ import { ReactComponent as LikeIcon } from "assets/images/icons/like.svg";
 import { IconEye} from '@tabler/icons';
 
 
-
 const BoardDetail = () => {
 
   const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
@@ -375,15 +374,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                         <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
                           {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
                           <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
-                            {board.viewCnt + " | "}
-                          <UnlikeIcon fontSize="inherit" 
-                          style={{
-                            width: '24px',
-                            height: '24px',
-                            verticalAlign: 'middle'
-                          }}  /> {/* 아이콘을 추가합니다. */}
-                          {board.likeCnt}
-
+                            {board.viewCnt}
                         </Typography>
 
                         <Grid item>
@@ -446,12 +437,16 @@ const handleSaveEdit = (commentId, editedContent) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        marginBottom : '15px',
-                        cursor: 'pointer', // Add cursor pointer for better user experience
+                        cursor: 'pointer' // Add cursor pointer for better user experience
                       }} 
                     >
                     {likeIcon}
                   </div>
+                  <Typography variant="body1" style={{marginBottom : '15px', fontWeight:'bold', fontSize:'14px', color: '#333333' }}>
+                          {board.likeCnt}
+                          
+                        </Typography>
+                          
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
                   목록으로
                 </Button>

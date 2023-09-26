@@ -29,10 +29,8 @@ import { IconEye} from '@tabler/icons';
 const BoardDetail = () => {
 
   const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
-
-
-  const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   
+  const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]); 
   const [recommentList, setReCommentList] = useState([]);
@@ -351,81 +349,13 @@ const handleSaveEdit = (commentId, editedContent) => {
 
     
 
-  //게시글 내용이 없거나 로딩이 되지 않을 경우
-  if (!board) {
-    return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
-  }
-
-  return (
-    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>{board.cateId === 1 ? '뉴스' : '자유게시판'}</Button>}>
-      <Grid container spacing={gridSpacing}>
-        <Grid item xs={12}>
-          <SubCard>
-            <Grid container spacing={2}>
-
-
-              {/* 게시글 타이틀 부분 */}
-              <Grid item xs={12}>
-                {/* 게시글 제목 */}
-                  <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px', color: 'your_desired_color_here' }}>
-                    {board.boardTitle}
-                  </Typography>
-                      <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
-                        <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
-                          {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
-                          <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
-                            {board.viewCnt}
-                        </Typography>
-
-                        <Grid item>
-                          {/* 게시글 수정/삭제 */}
-                          {board.userId === member?.member?.userId ? (
-                            <>
-                            <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="contained" onClick={handleEditMoveClick}>수정</Typography>
-                            {' | '}
-                            <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
-                            </>
-                          ) : ( 
-                            null
-                            )}
-                          <Dialog open={openDialog} onClose={handleCloseDialog}>
-                              <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>
-                                게시글 삭제
-                              </DialogTitle>
-                              <DialogContent>
-                                <DialogContentText style={{fontSize:'16px'}}>정말 게시글을 삭제하시겠습니까?</DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
-                                <Button style={{fontSize:'16px'}} onClick={handleCloseDialog} >취소</Button>
-                              </DialogActions>
-                          </Dialog>
-                        </Grid>
-                      </Grid>
-                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-              </Grid> 
-
-              {/* 게시글 내용 */}
-              <Grid item xs={12}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: board.boardContent }}
-                  style={{
-                    fontSize: '16px',
-                    color: '',
-                    minHeight: "400px",
-                    height: "100%",
-                    width: "100%"
-                  }}
-                ></div>
-              </Grid>
-
-              {/*좋아요 버튼, 목록으로 버튼 */}    
-              <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
+    const BoardPost = ({board, onLikeClick}) =>{
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
                 <div
                       role="button" // 클릭 가능한 요소로 역할을 설정합니다.
                       tabIndex={0} 
-                      onClick={handleLikeClick}
+                      onClick={onLikeClick}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           handleLikeClick();
@@ -451,8 +381,101 @@ const handleSaveEdit = (commentId, editedContent) => {
                   목록으로
                 </Button>
               </div>
-              <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
-            </Grid>
+             
+              
+      );
+    }
+
+    const BoardTitle = ({board}) =>{
+      return(
+        <Grid container justifyContent="space-between" alignItems="center" marginTop={"10px"}>
+          <Typography variant="body1" style={{ fontSize:'14px', color: '#333333' }}>
+            {board.userId.slice(0, -2) + '**' + " | " + board.boardDate + " | "}
+            <IconEye fontSize="inherit" style={{ height : '24px', verticalAlign: 'middle'}} /> {/* 아이콘을 추가합니다. */}
+              {board.viewCnt}
+          </Typography>
+
+          <Grid item>
+            {/* 게시글 수정/삭제 */}
+            {board.userId === member?.member?.userId ? (
+              <>
+              <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="contained" onClick={handleEditMoveClick}>수정</Typography>
+              {' | '}
+              <Typography style={{ fontWeight: 'bold', fontSize: '16px'}} variant="text" onClick={handleDeleteButtonClick}>삭제</Typography>
+              </>
+            ) : ( 
+              null
+              )}
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle style={{fontSize:'20px', fontWeight: 'bold'}}>
+                  게시글 삭제
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText style={{fontSize:'16px'}}>정말 게시글을 삭제하시겠습니까?</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button style={{fontSize:'16px'}} onClick={handleConfirmDelete}>네</Button>
+                  <Button style={{fontSize:'16px'}} onClick={handleCloseDialog} >취소</Button>
+                </DialogActions>
+            </Dialog>
+          </Grid>
+        </Grid>
+      );
+    }
+
+
+    const BoardContent = ({board}) =>{
+      return(
+          <div
+            dangerouslySetInnerHTML={{ __html: board.boardContent }}
+            style={{
+              fontSize: '16px',
+              color: '',
+              minHeight: "400px",
+              height: "100%",
+              width: "100%"
+            }}
+          ></div>
+        );
+    }
+
+    
+
+
+
+
+  //게시글 내용이 없거나 로딩이 되지 않을 경우
+  if (!board) {
+    return <div style={{fontWeight :"24px"}}>Loading...</div>; // 로딩 중일 때 표시할 내용
+  }
+
+  return (
+    <MainCard title={<Button onClick = {handleCancleButtonClick} style={{ fontSize: '24px', fontWeight: 'bold' , color:"#333333"}}>{board.cateId === 1 ? '뉴스' : '자유게시판'}</Button>}>
+      <Grid container spacing={gridSpacing}>
+        <Grid item xs={12}>
+          <SubCard>
+            <Grid container spacing={2}>
+
+              {/* 게시글 타이틀 */}
+              <Grid item xs={12}>
+                <Typography variant="h6" style={{ fontWeight: 'bold', fontSize: '20px'}}>
+                  {board.boardTitle}
+                </Typography>
+                <BoardTitle board={board} />
+                <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
+              </Grid>
+
+              {/* 게시글 내용 */}
+              <Grid item xs={12}>
+                <BoardContent board = {board} />         
+              </Grid>
+
+              {/*좋아요, 목록으로 버튼 */}    
+              <Grid item xs={12} style={{ textAlign: 'center', marginTop: '1rem' }}>
+                   <BoardPost board = {board} liked = {liked} onLikeClick={handleLikeClick}/>
+                   <hr style={{ border: 'none', borderBottom: '1px solid #333', borderBottomColor: '#333333' }} />
+              </Grid>
+
 
               {/* 댓글*/}
               <Grid item xs={12}>

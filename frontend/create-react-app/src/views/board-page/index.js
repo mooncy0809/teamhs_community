@@ -118,9 +118,81 @@ const BoardList = () => {
       console.log(error);
     }
   };
+
+
+
+  const TabButton = ({ active, onClick, label }) => {
+    return (
+      <button
+        className={`tab-button ${active ? 'active' : ''}`}
+        style={{
+          backgroundColor: active ? '#ede7f6' : 'transparent',
+          color: active ? '#5e35b1' : 'black',
+          fontSize: '18px',
+          border: '1.5px solid #5e35b1',
+        }}
+        onClick={onClick}
+      >
+        {label}
+      </button>
+    );
+  };
+
+  const Paging = ({handlepage}) => {
+    return(
+    <Grid
+        container
+        justifyContent="center"
+        style={{ marginTop: '20px' }}
+        >
+        <Pagination
+          count={totalPages}
+          page={currentPage + 1}
+          onChange={handlepage}
+        />
+        </Grid>
+    );
+  }
+
+ 
+
+  const BoardTable = ({ boardlist, onRowClick, titleCellStyle }) => {
+    return (
+      <SubCard>
+      <Table bordered hover size="sm" style={{ minHeight: '100%' }}>
+        <thead>
+          <tr>
+            <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>카테고리</th>
+            <th style={{ width: '55%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>제목</th>
+            <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
+            <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>작성자</th>
+            <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>
+              <IconEye fontSize="inherit" style={{ verticalAlign: 'middle' }} />
+              조회
+            </th>
+            <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>
+              <UnlikeIcon fontSize="inherit" style={{ width: '24px', height: '24px', verticalAlign: 'middle' }} />
+              추천
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {boardlist.map((item) => (
+            <tr key={item.boardId} onClick={() => onRowClick(item.boardId)}>
+              <td style={{ textAlign: 'center' }}>{item.cateId === 1 ? '뉴스' : '자유게시판'}</td>
+              <td style={titleCellStyle}>{item.boardTitle}</td>
+              <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
+              <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
+              <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
+              <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      </SubCard>
+    );
+  };
   
-
-
   return (
     <MainCard 
           title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>{pageTitle}</span>}
@@ -132,185 +204,66 @@ const BoardList = () => {
               </Button>
             ) : null
           }>
+
+    {/* 탭 */}       
     <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
         <div>
           <div className="tab-container" style={{ marginBottom:'20px', marginLeft:'20px'}}>
-
-              <button
-                  className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
-                  style={{
-                    backgroundColor: activeTab === 'all' ? '#ede7f6' : 'transparent',
-                    color: activeTab === 'all' ? '#5e35b1' : 'black',
-                    fontSize: '18px',
-                    border: '1.5px solid #5e35b1' // 보더 추가 및 보더 색상 변경
-                  }}
-                  onClick={() => handleTabClick('all')}
-                >
-                전체
-              </button>
-
-              <button
-                className={`tab-button ${activeTab === 'board' ? 'active' : ''}`}
-                style={{
-                  backgroundColor: activeTab === 'board' ? '#ede7f6' : 'transparent',
-                  color: activeTab === 'board' ? '#5e35b1' : 'black',
-                  fontSize: '18px',
-                  border: '1.5px solid #5e35b1' 
-                }}
-                onClick={() => handleTabClick('board')}
-              >
-                자유게시판
-              </button>
-
-              <button
-                className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
-                style={{
-                  backgroundColor: activeTab === 'news' ? '#ede7f6' : 'transparent',
-                  color: activeTab === 'news' ? '#5e35b1' : 'black',
-                  fontSize: '18px',
-                  border: '1.5px solid #5e35b1' 
-                }}
-                onClick={() => handleTabClick('news')}
-              >
-                뉴스
-              </button>
-        </div>
-        <div className="tab-content" id="all" style={{ display: activeTab === 'all' ? 'block' : 'none' }}>
-
-        <SubCard>
-            <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
-              <thead>
-                <tr >
-                  <th style={{ width: '10%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>카테고리</th>
-                  <th style={{ width: '55%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-                {boardlist.map((item) => (
-                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
-                    <td style={{ textAlign: 'center' }}>{item.cateId === 1 ? '뉴스' : '자유게시판'}</td>
-                    <td style={titleCellStyle}>{item.boardTitle}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
-                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
-                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </SubCard>
-        </div>
-        <div className="tab-content" id="board" style={{ display: activeTab === 'board' ? 'block' : 'none' }}>
-        <SubCard>
-            <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
-              <thead>
-                <tr >
-                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
-                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
-                </tr>
-              </thead>
-              <tbody>
-                {boardlist.map((item) => (
-                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
-                    <td style={{ textAlign: 'center' }} >{item.boardId}</td>
-                    <td style={titleCellStyle}>{item.boardTitle}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
-                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
-                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </SubCard>
+              <TabButton active={activeTab === 'all'} onClick={() => handleTabClick('all')} label="전체" />
+              <TabButton active={activeTab === 'board'} onClick={() => handleTabClick('board')} label="자유게시판" />
+              <TabButton active={activeTab === 'news'} onClick={() => handleTabClick('news')} label="뉴스" />
         </div>
 
-        <div className="tab-content" id="news" style={{ display: activeTab === 'news' ? 'block' : 'none' }}>
-        <SubCard>
-            <Table bordered hover size="sm" style = {{minHeight : '100%'}} >
-              <thead>
-                <tr >
-                  <th style={{ width: '5%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>번호</th>
-                  <th style={{ width: '60%', textAlign: 'center' , backgroundColor: '#f5f5f5' }}>제목</th>
-                  <th style={{ width: '11%', textAlign: 'center', backgroundColor: '#f5f5f5' }}>등록일</th>
-                  <th style={{ width: '10%', textAlign: 'center', backgroundColor: '#f5f5f5'}}>작성자</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><IconEye fontSize="inherit" style={{verticalAlign: 'middle'}}/>조회</th>
-                  <th style={{ width: '7%', textAlign: 'center', backgroundColor: '#f5f5f5'}}><UnlikeIcon fontSize="inherit" style={{width: '24px',height: '24px',verticalAlign: 'middle'}}/>추천</th>
-                </tr>
-              </thead>
-              <tbody>
-                {boardlist.map((item) => (
-                  <tr key={item.boardId} onClick={() => handleWatchClick(item.boardId)}>
-                    <td style={{ textAlign: 'center' }} >{item.boardId}</td>
-                    <td style={titleCellStyle}>{item.boardTitle}</td>
-                    <td style={{ textAlign: 'center' }}>{item.boardDate}</td>
-                    <td style={{ textAlign: 'center' }}>{item.userId.slice(0, -2) + '**'}</td>
-                    <td style={{ textAlign: 'center' }}>{item.viewCnt}</td>
-                    <td style={{ textAlign: 'center' }}>{item.likeCnt}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </SubCard>
-        </div>
+      {/* 게시글 리스트 */}  
+      <div className="tab-content" id="all" style={{ display: activeTab === 'all' ? 'block' : 'none' }}>
+              <BoardTable boardlist={boardlist} onRowClick={handleWatchClick} titleCellStyle={titleCellStyle} />
+            </div>
+            <div className="tab-content" id="board" style={{ display: activeTab === 'board' ? 'block' : 'none' }}>
+              <BoardTable boardlist={boardlist} onRowClick={handleWatchClick} titleCellStyle={titleCellStyle} />
+            </div>
+            <div className="tab-content" id="news" style={{ display: activeTab === 'news' ? 'block' : 'none' }}>
+              <BoardTable boardlist={boardlist} onRowClick={handleWatchClick} titleCellStyle={titleCellStyle} />
+            </div>
       </div>
 
-        {/*검색*/}
-        <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
-          <Grid item>
-            <Select 
-                defaultValue="all"
-                value={sCate}
-                onChange={handleSCateChange}
-                inputProps={{
-                  name: 's_cate',
-                  id: 's_cate',
-                }}>
-                  <MenuItem value="all">전체</MenuItem>
-                  <MenuItem value="title">제목</MenuItem>
-                  <MenuItem value="content">내용</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item>
-            <TextField
-              label="search"
-              variant="outlined"
-              value={sText}
-              onChange={handleSTextChange}
-              style={{width:"300px"}}  
-              fullWidth
-            />
-          </Grid>
-          <Grid item style={{ display: 'flex', alignItems: 'center' }}>
-            <Button variant="contained" onClick={handleSearchBtn}>
-              검색
-            </Button>
-          </Grid>
+
+      {/*검색*/}
+      <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+        <Grid item>
+          <Select 
+              defaultValue="all"
+              value={sCate}
+              onChange={handleSCateChange}
+              inputProps={{
+                name: 's_cate',
+                id: 's_cate',
+              }}>
+                <MenuItem value="all">전체</MenuItem>
+                <MenuItem value="title">제목</MenuItem>
+                <MenuItem value="content">내용</MenuItem>
+          </Select>
         </Grid>
-
-
+        <Grid item>
+          <TextField
+            label="search"
+            variant="outlined"
+            value={sText}
+            onChange={handleSTextChange}
+            style={{width:"300px"}}  
+            fullWidth
+          />
+        </Grid>
+        <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+          <Button variant="contained" onClick={handleSearchBtn}>
+            검색
+          </Button>
+        </Grid>
+      </Grid>
+      
+      
           {/*페이징*/}        
-          <Grid
-              container
-              justifyContent="center"
-              style={{ marginTop: '20px' }}
-              >
-              <Pagination
-                count={totalPages}
-                page={currentPage + 1}
-                onChange={handlePageChange}
-              />
-              </Grid>
+          <Paging handlepage={handlePageChange}/>
         </Grid>
       </Grid>
     </MainCard>

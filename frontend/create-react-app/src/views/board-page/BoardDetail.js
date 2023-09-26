@@ -44,7 +44,7 @@ const BoardDetail = () => {
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
   const [commentList, setCommentList] = useState([]); 
-  const [recommentList, setReCommentList] = useState([]);
+ 
 
  
   //조회
@@ -246,15 +246,21 @@ const handleSaveEdit = (commentId, editedContent) => {
  
   //답글 클릭 시 답글 리스트 조회
   const [openReplies, setOpenReplies] = useState({});
-  
+  const [recommentList, setReCommentList] = useState([]);
+  const [visibleReplies, setVisibleReplies] = useState([]);
+  const [showBtn, setShowBtnVisible] = useState(true);
+
   const handleWatchRecomments = (commentId) => {
     setOpenReplies((prevOpenReplies) => ({
       ...prevOpenReplies,
       [commentId]: !prevOpenReplies[commentId],
     }));
   
+    let close = false
+
     // 기존 열려있던 댓글 닫기
     Object.keys(openReplies).forEach((key) => {
+      close = true
       if (key !== commentId && openReplies[key]) {
         setOpenReplies((prevOpenReplies) => ({
           ...prevOpenReplies,
@@ -263,12 +269,24 @@ const handleSaveEdit = (commentId, editedContent) => {
       }
     });
   
-    axios.get(`http://localhost:8090/recomment/list/${commentId}`)
-      .then(response => setReCommentList(response.data))
+    if(close === false){
+      axios.get(`http://localhost:8090/recomment/list/${commentId}`)
+      .then(response => {
+        setReCommentList(response.data);
+        setVisibleReplies(response.data.slice(0, 5));
+      })
       .catch((error) => {
         console.error("Error get recomment:", error);
       });
+    }
   };
+
+  const toggleShowAllReplies = () => {
+      setVisibleReplies(recommentList.slice(0, recommentList.length));
+      setShowBtnVisible(false)
+  };
+
+
 
 
     //답글 작성 - 삭제
@@ -295,11 +313,17 @@ const handleSaveEdit = (commentId, editedContent) => {
           };
     
           setCommentRecommentCounts(updatedCommentRecommentCounts);
-
-          
           setOpenReplies(prevOpenReplies => ({ ...prevOpenReplies, [commentId]: false }));    
           setReCommentContent("");
           setReCommentId(null);
+
+          axios.get(`http://localhost:8090/recomment/list/${commentId}`)
+          .then(response => {
+            setVisibleReplies(response.data);
+          })
+          .catch((error) => {
+            console.error("Error get recomment:", error);
+          });
         })
         .catch((error) => {
           console.error("Error posting recomment:", error);
@@ -309,25 +333,50 @@ const handleSaveEdit = (commentId, editedContent) => {
  
     //답글 삭제
     const handleReCommentDelete = (recommentId, commentId) => {
-      axios.delete(`http://localhost:8090/recomment/delete/${recommentId}`) //댓글 삭제 버튼 클릭
-      .then(response => {
-        console.log('Delete saved:', response.data);
-        // 삭제 성공한 경우 처리
-        
-        const updatedCommentRecommentCounts = {
-          ...commentRecommentCounts,
-          [commentId]: (commentRecommentCounts[commentId] || 0) - 1,
-        };
-  
-        setCommentRecommentCounts(updatedCommentRecommentCounts);
 
-        setReCommentList(prevReComments => prevReComments.filter(recomment => recomment.reCommentId !== recommentId));
-        handleWatchRecomments(commentId)
+      Swal.fire({
+        title: "답글 삭제",
+        text: "정말 답글을 삭제하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "네",
+        cancelButtonText: "아니요",
+        confirmButtonColor: "#d33",
       })
-      .catch(error => {
-        console.error('Error delete:', error);
-        // 에러 처리
+      .then((result) => {
+        if (result.isConfirmed) {
+          
+          axios.delete(`http://localhost:8090/recomment/delete/${recommentId}`) //댓글 삭제 버튼 클릭
+          .then(response => {
+            console.log('Delete saved:', response.data);
+            // 삭제 성공한 경우 처리
+            
+            const updatedCommentRecommentCounts = {
+              ...commentRecommentCounts,
+              [commentId]: (commentRecommentCounts[commentId] || 0) - 1,
+            };
+            setCommentRecommentCounts(updatedCommentRecommentCounts);
+            setReCommentList(prevReComments => prevReComments.filter(recomment => recomment.reCommentId !== recommentId));
+            handleWatchRecomments(commentId)
+
+            axios.get(`http://localhost:8090/recomment/list/${commentId}`)
+            .then(response => {
+              setVisibleReplies(response.data);
+            })
+            .catch((error) => {
+              console.error("Error get recomment:", error);
+            });
+            Swal.fire("답글 삭제 완료", "해당 답글이 삭제되었습니다.", "success");
+          })
+          .catch(error => {
+            console.error('Error delete:', error);
+            // 에러 처리
+            Swal.fire("삭제 오류", "답글 삭제 중 오류가 발생했습니다.", "error");
+          });
+
+        }
       });
+
     };
 
 
@@ -370,6 +419,8 @@ const handleSaveEdit = (commentId, editedContent) => {
           console.error('Error liking post:', error);
         });
     };
+
+    
 
     // 좋아요 상태에 따라 아이콘 표시(true = 좋아요 한 상태, false = 좋아요 안 한 상태)
     const likeIcon = liked ? <LikeIcon/> : <UnlikeIcon/>;
@@ -560,7 +611,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                                 {/* 답글 리스트 폼 */}     
                                 {openReplies[comment.commentId] && ReCommentId === comment.commentId && (
                                   <div>
-                                    {recommentList.map(recomment => (
+                                    {visibleReplies.map(recomment => (
                                           <div key={recomment.reCommentId} style={{ marginBottom: '1rem', marginLeft:"20px", color:"grey"}}>
                                             <Typography variant="body1" style={{ fontWeight: "bold", color: '#333333', marginBottom: '10px' }}>
                                               {recomment.recommentContent}
@@ -579,7 +630,14 @@ const handleSaveEdit = (commentId, editedContent) => {
                                               </Typography>
                                             <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
                                           </div>
-                                        ))}    
+                                        ))}
+
+                                     {showBtn === true && (       
+                                        <Typography  style={{textAlign:'right',fontSize:'16px', color: 'grey',fontWeight:'bold', marginBottom : '10px'}} 
+                                         onClick={() => toggleShowAllReplies()}
+                                        >답글 더보기
+                                        </Typography>
+                                      )}
 
                                       {/* 답글 작성 폼 */}                    
                                       {member?.member?.userId ? (

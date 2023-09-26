@@ -16,7 +16,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllByCateIdAndBoardContentContaining(Long cateId, String content, Pageable pageable);
 
     // 전체 게시글에서 제목 또는 내용으로 검색
-    Page<Board> findAllByCateIdAndBoardTitleContainingOrBoardContentContaining(Long cateId, String title, String content, Pageable pageable);
+    Page<Board> findAllByCateIdAndBoardTitleContainingOrCateIdAndBoardContentContaining(Long cateId, String title, Long cateId2, String content, Pageable pageable);
     void deleteById(Long boardId);
 
 

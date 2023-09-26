@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RecommentRepository extends JpaRepository<Recomment, Long> {
     List<Recomment> findAllByComment_commentId(Long commentId);
-    void deleteByComment(Comment comment);
+    void deleteAllByComment(Comment comment);
     List<Recomment> findByComment(Comment comment);
 }

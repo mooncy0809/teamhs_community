@@ -54,7 +54,7 @@ public class BoardService {
             return boardRepository.findAllByCateIdAndBoardContentContaining(cateId, sText, pageable);
         } else {
             // 기본적으로 전체 내용으로 검색 (카테고리에 상관없이)
-            return boardRepository.findAllByCateIdAndBoardTitleContainingOrBoardContentContaining(cateId, sText, sText, pageable);
+            return boardRepository.findAllByCateIdAndBoardTitleContainingOrCateIdAndBoardContentContaining(cateId, sText, cateId,sText, pageable);
         }
     }
 
@@ -101,18 +101,18 @@ public class BoardService {
         Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
-            List<Comment> comments = board.getComments();
-
-            for (Comment comment : comments) {
-                // 관련된 대댓글 삭제
-                recommentRepository.deleteByComment(comment);
+            // 1. 대댓글(recomment) 삭제
+            for (Comment comment : board.getComments()) {
+                recommentRepository.deleteAllByComment(comment);
             }
-            // 관련된 댓글 삭제
-            commentRepository.deleteAll(comments);
 
+            // 2. 댓글(comment) 삭제
+            commentRepository.deleteAll(board.getComments());
+
+            // 3. 좋아요 정보(board_like) 삭제
             boardLikeRepository.deleteByBoardBoardId(boardId);
 
-            // 게시글 삭제
+            // 4. 게시글(board) 삭제
             boardRepository.delete(board);
             return true;
         }

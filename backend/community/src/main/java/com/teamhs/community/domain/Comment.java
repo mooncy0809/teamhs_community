@@ -28,6 +28,7 @@ public class Comment {
 
     @ManyToOne //Board 엔티티와 다대일 매핑
     @JoinColumn(name = "boardId", referencedColumnName = "boardId", nullable = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore //Board - Comment 직렬화(무한 순환 문제 해결)
     private Board board;
 

@@ -24,6 +24,7 @@ public class Recomment {
 
     @ManyToOne
     @JoinColumn(name = "commentId", referencedColumnName = "commentId", nullable = true)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Comment comment;
 
     @Column(nullable = true)

@@ -101,18 +101,16 @@ public class BoardService {
         Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
-            // 1. 대댓글(recomment) 삭제
-            for (Comment comment : board.getComments()) {
-                recommentRepository.deleteAllByComment(comment);
+            List<Comment> comments = board.getComments();
+
+            for (Comment comment : comments) {
+                // 관련된 대댓글 삭제
+                recommentRepository.deleteByComment(comment);
             }
-
-            // 2. 댓글(comment) 삭제
-            commentRepository.deleteAll(board.getComments());
-
-            // 3. 좋아요 정보(board_like) 삭제
+            // 관련된 댓글 삭제
+            commentRepository.deleteAll(comments);
             boardLikeRepository.deleteByBoardBoardId(boardId);
-
-            // 4. 게시글(board) 삭제
+            // 게시글 삭제
             boardRepository.delete(board);
             return true;
         }

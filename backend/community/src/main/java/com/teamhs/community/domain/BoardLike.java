@@ -23,6 +23,7 @@ public class BoardLike {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private Board board;
 
 }

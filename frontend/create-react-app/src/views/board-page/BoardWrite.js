@@ -17,6 +17,10 @@ import './customQuill.css'; //Quill Custom 파일
 import { useSelector } from 'react-redux'; // eslint-disable-line
 
 
+//Dialog
+import Swal from "sweetalert2";
+
+
 const BoardWrite = () => {
   const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
 
@@ -66,10 +70,12 @@ const BoardWrite = () => {
         .then(response => {
           console.log('Post saved:', response.data);
           navigate('/board/list'); // API 호출 후 게시글 리스트(list) 페이지 이동
+          Swal.fire("게시글 작성 완료", "게시글이 작성되었습니다.", "success");
           // 저장이 성공한 경우 처리
         })
         .catch(error => {
           console.error('Error saving post:', error);
+          Swal.fire("게시글 작성 실패", "게시글 작성에 실패하였습니다.", "error");
           // 에러 처리
         });
     };

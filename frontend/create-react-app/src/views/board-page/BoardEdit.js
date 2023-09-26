@@ -82,21 +82,8 @@ const BoardEdit = () => {
 
       }
     });
-
-
-
-
-
-
-
-
-
-
- 
   };
 
-  
-  
   //취소 버튼
   const handleCancleButtonClick = () => {
     navigate('/board/list'); //취소 버튼 : 게시글 리스트(index.js)로 이동
@@ -105,6 +92,11 @@ const BoardEdit = () => {
   if (!board) {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
   }
+
+  
+
+
+
 
 
   return (
@@ -133,7 +125,7 @@ const BoardEdit = () => {
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'center' }}>
                 <Button variant="contained" onClick = {handleEditClick} color="primary" style={{ marginRight: '0.5rem' }}>
-                  저장
+                  수정
                 </Button>
                 <Button variant="outlined" onClick = {handleCancleButtonClick} style={{ marginRight: '0.5rem' }}>
                   취소

@@ -109,10 +109,25 @@ useEffect(() => {
           }
         });
       };
+
+
+
+      const handleEditMoveClick = () => {
+        Swal.fire({
+          title: "게시글 수정",
+          text: "게시글을 수정하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "네",
+          cancelButtonText: "아니요",
+          confirmButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
+          }
+        });
+      };
   
-    const handleEditMoveClick = () => {
-      navigate(`/board/edit/${boardId}`); // 수정 버튼 : 게시글 수정(boardEdit) 페이지 이동
-    };
     
     const handleCancleButtonClick = () => {
       navigate('/board/list'); // 목록으로 버튼 : 게시글 리스트(list) 페이지 이동
@@ -147,7 +162,6 @@ useEffect(() => {
     };
 
 //댓글 삭제
-
 const deleteCommentDialog = (commentId) => {
   Swal.fire({
     title: "댓글 삭제",

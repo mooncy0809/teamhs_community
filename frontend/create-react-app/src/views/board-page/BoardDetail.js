@@ -26,6 +26,20 @@ import { IconEye} from '@tabler/icons';
 const BoardDetail = () => {
 
   const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
+  const [user, setUserInfo] = useState([]); 
+  useEffect(() => {
+    const userId = member.member.userId; // 실제 사용자 아이디로 대체해야 합니다.
+    
+    axios.get(`http://localhost:8090/api/auth/getUserInfo?userId=${userId}`)
+      .then(response =>
+        setUserInfo(response.data)
+      )
+      .catch(error => 
+        console.log(error)
+      )
+  }, []);
+
+
   
   const { boardId } = useParams(); // URL에서 board_id 파라미터를 가져옴
   const [board, setBoard] = useState(null);
@@ -34,7 +48,6 @@ const BoardDetail = () => {
 
  
   //조회
-
   //게시글 조회
   useEffect(() => {
     axios.get(`http://localhost:8090/board/${boardId}`)
@@ -359,10 +372,9 @@ const handleSaveEdit = (commentId, editedContent) => {
     };
 
     // 좋아요 상태에 따라 아이콘 표시(true = 좋아요 한 상태, false = 좋아요 안 한 상태)
-    const likeIcon = liked ? <LikeIcon /> : <UnlikeIcon />;
+    const likeIcon = liked ? <LikeIcon/> : <UnlikeIcon/>;
 
-    
-
+  
     const BoardPost = ({board, onLikeClick}) =>{
       return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8px' }}>
@@ -573,7 +585,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                                       {member?.member?.userId ? (
                                         <>               
                                             <TextField
-                                              label={`${member.member.userName}(${member.member.userId})님 답글 작성`}
+                                              label={`${user.userName}(${member.member.userId})님 답글 작성`}
                                               multiline
                                               rows={3}
                                               variant="outlined"
@@ -622,7 +634,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                 {/* 댓글 작성 폼 */}
                 <Grid item xs={12} style={{ textAlign: 'right' }}>
                   <TextField
-                    label={`${member.member.userName}(${member.member.userId})님 댓글을 작성해보세요!`}
+                    label={`${user.userName}(${member.member.userId})님 댓글을 작성해보세요!`}
                     multiline
                     rows={4}
                     variant="outlined"

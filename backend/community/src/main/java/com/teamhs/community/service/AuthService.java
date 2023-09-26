@@ -1,6 +1,7 @@
 package com.teamhs.community.service;
 
 import com.teamhs.community.config.TokenProvider;
+import com.teamhs.community.domain.Comment;
 import com.teamhs.community.domain.Member;
 import com.teamhs.community.dto.Request.SignInDto;
 import com.teamhs.community.dto.ResponseDto;
@@ -9,6 +10,8 @@ import com.teamhs.community.dto.SignInResponseDto;
 import com.teamhs.community.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -63,4 +66,10 @@ public class AuthService {
         return ResponseDto.setSuccess("Sign In Sucess!", signInResponseDto);
 
     }
+
+    public Member getUserInfo(String userId) {
+        return memberRepository.findByUserId(userId);
+    }
+
+
 }

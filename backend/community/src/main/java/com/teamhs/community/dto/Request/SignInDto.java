@@ -13,4 +13,7 @@ public class SignInDto {
     private String userId;
     @NotBlank
     private String userPassword;
+    @NotBlank
+    private String userName;
+
 }

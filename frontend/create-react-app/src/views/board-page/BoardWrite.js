@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from 'react';
+import React, {useEffect, useState, useRef  } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -91,6 +91,18 @@ const BoardWrite = () => {
     };
 
 
+    const [isSaveButtonDisabled, setSaveButtonDisabled] = useState(true);
+
+    // 내용 또는 제목이 변경될 때마다 상태 업데이트
+    useEffect(() => {
+      const isTitleValid = title.trim().length > 0;
+      const isContentValid = content.replace(/<\/?[^>]+(>|$)/g, "").trim().length > 0; // HTML 태그 제거 후 내용 검사
+  
+      // 제목과 내용 모두 유효하면 저장 버튼 활성화
+      setSaveButtonDisabled(!(isTitleValid && isContentValid));
+    }, [title, content]);
+
+
   return (
     
     <MainCard title={<span style={{ fontSize: '24px', fontWeight: 'bold' }}>게시글 작성</span>} style={{ marginLeft: '8px' }}>
@@ -122,15 +134,18 @@ const BoardWrite = () => {
               <Grid item xs={12}>
               <div className="quill-container">
                     <ReactQuill
+                   
                       ref = {contentRef}
                       value={content}
                       onChange={handleContentChange}
+                      modules={modules}
+                      formats={formats}
                       theme="snow"
                     />
                   </div>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'center' }}>
-              <Button variant="contained" style={{ marginRight: '0.5rem' }} onClick={handleSaveButtonClick}>
+              <Button variant="contained" style={{ marginRight: '0.5rem' }} onClick={handleSaveButtonClick} disabled={isSaveButtonDisabled} >
                   저장
                 </Button>
                 <Button variant="outlined" onClick={handleCancleButtonClick}>
@@ -144,5 +159,45 @@ const BoardWrite = () => {
   </MainCard>
   );
 };
+
+const toolbarOptions = [
+  ["link", "image", "video"],
+  [{ header: [1, 2, 3, false] }],
+  ["bold", "italic", "underline", "strike"],
+  ["blockquote"],
+  [{ list: "ordered" }, { list: "bullet" }],
+  [{ color: [] }, { background: [] }],
+  [{ align: [] }],
+]; 
+
+
+// 옵션에 상응하는 포맷, 추가해주지 않으면 text editor에 적용된 스타일을 볼수 없음
+export const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "align",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "background",
+  "color",
+  "link",
+  "image",
+  "video",
+  "width",
+];
+
+const modules = {
+  toolbar: {
+    container: toolbarOptions,
+  }
+};
+
 
 export default BoardWrite;

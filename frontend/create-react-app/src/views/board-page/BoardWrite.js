@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef  } from 'react';
+import React, {useEffect, useState, useRef, useMemo  } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -56,14 +56,19 @@ const BoardWrite = () => {
     navigate('/board/list'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
   };
 
+   // const [fileUrlList, setFileUrlList] = useState([])
 
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
+
+      console.log("contentssss", content)
+
       const postData = {
       userId : member.member.userId, 
       title: title,
       content: content,
-      categoryId: selectedCategory
+      categoryId: selectedCategory,
+      //imageUrl : fileUrlList
       };
     
       axios.post('http://localhost:8090/board/write', postData)
@@ -101,16 +106,38 @@ const BoardWrite = () => {
     }, [title, content]);
 
 
+    
+    const imageHandler = async() => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
+    
+      input.addEventListener('change', async () => {
+        const file = input.files[0];
+    
+        try {
+          const formData = new FormData();
+          formData.append('image', file);
+    
+          // 서버로 이미지 업로드 요청을 보내고 이미지 URL을 받아옵니다.
+          const response = await axios.post('http://localhost:8090/upload-image', formData);
+          const imageUrl = response.data.imageUrl;
+    
+          setFileUrlList.input(imageUrl)
+          // 에디터에 이미지를 삽입합니다.
+          const editor = contentRef.current.getEditor();
+          const range = editor.getSelection();
+          editor.insertEmbed(range.index, 'image', imageUrl);
+          editor.setSelection(range.index + 1);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+      });
+    };
 
-   const toolbarOptions = [
-    ['link', 'image', 'video'],
-    [{ header: [1, 2, 3, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    ['blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
-  ];
+
+
 
   const formats = [
     'header',
@@ -133,11 +160,26 @@ const BoardWrite = () => {
     'width',
   ];
 
-  const modules = {
-    toolbar: {
-      container: toolbarOptions
-    }
-  };
+
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          ['image', 'link' , 'video']
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    };
+  }, []);
+  
 
   return (
     
@@ -170,7 +212,6 @@ const BoardWrite = () => {
               <Grid item xs={12}>
               <div className="quill-container">
                     <ReactQuill
-                   
                       ref = {contentRef}
                       value={content}
                       onChange={handleContentChange}

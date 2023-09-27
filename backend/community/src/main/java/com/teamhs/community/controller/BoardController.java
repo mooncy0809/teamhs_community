@@ -3,7 +3,6 @@ package com.teamhs.community.controller;
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.service.BoardService;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Console;
-
 
 @RestController
 @RequestMapping("/board")
 public class BoardController {
-    private final BoardService boardService;
+
     @Autowired
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
-
-
+    private BoardService boardService;
 
     //글 목록 + 페이징 처리 추가(글 갯수 더 조회하고 싶으면 defaultValue 수정)
     @GetMapping("/list")

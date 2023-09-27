@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams,  useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // eslint-disable-line
 
 import { Grid, Button, TextField} from '@mui/material';
 import SubCard from 'ui-component/cards/SubCard';
@@ -16,6 +17,8 @@ import './customQuill.css'; // 새로운 CSS 파일 생성
 import Swal from "sweetalert2";
 
 const BoardEdit = () => {
+
+  const member = useSelector((state) => state.member); // eslint-disable-line no-unused-vars
 
   // URL에서 board_id 파라미터를 가져옴
   const { boardId } = useParams();
@@ -67,7 +70,7 @@ const BoardEdit = () => {
           title: title,
           content: content,
         };
-        axios.put(`http://localhost:8090/board/update/${boardId}`, putData) 
+        axios.put(`http://localhost:8090/board/update/${boardId}/${member.member.userId}`, putData) 
           .then(response => {
             console.log('Edit saved:', response.data);
             navigate('/board/list'); // 수정 저장 버튼 클릭 시 게시글 리스트(index.js)로 이동

@@ -42,6 +42,8 @@ public class Board {
     @Column(nullable = true)
     private int viewCnt;
 
+    @Column(nullable = true)
+    private String imgUrl;
 
     //일대 다 매핑
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)

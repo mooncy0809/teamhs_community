@@ -84,9 +84,9 @@ public class BoardController {
         }
     }
 
-    @PutMapping("/update/{boardId}")
-    public ResponseEntity<String> updateBoard(@PathVariable Long boardId, @RequestBody BoardDTO updatedBoardDTO) {
-        boolean success = boardService.updateBoard(boardId, updatedBoardDTO);
+    @PutMapping("/update/{boardId}/{userId}")
+    public ResponseEntity<String> updateBoard(@PathVariable Long boardId,@PathVariable String userId, @RequestBody BoardDTO updatedBoardDTO) {
+        boolean success = boardService.updateBoard(boardId, userId, updatedBoardDTO);
         if (success) {
             return ResponseEntity.ok("게시글이 수정되었습니다.");
         } else {

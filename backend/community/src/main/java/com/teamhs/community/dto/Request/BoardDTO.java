@@ -1,5 +1,6 @@
 package com.teamhs.community.dto.Request;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -14,6 +15,8 @@ public class BoardDTO {
     private LocalDate boardDate;
     private int viewCnt;
     private int likeCnt;
+
+    private String imgUrl;
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -71,6 +74,14 @@ public class BoardDTO {
 
     public void setLikeCnt(int likeCnt) {
         this.likeCnt = likeCnt;
+    }
+
+    public String getUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imageUrl) {
+        this.imgUrl = imageUrl;
     }
 
 }

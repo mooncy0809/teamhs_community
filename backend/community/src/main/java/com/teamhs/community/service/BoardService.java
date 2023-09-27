@@ -1,17 +1,21 @@
 package com.teamhs.community.service;
 
 
+import com.teamhs.community.controller.BoardController;
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.domain.BoardLike;
 import com.teamhs.community.domain.Comment;
 import com.teamhs.community.domain.Member;
 import com.teamhs.community.dto.Request.BoardDTO;
+import com.teamhs.community.dto.Request.BoardLikeDTO;
 import com.teamhs.community.exception.ResourceNotFoundException;
 import com.teamhs.community.repository.BoardLikeRepository;
 import com.teamhs.community.repository.BoardRepository;
 import com.teamhs.community.repository.CommentRepository;
 import com.teamhs.community.repository.RecommentRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -130,15 +134,29 @@ public class BoardService {
         }
         return false;
     }
+    @Autowired
+    private BoardLikeService boardLikeService;
 
     //게시글 수정
-    public boolean updateBoard(Long boardId, BoardDTO updatedBoardDTO) {
+    public boolean updateBoard(Long boardId, String userId, BoardDTO updatedBoardDTO) {
         Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
             Board existingBoard = boardOptional.get();
             existingBoard.setBoardTitle(updatedBoardDTO.getTitle());
             existingBoard.setBoardContent(updatedBoardDTO.getContent());
-            existingBoard.setLikeCnt(updatedBoardDTO.getLikeCnt());
+
+            final Logger logger = LoggerFactory.getLogger(BoardController.class);
+            logger.info("receive_cateId {}", userId);
+
+            if(boardLikeService.checkIfUserLikedBoard(userId, boardId)){
+                existingBoard.setLikeCnt(updatedBoardDTO.getLikeCnt()+1);
+
+            }else{
+                existingBoard.setLikeCnt(updatedBoardDTO.getLikeCnt());
+
+            }
+
+            //existingBoard.setLikeCnt(updatedBoardDTO.getLikeCnt());
             existingBoard.setViewCnt(updatedBoardDTO.getViewCnt());
             boardRepository.save(existingBoard);
             return true;

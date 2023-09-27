@@ -248,7 +248,6 @@ const handleSaveEdit = (commentId, editedContent) => {
   const [openReplies, setOpenReplies] = useState({});
   const [recommentList, setReCommentList] = useState([]);
   const [visibleReplies, setVisibleReplies] = useState([]);
-  const [showBtn, setShowBtnVisible] = useState(true);
 
   const handleWatchRecomments = (commentId) => {
     setOpenReplies((prevOpenReplies) => ({
@@ -256,11 +255,8 @@ const handleSaveEdit = (commentId, editedContent) => {
       [commentId]: !prevOpenReplies[commentId],
     }));
   
-    let close = false
-
-    // 기존 열려있던 댓글 닫기
+    // Close other open replies
     Object.keys(openReplies).forEach((key) => {
-      close = true
       if (key !== commentId && openReplies[key]) {
         setOpenReplies((prevOpenReplies) => ({
           ...prevOpenReplies,
@@ -269,21 +265,34 @@ const handleSaveEdit = (commentId, editedContent) => {
       }
     });
   
-    if(close === false){
+    // Fetch and set the replies for the clicked comment
+    if (!openReplies[commentId]) {
       axios.get(`http://localhost:8090/recomment/list/${commentId}`)
-      .then(response => {
-        setReCommentList(response.data);
-        setVisibleReplies(response.data.slice(0, 5));
-      })
-      .catch((error) => {
-        console.error("Error get recomment:", error);
-      });
+        .then(response => {
+          setReCommentList(response.data);
+          setVisibleReplies(response.data.slice(0, 5));
+        })
+        .catch((error) => {
+          console.error("Error get recomment:", error);
+        });
     }
   };
 
+
+  const [btnText, setBtnText] = useState('답글 더보기')
+
   const toggleShowAllReplies = () => {
-      setVisibleReplies(recommentList.slice(0, recommentList.length));
-      setShowBtnVisible(false)
+
+      if (visibleReplies.length !== recommentList.length) {
+        setVisibleReplies(recommentList.slice(0, recommentList.length));
+        setBtnText('숨기기')
+      } else {
+        setVisibleReplies(recommentList.slice(0, 5));
+        setBtnText('더보기')
+      }
+
+      console.log("전체길이", recommentList.length)
+      console.log("보여지는 길이", visibleReplies.length)
   };
 
 
@@ -631,19 +640,21 @@ const handleSaveEdit = (commentId, editedContent) => {
                                             <hr style={{ border: 'none', borderBottom: '1px solid #ccc', marginTop: '1rem' }} />
                                           </div>
                                         ))}
-
-                                     {showBtn === true && (       
-                                        <Typography  style={{textAlign:'right',fontSize:'16px', color: 'grey',fontWeight:'bold', marginBottom : '10px'}} 
-                                         onClick={() => toggleShowAllReplies()}
-                                        >답글 더보기
-                                        </Typography>
-                                      )}
+     
+                                        {(visibleReplies.length > 5 || visibleReplies.length !== recommentList.length) && (
+                                          <Typography
+                                            style={{ textAlign: 'right', fontSize: '16px', color: 'grey', fontWeight: 'bold', marginBottom: '10px' }}
+                                            onClick={() => toggleShowAllReplies()}
+                                          >
+                                            {btnText}
+                                          </Typography>
+                                        )}
 
                                       {/* 답글 작성 폼 */}                    
                                       {member?.member?.userId ? (
                                         <>               
                                             <TextField
-                                              label={`${user.userName}(${member.member.userId})님 답글 작성`}
+                                              label={`${user.userName}님 답글 작성`}
                                               multiline
                                               rows={3}
                                               variant="outlined"
@@ -692,7 +703,7 @@ const handleSaveEdit = (commentId, editedContent) => {
                 {/* 댓글 작성 폼 */}
                 <Grid item xs={12} style={{ textAlign: 'right' }}>
                   <TextField
-                    label={`${user.userName}(${member.member.userId})님 댓글을 작성해보세요!`}
+                    label={`${user.userName}님 댓글을 작성해보세요!`}
                     multiline
                     rows={4}
                     variant="outlined"

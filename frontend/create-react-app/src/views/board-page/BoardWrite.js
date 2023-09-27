@@ -80,7 +80,6 @@ const BoardWrite = () => {
         });
     };
 
-
     const contentRef = useRef(null);
     //제목에서 Tab키 누를 시 내용으로 이동
     const handleTitleTabPress = (event) => {
@@ -89,7 +88,6 @@ const BoardWrite = () => {
         contentRef.current.focus(); // 내용 작성 부분으로 포커스 이동
       }
     };
-
 
     const [isSaveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
@@ -102,6 +100,44 @@ const BoardWrite = () => {
       setSaveButtonDisabled(!(isTitleValid && isContentValid));
     }, [title, content]);
 
+
+
+   const toolbarOptions = [
+    ['link', 'image', 'video'],
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+  ];
+
+  const formats = [
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'align',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'background',
+    'color',
+    'link',
+    'image',
+    'video',
+    'width',
+  ];
+
+  const modules = {
+    toolbar: {
+      container: toolbarOptions
+    }
+  };
 
   return (
     
@@ -160,44 +196,7 @@ const BoardWrite = () => {
   );
 };
 
-const toolbarOptions = [
-  ["link", "image", "video"],
-  [{ header: [1, 2, 3, false] }],
-  ["bold", "italic", "underline", "strike"],
-  ["blockquote"],
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ color: [] }, { background: [] }],
-  [{ align: [] }],
-]; 
 
-
-// 옵션에 상응하는 포맷, 추가해주지 않으면 text editor에 적용된 스타일을 볼수 없음
-export const formats = [
-  "header",
-  "font",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "align",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "background",
-  "color",
-  "link",
-  "image",
-  "video",
-  "width",
-];
-
-const modules = {
-  toolbar: {
-    container: toolbarOptions,
-  }
-};
 
 
 export default BoardWrite;

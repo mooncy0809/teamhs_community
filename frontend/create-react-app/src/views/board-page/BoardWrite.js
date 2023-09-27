@@ -56,7 +56,7 @@ const BoardWrite = () => {
     navigate('/board/list'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
   };
 
-   // const [fileUrlList, setFileUrlList] = useState([])
+    const [fileUrlList, setFileUrlList] = useState([])
 
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
@@ -68,7 +68,7 @@ const BoardWrite = () => {
       title: title,
       content: content,
       categoryId: selectedCategory,
-      //imageUrl : fileUrlList
+      imageUrl : fileUrlList
       };
     
       axios.post('http://localhost:8090/board/write', postData)
@@ -107,7 +107,13 @@ const BoardWrite = () => {
 
 
     
-    const imageHandler = async() => {
+     // 이미지 URL을 리스트에 추가하는 함수
+    const addImageUrl = (imageUrl) => {
+      // 새로운 이미지 URL을 기존 리스트에 추가
+      setFileUrlList((prevList) => [...prevList, imageUrl]);
+    };
+
+    const imageHandler = async () => {
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
       input.setAttribute('accept', 'image/*');
@@ -121,14 +127,17 @@ const BoardWrite = () => {
           formData.append('image', file);
     
           // 서버로 이미지 업로드 요청을 보내고 이미지 URL을 받아옵니다.
-          const response = await axios.post('http://localhost:8090/upload-image', formData);
+          const response = await axios.post('http://localhost:8090/images/upload', formData);
           const imageUrl = response.data.imageUrl;
+
+          console.log("urlll", imageUrl)
     
-          setFileUrlList.input(imageUrl)
-          // 에디터에 이미지를 삽입합니다.
+          addImageUrl(imageUrl);
+    
+          // 에디터에 이미지를 삽입합니다. 이미지 URL을 절대 경로로 설정합니다.
           const editor = contentRef.current.getEditor();
           const range = editor.getSelection();
-          editor.insertEmbed(range.index, 'image', imageUrl);
+          editor.insertEmbed(range.index, 'image', `${imageUrl}`);
           editor.setSelection(range.index + 1);
         } catch (error) {
           console.error('Error uploading image:', error);
@@ -136,8 +145,7 @@ const BoardWrite = () => {
       });
     };
 
-
-
+    
 
   const formats = [
     'header',
@@ -217,6 +225,7 @@ const BoardWrite = () => {
                       onChange={handleContentChange}
                       modules={modules}
                       formats={formats}
+                      placeholder={'게시글을 작성해주세요!'}
                       theme="snow"
                     />
                   </div>

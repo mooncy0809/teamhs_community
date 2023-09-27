@@ -23,8 +23,6 @@ public class ImageUploadService {
         Files.copy(image.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 
         // 이미지 URL 반환 (예: "/uploads/images/파일명.jpg")
-        return "/uploads/images/" + fileName;
+        return "/images/upload/" + fileName;
     }
-    
-
 }

@@ -2,7 +2,10 @@ package com.teamhs.community.controller;
 
 import com.teamhs.community.domain.Board;
 import com.teamhs.community.dto.Request.BoardDTO;
+import com.teamhs.community.service.BoardLikeService;
 import com.teamhs.community.service.BoardService;
+import com.teamhs.community.service.ImageUploadService;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.Console;
 
 
 @RestController

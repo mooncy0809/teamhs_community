@@ -1,5 +1,6 @@
 package com.teamhs.community.controller;
 
+import com.teamhs.community.service.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/images")
 public class ImageController {
-
     @Autowired
     private ImageUploadService imageUploadService;
 

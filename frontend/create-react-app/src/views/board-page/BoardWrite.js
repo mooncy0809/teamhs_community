@@ -7,6 +7,8 @@ import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import ReactQuill from 'react-quill';
+/* 추가된 코드 */
+import ImageResize from 'quill-image-resize';
 
 import { Select, MenuItem } from '@mui/material';
 
@@ -161,8 +163,10 @@ const BoardWrite = () => {
     'width',
   ];
 
-
   const modules = useMemo(() => {
+    // 이미지 리사이즈 모듈을 추가합니다.
+    ReactQuill.Quill.register('modules/imageResize', ImageResize);
+
     return {
       toolbar: {
         container: [
@@ -172,12 +176,14 @@ const BoardWrite = () => {
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
           [{ align: [] }],
-          ['image', 'link' , 'video']
+          ['image', 'link', 'video'],
         ],
         handlers: {
           image: imageHandler,
         },
       },
+      // 이미지 리사이즈 모듈을 사용합니다.
+      imageResize: {},
     };
   }, []);
   

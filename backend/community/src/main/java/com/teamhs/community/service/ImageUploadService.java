@@ -21,6 +21,6 @@ public class ImageUploadService {
         Files.copy(image.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 
         // 이미지 URL 반환
-        return "http://localhost:8090/images/upload/" + fileName;
+        return "/images/upload/" + fileName;
     }
 }

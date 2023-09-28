@@ -102,7 +102,7 @@ const BoardWrite = () => {
       // 제목과 내용 모두 유효하면 저장 버튼 활성화
       setSaveButtonDisabled(!(isTitleValid && isContentValid));
 
-      console.log("내용", content)
+      //console.log("내용", content)
     }, [title, content]);
 
     const imageHandler = async () => {
@@ -122,16 +122,15 @@ const BoardWrite = () => {
           const response = await axios.post('http://localhost:8090/images/upload', formData);
           const imageUrl = response.data;
 
-          console.log("urlll", imageUrl)
     
           // 에디터에 이미지를 삽입합니다. 이미지 URL을 절대 경로로 설정합니다.
           const editor = contentRef.current.getEditor();
           const range = editor.getSelection();
-          editor.insertEmbed(range.index, 'image', imageUrl);
+          editor.insertEmbed(range.index, 'image', `http://localhost:8090${imageUrl}`);
           editor.setSelection(range.index + 1);
 
-          const updatedContent = contentRef.current.getEditor().root.innerHTML;
-          console.log("contentssss", updatedContent);
+          //const updatedContent = contentRef.current.getEditor().root.innerHTML;
+         // console.log("contentssss", updatedContent);
 
         } catch (error) {
           console.error('Error uploading image:', error);

@@ -121,7 +121,6 @@ const BoardWrite = () => {
     
       input.addEventListener('change', async () => {
         const file = input.files[0];
-    
         try {
           const formData = new FormData();
           formData.append('image', file);
@@ -137,7 +136,7 @@ const BoardWrite = () => {
           // 에디터에 이미지를 삽입합니다. 이미지 URL을 절대 경로로 설정합니다.
           const editor = contentRef.current.getEditor();
           const range = editor.getSelection();
-          editor.insertEmbed(range.index, 'image', `${imageUrl}`);
+          editor.insertEmbed(range.index, 'image', imageUrl);
           editor.setSelection(range.index + 1);
         } catch (error) {
           console.error('Error uploading image:', error);

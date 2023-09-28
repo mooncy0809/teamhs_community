@@ -1,8 +1,11 @@
 package com.teamhs.community.controller;
 
 import com.teamhs.community.service.ImageUploadService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +28,10 @@ public class ImageController {
         try {
             // 이미지 업로드 및 이미지 URL 반환
             String imageUrl = imageUploadService.uploadImage(image);
-            Map<String, String> response = new HashMap<>();
-            response.put("imageUrl", imageUrl);
-            return ResponseEntity.ok(response);
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("imageUrl", imageUrl);
+
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

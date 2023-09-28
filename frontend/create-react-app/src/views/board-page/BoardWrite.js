@@ -56,7 +56,6 @@ const BoardWrite = () => {
     navigate('/board/list'); // 취소 클릭 시 게시글 리스트(list 부분) 페이지 이동
   };
 
-    const [fileUrlList, setFileUrlList] = useState([])
 
     //저장 버튼 클릭 시
     const handleSaveButtonClick = () => {
@@ -67,8 +66,7 @@ const BoardWrite = () => {
       userId : member.member.userId, 
       title: title,
       content: content,
-      categoryId: selectedCategory,
-      imageUrl : fileUrlList
+      categoryId: selectedCategory
       };
     
       axios.post('http://localhost:8090/board/write', postData)
@@ -103,15 +101,9 @@ const BoardWrite = () => {
   
       // 제목과 내용 모두 유효하면 저장 버튼 활성화
       setSaveButtonDisabled(!(isTitleValid && isContentValid));
+
+      console.log("내용", content)
     }, [title, content]);
-
-
-    
-     // 이미지 URL을 리스트에 추가하는 함수
-    const addImageUrl = (imageUrl) => {
-      // 새로운 이미지 URL을 기존 리스트에 추가
-      setFileUrlList((prevList) => [...prevList, imageUrl]);
-    };
 
     const imageHandler = async () => {
       const input = document.createElement('input');
@@ -125,19 +117,22 @@ const BoardWrite = () => {
           const formData = new FormData();
           formData.append('image', file);
     
+          console.log("file", file)
           // 서버로 이미지 업로드 요청을 보내고 이미지 URL을 받아옵니다.
           const response = await axios.post('http://localhost:8090/images/upload', formData);
-          const imageUrl = response.data.imageUrl;
+          const imageUrl = response.data;
 
           console.log("urlll", imageUrl)
-    
-          addImageUrl(imageUrl);
     
           // 에디터에 이미지를 삽입합니다. 이미지 URL을 절대 경로로 설정합니다.
           const editor = contentRef.current.getEditor();
           const range = editor.getSelection();
           editor.insertEmbed(range.index, 'image', imageUrl);
           editor.setSelection(range.index + 1);
+
+          const updatedContent = contentRef.current.getEditor().root.innerHTML;
+          console.log("contentssss", updatedContent);
+
         } catch (error) {
           console.error('Error uploading image:', error);
         }

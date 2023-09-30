@@ -177,6 +177,8 @@ HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 
 
 # 🕸 ERD 설계
 <img width="997" alt="erd" src="https://user-images.githubusercontent.com/43202607/183290205-3d55c22f-7564-4b75-b955-e33f505e99cd.png">
+![ERD](https://github.com/mooncy0809/teamhs_community/assets/57522230/4c206d38-3bb4-4eb3-b740-a38ca3ea48b1)
+
 
 # 👾 트러블슈팅
 ### 회원 인증 및 인가 기능 구현 (Spring Security + JWT)

@@ -41,13 +41,68 @@
 |----|----|
 |NodeJS|16.16.0|
 |React|18.2.0|
-|axios|0.27.2|
+|axios|1.5.0|
 |react-axios|2.0.6|
 |react-dom|18.2.0|
 |react-js-pagination|3.0.3|
 |react-router|6.3.0|
 |react-router-dom|6.3.0|
 |react-scripts|5.0.1|
+|react-quill|2.0.0|
+
+├── @babel/core@7.22.15
+├── @babel/eslint-parser@7.22.15
+├── @emotion/cache@11.11.0
+├── @emotion/react@11.11.1
+├── @emotion/styled@11.11.0
+├── @mui/icons-material@5.14.8
+├── @mui/lab@5.0.0-alpha.143
+├── @mui/material@5.14.8
+├── @mui/system@5.14.8
+├── @mui/utils@5.14.8
+├── @mui/x-data-grid@6.13.0
+├── @tabler/icons@1.119.0
+├── apexcharts@3.42.0
+├── axios@1.5.0
+├── bootstrap@5.3.1
+├── eslint-config-prettier@8.10.0
+├── eslint-config-react-app@7.0.1
+├── eslint-plugin-flowtype@8.0.3
+├── eslint-plugin-import@2.28.1
+├── eslint-plugin-jsx-a11y@6.7.1
+├── eslint-plugin-prettier@4.2.1
+├── eslint-plugin-react-hooks@4.6.0
+├── eslint-plugin-react@7.33.2
+├── eslint@8.48.0
+├── formik@2.4.3
+├── framer-motion@6.5.1
+├── http-proxy-middleware@2.0.6
+├── immutable@4.3.4
+├── list@2.0.19
+├── material-ui-popup-state@4.1.0
+├── prettier@2.8.8
+├── prop-types@15.8.1
+├── quill-image-resize-module-react@3.0.0
+├── quill-image-resize@3.0.9
+├── react-apexcharts@1.4.1
+├── react-bootstrap@2.8.0
+├── react-cookie@6.1.0
+├── react-device-detect@2.2.3
+├── react-dom@18.2.0
+├── react-perfect-scrollbar@1.5.8
+├── react-quill@2.0.0
+├── react-redux@8.1.2
+├── react-router-dom@6.3.0
+├── react-router@6.3.0
+├── react-scripts@5.0.1
+├── react-spinners@0.13.8
+├── react@18.2.0
+├── redux-persist@6.0.0
+├── redux@4.2.1
+├── sass@1.66.1
+├── sweetalert2@11.7.31
+├── yup@0.32.11
+└── zustand@4.4.1
 
 # 🎢 구현 기능
 * 게시판 기능

@@ -64,8 +64,8 @@
   * 게시글 수정 [게시글 작성자]
   * 게시글 삭제 [게시글 작성자]
   * 게시글 좋아요와 조회수[회원]
-  * 댓글 작성 [회원]
   * 댓글 조회 [회원]
+  * 댓글 작성 [회원]
   * 댓글 수정 [댓글 작성자]
   * 댓글 삭제 [댓글 작성자]
   * 답글 작성 [회원]
@@ -169,20 +169,26 @@
 ### 댓글 작성
 * 로그인한 사용자는 댓글을 작성할 수 있습니다.
 
-<img width="1680" alt="comment-write1" src="https://user-images.githubusercontent.com/43202607/183296007-26bbc9e4-f6de-4daf-aef9-ef261b978ee7.png">
-<img width="1724" alt="comment-write2" src="https://user-images.githubusercontent.com/43202607/183296016-19c585ef-04ee-4452-9546-608876c2c3d8.png">
+<img width="1680" alt="comment-write1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e5724e07-c8d8-46ef-a961-d46df5410f75">
+<img width="1724" alt="comment-write2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/822fbfe6-aef9-42bf-963c-3e619aa4ffe7">
 
 
 ### 댓글 수정
 * 자신이 작성한 댓글을 수정할 수 있습니다.
-<img width="1724" alt="comment-update1" src="https://user-images.githubusercontent.com/43202607/183296205-aa135997-27a2-40f0-a2a3-5611640768a3.png">
-<img width="1724" alt="comment-update2" src="https://user-images.githubusercontent.com/43202607/183296209-ae3ff631-5014-405b-b2b0-7659fe26edb6.png">
-<img width="1724" alt="comment-update3" src="https://user-images.githubusercontent.com/43202607/183296211-6bb4f080-e2ce-4be7-89ae-713709f104ab.png">
+<img width="1724" alt="comment-update1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/02a993cc-fa8f-4369-a868-b9220902436d">
+<img width="1724" alt="comment-update2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/6d1f62fb-e098-41ff-b03b-43cfd59cce42">
+* 수정된 댓글은 수정된 시간으로 업데이트되고, (수정됨)으로 표시됩니다.
+<img width="1724" alt="comment-update3" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/6767e1ae-dd92-4688-a0f8-35fc0c09dd3f">
 
 ### 댓글 삭제
 * 자신이 작성한 댓글을 삭제할 수 있습니다.
-<img width="1724" alt="comment-delete" src="https://user-images.githubusercontent.com/43202607/183296297-d81bdc9e-410f-4cdb-bfec-cbc066a90a9f.png">
-<img width="1680" alt="comment-delete2" src="https://user-images.githubusercontent.com/43202607/183296289-a23f7cbb-bdd0-49ab-994f-618f49638446.png">
+<img width="1724" alt="comment-delete" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/d3900b21-a1dd-4309-be9a-77475c12e52b">
+<img width="1680" alt="comment-delete2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e4696bc7-84b1-4079-9625-585449d8c1f0">
+
+
+
+
+
 
 
 영호가 수정해야 하는 부분 ~

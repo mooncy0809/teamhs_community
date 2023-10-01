@@ -89,18 +89,21 @@
 
 ## 게시판 기능
 ### 모든 게시글 및 특정 게시글 조회
-* 모든 게시글을 조회할 수 있습니다. 페이징 기능을 통해 한 페이지에서 최대 10개의 게시글이 조회됩니다.
-<img width="1724" alt="bbslist1" src="https://user-images.githubusercontent.com/43202607/183294682-811f8e84-b5b1-4476-9e5c-959c40c92482.png">
-<img width="1724" alt="bbslist2" src="https://user-images.githubusercontent.com/43202607/183294659-bd54745a-45aa-4765-99ee-9c17c67dc648.png">
+* 모든 게시글을 조회할 수 있습니다.
+* 페이징 기능을 통해 한 페이지에 최대 15개의 게시글이 조회됩니다.
+* 카테고리 별 조회가 가능합니다(전체, 자유게시판, 뉴스)
+<img width="1724" alt="boardlist" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/7acb6715-457b-4f09-9b8a-5e371cae756e">
+<img width="1724" alt="bbslist2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/53a4e632-85e1-4abc-8b6c-adb44595f33c">
+<img width="1724" alt="bbslist3" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/b5fb450e-733b-43f6-9bbd-7abd16e3ceef">
 
-* 게시글의 제목을 클릭하면, 게시글의 상세 내용을 조회할 수 있습니다.
-<img width="1724" alt="bbsdetail1" src="https://user-images.githubusercontent.com/43202607/183294838-c7d9a344-b00f-4467-b4d5-4db6f1a74cb2.png">
-<img width="1724" alt="bbsdetail2" src="https://user-images.githubusercontent.com/43202607/183294851-20b6e927-4bb2-4e34-b050-3d8b6e21b2d9.png">
+* 게시글 리스트를 클릭하면, 게시글의 상세 내용을 조회할 수 있습니다.
+<img width="1724" alt="board-detail1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e7e888c3-6dfb-4eac-aa60-9ba009bd2af5">
+<img width="1724" alt="board-detail2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/45553333-c029-4848-a92b-5990a2834ee0">
 
 
 ### 게시글 검색
 * 게시글의 제목과 내용 또는 작성자로 게시글을 검색할 수 있습니다.
-<img width="1724" alt="bbs-search" src="https://user-images.githubusercontent.com/43202607/183294908-b849e173-3ace-41bd-b316-5ca71d74f046.png">
+<img width="1724" alt="board-search" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3fe0b55d-ebc1-41ff-86c0-1406cda5573a">
 
 
 ### 게시글 작성

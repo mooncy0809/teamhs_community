@@ -32,77 +32,27 @@
 |Spring Security|2.7.2|
 |Bean Validation|2.7.2|
 |JSON Web Token|0.9.1|
-|MyBatis|2.1.3|
+|JPA|2.1.3|
 |MySQL Connector J|8.0.28|
 |Swagger|3.0.0|
 
 ### 🥕 Frontend
 |기술|버전|
 |----|----|
-|NodeJS|16.16.0|
+|NodeJS|18.17.0|
 |React|18.2.0|
 |axios|1.5.0|
 |react-axios|2.0.6|
 |react-dom|18.2.0|
-|react-js-pagination|3.0.3|
 |react-router|6.3.0|
 |react-router-dom|6.3.0|
+|react-redux|8.1.2|
+|redux|4.2.1|
 |react-scripts|5.0.1|
 |react-quill|2.0.0|
-
-├── @babel/core@7.22.15
-├── @babel/eslint-parser@7.22.15
-├── @emotion/cache@11.11.0
-├── @emotion/react@11.11.1
-├── @emotion/styled@11.11.0
-├── @mui/icons-material@5.14.8
-├── @mui/lab@5.0.0-alpha.143
-├── @mui/material@5.14.8
-├── @mui/system@5.14.8
-├── @mui/utils@5.14.8
-├── @mui/x-data-grid@6.13.0
-├── @tabler/icons@1.119.0
-├── apexcharts@3.42.0
-├── axios@1.5.0
-├── bootstrap@5.3.1
-├── eslint-config-prettier@8.10.0
-├── eslint-config-react-app@7.0.1
-├── eslint-plugin-flowtype@8.0.3
-├── eslint-plugin-import@2.28.1
-├── eslint-plugin-jsx-a11y@6.7.1
-├── eslint-plugin-prettier@4.2.1
-├── eslint-plugin-react-hooks@4.6.0
-├── eslint-plugin-react@7.33.2
-├── eslint@8.48.0
-├── formik@2.4.3
-├── framer-motion@6.5.1
-├── http-proxy-middleware@2.0.6
-├── immutable@4.3.4
-├── list@2.0.19
-├── material-ui-popup-state@4.1.0
-├── prettier@2.8.8
-├── prop-types@15.8.1
-├── quill-image-resize-module-react@3.0.0
-├── quill-image-resize@3.0.9
-├── react-apexcharts@1.4.1
-├── react-bootstrap@2.8.0
-├── react-cookie@6.1.0
-├── react-device-detect@2.2.3
-├── react-dom@18.2.0
-├── react-perfect-scrollbar@1.5.8
-├── react-quill@2.0.0
-├── react-redux@8.1.2
-├── react-router-dom@6.3.0
-├── react-router@6.3.0
-├── react-scripts@5.0.1
-├── react-spinners@0.13.8
-├── react@18.2.0
-├── redux-persist@6.0.0
-├── redux@4.2.1
-├── sass@1.66.1
-├── sweetalert2@11.7.31
-├── yup@0.32.11
-└── zustand@4.4.1
+|react-cookie|6.1.0|
+|quill-image-resize|3.0.9|
+|sweetalert2|11.7.31|
 
 # 🎢 구현 기능
 * 게시판 기능
@@ -211,6 +161,8 @@
 <img width="1680" alt="comment-delete2" src="https://user-images.githubusercontent.com/43202607/183296289-a23f7cbb-bdd0-49ab-994f-618f49638446.png">
 
 
+영호가 수정해야 하는 부분 ~
+
 ## 회원 기능
 ### 회원가입
 * 회원가입 시 아이디 중복을 체크합니다.
@@ -236,6 +188,8 @@
 
 * 로그아웃을 완료하면 브라우저의 `Local Storage` 의 내용도 삭제합니다.
 <img width="1374" alt="logout-after-devtool" src="https://user-images.githubusercontent.com/43202607/183296489-b4710d6b-380d-4293-a102-a96735bd4749.png">
+
+여기까지
   
 # 🤙🏻 API 명세서
 HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 설계했습니다. <br/><br/>

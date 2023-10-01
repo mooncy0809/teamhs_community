@@ -200,7 +200,7 @@ HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 
 
 # 🕸 ERD 설계
 <img width="997" alt="erd" src="https://user-images.githubusercontent.com/43202607/183290205-3d55c22f-7564-4b75-b955-e33f505e99cd.png">
-![ERD](https://github.com/mooncy0809/teamhs_community/assets/57522230/4c206d38-3bb4-4eb3-b740-a38ca3ea48b1)
+<img width="997" alt="erd" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/35128a2e-92cf-41e9-8cf3-b63a02680950"/>
 
 
 # 👾 트러블슈팅

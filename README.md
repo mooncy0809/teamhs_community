@@ -196,21 +196,41 @@
 <img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/1d18cd37-8440-4aee-b38a-1c7a7090f354">
 * 숨기기를 클릭하면 답글이 다시 5개만 보이게 됩니다.
 <img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/5a04db38-0c97-43bf-a0b3-5e78d96ae4e2">
+* 로그인을 하지 않으면 답글을 작성할 수 없습니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ea68ef5-b43f-4dce-a97e-1bb80ed867cf">
 
 ### 답글 작성
-<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
-<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/c8d9161c-15b1-4175-b85e-f0518093598c">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/7426d16c-21e2-43a1-b761-244cead5909d">
 
 
 ### 답글 삭제
-<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
-<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/729ebd3c-861c-40a0-b461-3e16b0ed531f">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/f00ae18e-5a7a-4740-a2f8-21d576be7e2b">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/24bb4e04-d22d-4201-a516-243c95a23a7d">
 
 
 
-영호가 수정해야 하는 부분 ~
+## 문제 기능
+### 채영이가 수정해야 하는 부분
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 회원 기능
+### 영호가 수정해야 하는 부분
+
 ### 회원가입
 * 회원가입 시 아이디 중복을 체크합니다.
 <img width="1532" alt="signup-idcheck" src="https://user-images.githubusercontent.com/43202607/183293384-c6729cec-bbe1-4244-8ff5-4bac37cfb25b.png">
@@ -237,6 +257,7 @@
 <img width="1374" alt="logout-after-devtool" src="https://user-images.githubusercontent.com/43202607/183296489-b4710d6b-380d-4293-a102-a96735bd4749.png">
 
 여기까지
+
   
 # 🤙🏻 API 명세서
 HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 설계했습니다. <br/><br/>

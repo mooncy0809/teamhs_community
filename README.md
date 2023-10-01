@@ -186,8 +186,25 @@
 <img width="1680" alt="comment-delete2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e4696bc7-84b1-4079-9625-585449d8c1f0">
 
 
+## 답글 기능
+### 답글 조회
+* 댓글에 달린 답글 갯수를 표시합니다.클릭하면 해당 댓글의 답글을 조회할 수 있습니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
+* 닫기를 클릭하면 해당 답글창이 닫힙니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e63ce993-1c6c-4306-92ef-a09cab396dd2">
+* 답글이 5개 이상이면 "답글 더보기" 버튼이 생성되고, 답글 더보기 버튼을 클릭하면 나머지 답글이 표시됩니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/1d18cd37-8440-4aee-b38a-1c7a7090f354">
+* 숨기기를 클릭하면 답글이 다시 5개만 보이게 됩니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/5a04db38-0c97-43bf-a0b3-5e78d96ae4e2">
+
+### 답글 작성
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
 
 
+### 답글 삭제
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0ee60e29-8afe-4c98-9e24-cf57659c63ae">
 
 
 

@@ -28,12 +28,14 @@
 ### 📌 Backend
 |기술|버전|
 |----|----|
-|Spring Boot|2.7.2|
-|Spring Security|2.7.2|
-|Bean Validation|2.7.2|
+|Spring Boot|3.1.2|
+|Spring Security|6.1.2|
+|Bean Validation|3.0.2|
 |JSON Web Token|0.9.1|
-|JPA|2.1.3|
-|MySQL Connector J|8.0.28|
+|JPA|3.1.2|
+|jdk|17.0.2|
+|thymeleaf|3.1.2|
+|MySQL Connector J|8.0.33|
 |Swagger|3.0.0|
 
 ### 🥕 Frontend

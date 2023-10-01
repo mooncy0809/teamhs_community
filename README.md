@@ -108,12 +108,14 @@
 
 ### 게시글 작성
 * 로그인한 사용자는 게시글을 작성할 수 있습니다.
-<img width="1724" alt="bbs-write" src="https://user-images.githubusercontent.com/43202607/183295068-8fc5dc5f-bbb9-44c4-87b7-8d23bad2f887.png">
-<img width="1724" alt="bbs-write-success" src="https://user-images.githubusercontent.com/43202607/183295056-72b89db7-2e88-4628-9195-66dabc2b3fed.png">
-<img width="1724" alt="bbs-write-result" src="https://user-images.githubusercontent.com/43202607/183295063-b76de0dc-3497-4384-90a9-3eb71d86ce8e.png">
+* 게시글 제목과 내용에 내용이 없을 시, 저장 버튼이 활성화 되지 않습니다.
+* 이미지 첨부가 가능합니다.
+<img width="1724" alt="bbs-write" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/0edcc6e6-ca0c-467f-85e1-a7045030e5c4">
+<img width="1724" alt="bbs-write-success" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/fdfae106-524b-4b3f-ba88-e8e65adff109">
+<img width="1724" alt="bbs-write-result" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/dfca4abb-34a3-4f3b-b63a-671080a2820c">
 
-* 로그인하지 않았을 경우 글 작성이 제한됩니다.
-<img width="1724" alt="bbs-write-auth" src="https://user-images.githubusercontent.com/43202607/183295121-58b3a5eb-3b11-415e-a4fb-c67d75a6c37d.png">
+* 로그인하지 않았을 경우 게시글 작성 버튼이 표시되지 않습니다.
+* <img width="1724" alt="bbs-write-auth" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/dc25504d-4041-49c4-bfa6-999dad5b2013">
 
 
 ### 게시글 수정

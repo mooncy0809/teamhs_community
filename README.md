@@ -115,18 +115,20 @@
 <img width="1724" alt="bbs-write-result" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/dfca4abb-34a3-4f3b-b63a-671080a2820c">
 
 * 로그인하지 않았을 경우 게시글 작성 버튼이 표시되지 않습니다.
-* <img width="1724" alt="bbs-write-auth" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/dc25504d-4041-49c4-bfa6-999dad5b2013">
+<img width="1724" alt="bbs-write-auth" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/dc25504d-4041-49c4-bfa6-999dad5b2013">
 
 
 ### 게시글 수정
-* 게시글 작성자는 게시글을 수정할 수 있습니다. 
-<img width="1724" alt="bbs-update" src="https://user-images.githubusercontent.com/43202607/183295328-17e3da89-21c1-41d9-8def-a6aa1ee5662a.png">
-<img width="1724" alt="bbs-update2" src="https://user-images.githubusercontent.com/43202607/183295289-19ad2629-68e4-4891-a232-1a0128d04bf1.png">
-<img width="1724" alt="bbs-update-success" src="https://user-images.githubusercontent.com/43202607/183295332-523f981a-278f-4729-8fe5-e28d2c1e42e7.png">
+* 게시글 작성자는 게시글을 수정할 수 있습니다.
+<img width="1724" alt="bbs-update" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3dd14e36-6580-4afd-b93e-daab05ecf835">
+<img width="1724" alt="bbs-update2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3ac62788-e6a0-4f63-b132-05fc2498a7be">
+<img width="1724" alt="bbs-update3" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/fb0d7e9f-bd15-41b3-9bb6-2f9daca69554">
+<img width="1724" alt="bbs-update2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3f9edefc-f0de-4bb3-9076-be3ffa5486ed">
+<img width="1724" alt="bbs-update-success" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/60e62922-3f92-4962-b298-1858ab9e9747">
+
 
 * 자신이 작성한 게시글에만 수정, 삭제 버튼이 활성화됩니다.
-![bbs-update-delete-btn-deactive](https://user-images.githubusercontent.com/43202607/183295398-a3d3b599-90ea-4356-be7a-793736fee4e9.png)
-<img width="1724" alt="bbs-update-delete-btn-active" src="https://user-images.githubusercontent.com/43202607/183295443-8729288a-9dc3-4809-a0ee-5ad735c23bcf.png">
+<img width="1724" alt="bbs-update-delete-btn-active" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/76e3695a-2af1-4cc1-9f64-7846045f1bef">
 
 ### 게시글 삭제
 * 게시글 작성자는 게시글을 삭제할 수 있습니다.

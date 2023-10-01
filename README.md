@@ -17,11 +17,10 @@
 
 # 🎃 프로젝트 구조
 ### 📌 Backend
-<img width="575" alt="backend-project-structure" src="https://user-images.githubusercontent.com/43202607/183297576-86a27c9f-d2cd-46ce-8f21-eb9845fe3caa.png">
-
+<img width="575" alt="backend-project-structure" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/8ee32012-5026-4218-bfa3-9758e7f90abf">
 
 ### 🥕 Frontend
-<img width="574" alt="frontend-project-structure" src="https://user-images.githubusercontent.com/43202607/183297579-ddaad9a7-3d2b-467f-8519-c639e0feb8f3.png">
+<img width="574" alt="frontend-project-structure" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/ed2d5b26-1e92-4a08-a92b-585dfdaaaaab">
 
 
 # 🕹 사용 기술

@@ -195,11 +195,9 @@
   
 # 🤙🏻 API 명세서
 HTTP 메서드를 통해 행위를 명시할 수 있도록 RESTful 방식으로 설계했습니다. <br/><br/>
-
 <img width="997" alt="api-definition" src="https://user-images.githubusercontent.com/43202607/183290134-6aeeb889-2efd-4f18-ad53-7179a624e7e8.png">
 
 # 🕸 ERD 설계
-<img width="997" alt="erd" src="https://user-images.githubusercontent.com/43202607/183290205-3d55c22f-7564-4b75-b955-e33f505e99cd.png">
 <img width="997" alt="erd" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/35128a2e-92cf-41e9-8cf3-b63a02680950"/>
 
 

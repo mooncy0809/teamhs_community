@@ -61,9 +61,9 @@
   * 모든 게시글 및 특정 게시글 조회
   * 게시글 검색 (전체, 제목, 내용)
   * 게시글 작성 [회원]
-  * 게시글 수정 [회원, 게시글 작성자]
-  * 게시글 삭제 [회원, 게시글 작성자]
-  * 게시글 좋아요 [답글 작성자]
+  * 게시글 수정 [게시글 작성자]
+  * 게시글 삭제 [게시글 작성자]
+  * 게시글 좋아요와 조회수[회원]
   * 댓글 작성 [회원]
   * 댓글 조회 [회원]
   * 댓글 수정 [댓글 작성자]
@@ -71,7 +71,6 @@
   * 답글 작성 [회원]
   * 답글 조회 [회원]
   * 답글 삭제 [답글 작성자]
-  * 페이지네이션
 * 문제 기능
   * 문제 작성
   * 문제 조회
@@ -149,21 +148,22 @@
 <img width="1724" alt="board_like_view_result" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/4e36d84b-aeab-4629-8b72-2f0480a48597">
 
 
-
-
-### 게시글 답글 작성
-* 하나의 게시글에 대한 답글을 작성할 수 있습니다. `게시글 작성` 과 마찬가지로 로그인한 사용자만 답글을 작성할 수 있습니다.
-<img width="1724" alt="bbs-answer1" src="https://user-images.githubusercontent.com/43202607/183295700-405f212f-d622-4b2c-88bc-beb543a4a25d.png">
-<img width="1724" alt="bbs-answer2" src="https://user-images.githubusercontent.com/43202607/183295709-f3790b18-ce98-4857-b9e1-47f95cb8d147.png">
-<img width="1724" alt="bbs-answer3" src="https://user-images.githubusercontent.com/43202607/183295712-a931f628-b2b9-44dc-9036-4170774920fc.png">
-<img width="1724" alt="bbs-answer4" src="https://user-images.githubusercontent.com/43202607/183295729-4860a08b-f698-4087-9dde-1e0781b09093.png">
-
-
 ## 댓글 기능
 ### 댓글 조회
-* `게시글 상세` 에서 관련된 댓글을 조회할 수 있습니다. 페이징 기능을 통해 한 페이지에서 최대 5개의 댓글이 조회됩니다.
-<img width="1724" alt="comment1" src="https://user-images.githubusercontent.com/43202607/183295890-bca96b8e-dc81-4b17-931b-246664a6d6cd.png">
-<img width="1724" alt="comment2" src="https://user-images.githubusercontent.com/43202607/183295887-f6f06db8-5f75-4dba-93a9-24eb29153700.png">
+* `게시글 상세 페이지` 에서 관련된 댓글을 조회할 수 있습니다.
+
+* 게시글의 달린 전체 댓글 갯수를 조회할 수 있습니다.
+<img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3a7d0a51-424b-498d-acd6-58f489eaed77">
+
+* 현재 접속자를 표시해줍니다. 댓글의 내용이 없으면 작성 버튼이 비활성화됩니다.
+<img width="1724" alt="comment2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/28c2a9ec-3697-4776-a636-ed9a4d3e6665">
+
+* 댓글 작성자가 아니면 수정/삭제가 불가합니다.
+<img width="1724" alt="comment3" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/7ae19a0a-4ac5-4294-ba2d-732f34c329c9">
+
+* 로그인 하지 않으면 댓글을 작성할 수 없습니다.
+<img width="1724" alt="comment-can't" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/7396a824-cef4-4b9d-b7f9-073cd144cbe3">
+
 
 
 ### 댓글 작성

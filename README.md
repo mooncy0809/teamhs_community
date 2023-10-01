@@ -61,7 +61,6 @@
   * 모든 게시글 및 특정 게시글 조회
   * 게시글 검색 (전체, 제목, 내용)
   * 게시글 작성 [회원]
-  * 게시글 조회 [회원]
   * 게시글 수정 [회원, 게시글 작성자]
   * 게시글 삭제 [회원, 게시글 작성자]
   * 게시글 좋아요 [답글 작성자]
@@ -102,7 +101,7 @@
 
 
 ### 게시글 검색
-* 게시글의 제목과 내용 또는 작성자로 게시글을 검색할 수 있습니다.
+* 게시글 전체(제목 + 내용)와 제목과 내용으로 게시글을 검색할 수 있습니다.
 <img width="1724" alt="board-search" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/3fe0b55d-ebc1-41ff-86c0-1406cda5573a">
 
 
@@ -132,8 +131,24 @@
 
 ### 게시글 삭제
 * 게시글 작성자는 게시글을 삭제할 수 있습니다.
-<img width="1724" alt="bbs-delete" src="https://user-images.githubusercontent.com/43202607/183295478-3fb544f3-11fa-4a62-a8bd-8254fbd9dc95.png">
-<img width="1724" alt="bbs-delete-result" src="https://user-images.githubusercontent.com/43202607/183295579-50135571-e6a3-4a66-a169-d98d27f834c2.png">
+<img width="1724" alt="bbs-delete" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/9451d85e-50d8-4d27-8680-05148175b29c">
+<img width="1724" alt="bbs-delete2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/d47e5015-378a-4149-ac38-4997d50c513f">
+<img width="1724" alt="bbs-delete-result" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/237f4195-4980-43a8-9c51-82f6fc3f0160">
+
+### 게시글 좋아요 & 조회수
+* 게시글에 좋아요를 누를 수 있습니다.
+* 각 계정 당 게시글 좋아요 하나씩 누를 수 있고, 좋아요가 되어있는 상태에서 누르면 좋아요가 취소됩니다.
+<img width="1724" alt="board_like1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/e2900ea6-7bc9-46bb-b133-e44e60ccee92">
+<img width="1724" alt="board_like2" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/096da14a-0aae-4594-ab5a-ec178fefd74b">
+<img width="1724" alt="board_like3" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/8f491787-f5b0-4983-91ca-0232f44cad95">
+
+* 게시글을 보면 조회수가 추가됩니다.
+<img width="1724" alt="board_view" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/7e5c6993-04ac-42fa-bb4a-c6f7381daf0b">
+
+* 게시글 리스트에서 각 게시글의 좋아요와 조회수가 표시됩니다.
+<img width="1724" alt="board_like_view_result" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/4e36d84b-aeab-4629-8b72-2f0480a48597">
+
+
 
 
 ### 게시글 답글 작성

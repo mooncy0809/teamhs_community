@@ -62,9 +62,7 @@ public class CommentService {
         if (commentOptional.isPresent()) {
             Comment comment = commentOptional.get();
 
-            // 연관된 Recomment 엔티티 삭제
-            List<Recomment> recoments = recommentRepository.findByComment(comment);
-            recommentRepository.deleteAll(recoments);
+            recommentRepository.deleteByComment(comment);
 
             commentRepository.delete(comment);
             return true;

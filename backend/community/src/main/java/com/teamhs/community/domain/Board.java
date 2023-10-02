@@ -1,5 +1,6 @@
 package com.teamhs.community.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,26 +21,33 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
     private Long boardId;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "user_id")
+    @ApiModelProperty(value = "user_id")
     private String userId;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "cate_id")
+    @ApiModelProperty(value = "cate_id ")
     private int cateId;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "board_title")
+    @ApiModelProperty(value = "board_title ")
     private String boardTitle;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "board_content")
+    @ApiModelProperty(value = "board_content ")
     private String boardContent;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "board_date")
+    @ApiModelProperty(value = "board_date ")
     private LocalDate boardDate;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "like_cnt")
+    @ApiModelProperty(value = "like_cnt ")
     private int likeCnt;
 
     //조회수
-    @Column(nullable = true)
+    @Column(nullable = true, name = "view_cnt")
+    @ApiModelProperty(value = "view_cnt ")
     private int viewCnt;
 
     @Column(nullable = true)

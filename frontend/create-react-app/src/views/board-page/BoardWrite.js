@@ -14,7 +14,7 @@ import { Select, MenuItem } from '@mui/material';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-quill/dist/quill.snow.css';
-import './customQuill.css'; //Quill Custom 파일
+import '../../views/css/customQuill.css'; //Quill Custom 파일
 
 import { useSelector } from 'react-redux'; // eslint-disable-line
 

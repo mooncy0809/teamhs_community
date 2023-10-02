@@ -2,6 +2,7 @@ package com.teamhs.community.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,17 +28,17 @@ public class Recomment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Comment comment;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "user_id")
     private String userId;
 
     @ManyToOne //Board 엔티티와 다대일 매핑
     @JoinColumn(name = "boardId")
     private Board board;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "recomment_content")
     private String recommentContent;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "recomment_date")
     private String recommentDate;
 
 }

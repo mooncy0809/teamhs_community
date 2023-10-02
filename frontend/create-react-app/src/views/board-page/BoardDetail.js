@@ -10,7 +10,6 @@ import { gridSpacing } from 'store/constant';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-quill/dist/quill.snow.css';
-import './customQuill.css';
 
 //Dialog
 import Swal from "sweetalert2";

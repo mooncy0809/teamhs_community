@@ -2,6 +2,7 @@ package com.teamhs.community.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     private int commentId;
 
-    @Column(nullable = true)
+    @JoinColumn(name = "userId")
     private String userId;
 
     @ManyToOne //Board 엔티티와 다대일 매핑

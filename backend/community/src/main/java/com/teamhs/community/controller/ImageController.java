@@ -1,6 +1,7 @@
 package com.teamhs.community.controller;
 
 import com.teamhs.community.service.ImageUploadService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,11 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/images/upload")
-@CrossOrigin(origins = "http://localhost:3000") // React 앱의 주소로 변경
 public class ImageController {
     @Autowired
     private ImageUploadService imageUploadService;
-
-    @PostMapping("")
+    @PostMapping
+    @ApiOperation(value="ImageUpload", notes="이미지 업로드")
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
         try {
             // 이미지 업로드 및 이미지 URL 반환
@@ -30,12 +30,6 @@ public class ImageController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(getMimeType(image.getOriginalFilename()));
 
-            //로그
-            final Logger logger = LoggerFactory.getLogger(BoardController.class);
-            logger.info("receive_header {}", headers);
-            logger.info("receive_getMimeType {}", getMimeType(image.getOriginalFilename()));
-            logger.info("receive_imageUrl {}", imageUrl);
-
             return new ResponseEntity<>(imageUrl, headers, HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -43,6 +37,7 @@ public class ImageController {
     }
 
     @GetMapping("/{fileName:.+}")
+    @ApiOperation(value="ImageRead", notes="이미지 조회")
     public ResponseEntity<FileSystemResource> getImage(@PathVariable String fileName) {
         // 로컬 파일 시스템에서 이미지 파일을 읽어옴
         FileSystemResource resource = new FileSystemResource("D:/imagestest/upload/" + fileName);
@@ -53,7 +48,6 @@ public class ImageController {
                 .contentType(getMimeType(fileName)) // 이미지 타입에 따라 변경
                 .body(resource);
     }
-
 
     // 파일 확장자에서 MIME 타입을 가져오는 함수
     private MediaType getMimeType(String fileName) {

@@ -5,6 +5,7 @@ import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.service.BoardLikeService;
 import com.teamhs.community.service.BoardService;
 import com.teamhs.community.service.ImageUploadService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class BoardController {
 
     //글 목록 + 페이징 처리 추가(글 갯수 더 조회하고 싶으면 defaultValue 수정)
     @GetMapping("/list")
+    @ApiOperation(value="BoardList", notes="커뮤니티 조회")
     public ResponseEntity<Page<Board>> getPaginatedBoardsByCateId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
@@ -39,11 +41,6 @@ public class BoardController {
         // 정렬 정보 설정: 내림차순으로 정렬하도록 변경
         Pageable pageable = PageRequest.of(page, size, Sort.by("boardId").descending());
 
-        final Logger logger = LoggerFactory.getLogger(BoardController.class);
-
-        logger.info("receive_cateId {}", cateId);
-        logger.info("receive_searchCate {}", sCate);
-        logger.info("receive_searchText {}", sText);
 
         Page<Board> boards;
 
@@ -61,18 +58,21 @@ public class BoardController {
     }
 
     @PostMapping("/write")
+    @ApiOperation(value="BoardWrite", notes="게시글 작성")
     public ResponseEntity<Board> createBoard(@RequestBody BoardDTO board) {
         Board createdBoard = boardService.postBoard(board);
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 
     @GetMapping("/{boardId}")
+    @ApiOperation(value="BoardDetail", notes="게시글 상세 조회")
     public ResponseEntity<Board> getBoardById(@PathVariable Long boardId) {
         Board board = boardService.getBoardById(boardId);
         return ResponseEntity.ok(board);
     }
 
     @DeleteMapping("/delete/{boardId}")
+    @ApiOperation(value="BoardDelete", notes="게시글 삭제")
     public ResponseEntity<String> deleteBoard(@PathVariable Long boardId) {
         boolean success = boardService.deleteBoard(boardId);
         if (success) {
@@ -83,6 +83,7 @@ public class BoardController {
     }
 
     @PutMapping("/update/{boardId}/{userId}")
+    @ApiOperation(value="BoardUpdate", notes="게시글 수정")
     public ResponseEntity<String> updateBoard(@PathVariable Long boardId,@PathVariable String userId, @RequestBody BoardDTO updatedBoardDTO) {
         boolean success = boardService.updateBoard(boardId, userId, updatedBoardDTO);
         if (success) {

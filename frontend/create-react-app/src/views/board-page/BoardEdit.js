@@ -11,7 +11,7 @@ import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './customQuill.css'; // 새로운 CSS 파일 생성
+import '../../views/css/customQuill.css'; // 새로운 CSS 파일 생성
 
 //Dialog
 import Swal from "sweetalert2";

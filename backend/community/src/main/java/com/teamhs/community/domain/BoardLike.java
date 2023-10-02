@@ -1,5 +1,6 @@
 package com.teamhs.community.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class BoardLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "like_id ")
     private Long likeId;
 
     @ManyToOne(fetch = LAZY)

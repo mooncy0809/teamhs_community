@@ -9,12 +9,13 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-
-
     @Configuration
     @EnableSwagger2
     public class SwaggerConfig {
+
+        private static final String API_NAME = "TeamHs API";
+        private static final String API_VERSION = "0.0.1";
+        private static final String API_DESCRIPTION = "Team hs API 명세서입니다.";
 
         @Bean
         public Docket api() {
@@ -27,11 +28,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                     .build();
         }
 
-        private ApiInfo apiInfo() {
+        public ApiInfo apiInfo() {
             return new ApiInfoBuilder()
-                    .title("Team hs")
-                    .description("Team hs API 문서입니다.")
-                    .version("1.0")
+                    .title(API_NAME)
+                    .description(API_DESCRIPTION)
+                    .version(API_VERSION)
                     .build();
         }
+
     }

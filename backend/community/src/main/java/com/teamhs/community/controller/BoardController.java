@@ -5,6 +5,7 @@ import com.teamhs.community.dto.Request.BoardDTO;
 import com.teamhs.community.service.BoardLikeService;
 import com.teamhs.community.service.BoardService;
 import com.teamhs.community.service.ImageUploadService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.java.Log;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import java.io.Console;
 
 @RestController
 @RequestMapping("/board")
+@Api(tags = "Board 컨트롤러", description = "게시글 관련 API 명세서")
 public class BoardController {
 
     @Autowired

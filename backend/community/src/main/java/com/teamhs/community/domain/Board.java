@@ -19,6 +19,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment strategy
+    @ApiModelProperty(value = "board_id ")
     private Long boardId;
 
     @Column(nullable = true, name = "user_id")
@@ -50,7 +51,8 @@ public class Board {
     @ApiModelProperty(value = "view_cnt ")
     private int viewCnt;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "image_url")
+    @ApiModelProperty(value = "view_cnt ")
     private String imgUrl;
 
     //일대 다 매핑

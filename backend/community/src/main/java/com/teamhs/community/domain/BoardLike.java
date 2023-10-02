@@ -21,11 +21,13 @@ public class BoardLike {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
+    @ApiModelProperty(value = "user_id ")
     private Member member;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ApiModelProperty(value = "board_id ")
     private Board board;
 
 }

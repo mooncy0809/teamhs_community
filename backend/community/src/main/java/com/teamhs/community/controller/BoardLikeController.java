@@ -2,6 +2,7 @@ package com.teamhs.community.controller;
 
 import com.teamhs.community.service.BoardLikeService;
 import com.teamhs.community.service.BoardService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class BoardLikeController {
     private BoardLikeService boardLikeService;
 
     @PostMapping("/{boardId}/{userId}")
+    @ApiOperation(value="BoardLike", notes="게시글 좋아요")
     public ResponseEntity<?> likeBoard(@PathVariable ("boardId") Long boardId, @PathVariable("userId") String userId) {
         // 사용자가 이미 좋아요를 눌렀는지 확인
         boolean alreadyLiked = boardLikeService.checkIfUserLikedBoard(userId, boardId);
@@ -36,6 +38,7 @@ public class BoardLikeController {
     }
 
     @GetMapping("/check/{boardId}/{userId}")
+    @ApiOperation(value="BoardLikeCheck", notes="좋아요 여부 확인")
     public boolean checkLike(@PathVariable ("boardId") Long boardId, @PathVariable("userId") String userId) {
         // 사용자가 이미 좋아요를 눌렀는지 확인
         boolean alreadyLiked = boardLikeService.checkIfUserLikedBoard(userId, boardId);

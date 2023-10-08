@@ -220,40 +220,26 @@
 
 
 
-
-
-
-
-
-
-
 ## 회원 기능
 ### 영호가 수정해야 하는 부분
 
 ### 회원가입
 * 회원가입 시 아이디 중복을 체크합니다.
-<img width="1532" alt="signup-idcheck" src="https://user-images.githubusercontent.com/43202607/183293384-c6729cec-bbe1-4244-8ff5-4bac37cfb25b.png">
 
 
 * 회원가입을 통해 서비스에 사용자 정보를 저장합니다.
-<img width="1532" alt="signup-success" src="https://user-images.githubusercontent.com/43202607/183293393-52ccf9f7-90a0-420e-ac71-60baec18b791.png">
 
 
 ### 로그인/로그아웃
 * 로그인
-<img width="1532" alt="login-form" src="https://user-images.githubusercontent.com/43202607/183293389-8dceae44-f5c5-4381-ac5e-244e868a7813.png">
-<img width="1532" alt="login-success" src="https://user-images.githubusercontent.com/43202607/183293435-e707c650-696f-408f-8ba3-11acbac5b989.png">
 
   * 로그인을 완료하면 브라우저의 `Local Storage` 에 사용자 `id` 와 `JWT` 토큰 정보를 저장합니다.
-  <img width="1374" alt="login-after-devtool" src="https://user-images.githubusercontent.com/43202607/183293460-68a98ae0-9e13-47c9-88f4-6ca5b429dc1a.png">
 
 
 * 로그아웃
-<img width="1724" alt="logout" src="https://user-images.githubusercontent.com/43202607/183296452-126a6bcc-3223-4230-88b0-0d2a51111b56.png">
 
 
 * 로그아웃을 완료하면 브라우저의 `Local Storage` 의 내용도 삭제합니다.
-<img width="1374" alt="logout-after-devtool" src="https://user-images.githubusercontent.com/43202607/183296489-b4710d6b-380d-4293-a102-a96735bd4749.png">
 
 여기까지
 

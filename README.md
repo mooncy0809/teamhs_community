@@ -215,17 +215,123 @@
 <img width="1724" alt="comment1" src="https://github.com/mooncy0809/teamhs_community/assets/57522230/24bb4e04-d22d-4201-a516-243c95a23a7d">
 
 
-
+<br><br><br><br>
 ## 문제 기능
-### 채영이가 수정해야 하는 부분
+### 문제 작성
+* 관리자 아이디로 로그인 했을 경우 문제를 작성할 수 있습니다.
+* 필수 항목을 입력하지 않으면 저장 버튼이 활성화 되지 않습니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/d850623c-aa8e-46a4-a9e4-71220fb30e59)
+<br><br><br><br>
+
+* 모든 항목을 입력하면 저장 버튼이 활성화 됩니다.
+  
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/89c9c7c6-eee2-4505-82df-cd33d0f96ec6)
+<br><br><br><br>
+
+
+### 문제 조회
+* 전체 문제를 조회할 수 있습니다.
+* 페이징 기능을 통해 한 페이지에 최대 10개의 문제가 조회됩니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/3bf49fe6-87f2-49d5-8cf4-4835c71ca17d)
+<br><br><br><br>
+
+* 관리자는 문제 목록에서 정답을 추가할 수 있습니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/67e88d54-9b94-4469-bf7a-b08937184cb8)
+<br><br><br><br>
+
+* 카테고리별로 문제유형별로 필터링하여 조회가 가능합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/f10522f8-eadc-4e65-985d-a57748f01e71)
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/a15c0b62-7cd6-43bb-a629-e22d82c57cf6)
+<br><br><br><br>
+
+* 문제의 제목을 클릭하면 문제 조회가 가능합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/05ace339-6dfc-4470-9768-e93e5c39b32c)
+<br><br><br><br>
+
+
+### 문제 수정
+* 문제 작성자인 경우 문제 수정이 가능합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/05ace339-6dfc-4470-9768-e93e5c39b32c)
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/c410793f-c3bd-4132-8fc1-da7dd18ab76f)
+<br><br><br><br>
+
+* 수정을 클릭하면 문제 수정 페이지로 넘어가고 이전의 문제 내용을 불러옵니다. 여기서 자유롭게 수정하여 변경된 내용으로 저장이 가능합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/4a40233d-d2df-4ed7-858e-0ecf700279b3)
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/23c08938-4909-45f3-8f4f-a1fff150003c)
+<br><br><br><br>
+
+
+### 문제 삭제
+* 문제 작성자인 경우 문제 삭제가 가능합니다.
+* 삭제를 클릭하면 확인 메시지창의 띄운 후 삭제됩니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/71b584ba-154b-40e2-9978-81b9e77c08fc)
+<br><br><br><br>
+
+
+### 답안 작성
+* 문제 페이지에서 `문제풀기` 버튼을 클릭하면 답안 작성 페이지로 이동합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/627354ab-ceb7-404d-8a07-2ce5a77988af)
+<br><br><br><br>
+
+* 답안 작성 페이지로 이동하면 좌측에 문제가 출력되고 우측에 답안 작성 폼이 출력됩니다.
+* 객관식의 경우 MenuItem이 출력되고 단답식과 주관식의 경우 입력 폼이 나오게 됩니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/6d4d8b9e-630e-485b-8ea6-8811abada633)
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/0c7f89dc-8cf4-43ac-a17e-29024b94576a)
+<br><br><br><br>
+
+
+### 답안 조회
+* 문제 페이지에서 답안을 작성한 사람들의 리스트를 확인할 수 있습니다.
+* 리스트에서 답변내용은 10자 이내로 출력됩니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/ecf67a3a-48c8-477c-800c-ad57d4e053f3)
+<br><br><br><br>
+
+* 리스트의 답변을 클릭하면 답변 상세페이지로 이동하고 답변 내용을 문제와 함께 확인할 수 있습니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/8044f55b-ae52-4f18-b39e-1229127363a5)
+<br><br><br><br>
+
+
+### 답안 수정
+* 답안 수정은 문제 수정과 동일하게 수행됩니다.
 
 
 
+### 답안 삭제
+* 답안 삭제는 문제 삭제와 동일하게 수행됩니다.
+
+
+<br><br><br><br>
+### 정답 작성
+* 정답 작성은 관리자로 로그인한 경우에만 가능합니다
+* 문제 리스트에서 정답 버튼 클릭시 정답 목록 확인과 함께 정답 추가가 가능합니다.
+
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/2c6b1766-2a1f-4c10-a5f5-acadf45da29a)
+![image](https://github.com/mooncy0809/teamhs_community/assets/84116509/30edbc0d-c5bc-4c5b-bd2f-19bcae07700c)
+<br><br><br><br>
+
+
+### 정답 수정
+* 정답 수정은 문제 수정과 동일하게 수행됩니다.
 
 
 
+### 정답 삭제
+* 정답 삭제는 문제 삭제와 동일하게 수행됩니다.
 
 
+<br><br><br><br>
 ## 회원 기능
 ### 영호가 수정해야 하는 부분
 
